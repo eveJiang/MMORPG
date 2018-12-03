@@ -17,7 +17,7 @@ class Program
 
         var db = Backend.Database.Instance;
         if (db.Connect())
-            Console.Write("connected to database.\n");
+            Console.Write("Connected to database.\n");
 
         string confPath = args[0];
         XmlSerializer serializer = new XmlSerializer(typeof(BackendConf));
