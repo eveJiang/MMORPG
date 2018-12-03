@@ -13,7 +13,19 @@ namespace Backend.Network
             response.user = request.user;
             response.token = request.user;
             response.scene = scene;
-            channel.Send(response);
+            
+            var db = Backend.Database.Instance;
+
+            if (db.LoginUser(request.user.ToString(), request.password.ToString()))
+            {
+                ClientTipInfo(channel, "Successfully login :)");
+                channel.Send(response);
+            }
+            else
+            {
+                ClientTipInfo(channel, "Sorry :(");
+            }
+            //ClientTipInfo(channel, string.Format("('{0}', '{1}');", request.user.ToString(), request.password.ToString()));
 
             Player player = new Player(channel);
             player.scene = scene;

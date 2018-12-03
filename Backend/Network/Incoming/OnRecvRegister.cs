@@ -9,10 +9,29 @@ namespace Backend.Network
     {
         private void OnRecvRegister(IChannel channel, Message message)
         {
-            // TODO ...
-            // write to database
             CRegister request = message as CRegister;
-            ClientTipInfo(channel, "TODO: write register info to database");
+            var userName = request.user;
+            var userPassword = request.password;
+            var db = Backend.Database.Instance;
+            //ClientTipInfo(channel, message.ToString());
+            int k = db.RegisterUser(userName, userPassword);
+            Console.WriteLine(k.ToString());
+            ClientTipInfo(channel, k.ToString());
+            if ( k == 2)
+            {
+                ClientTipInfo(channel, string.Format("Name {0} have already been used :(", userName));
+            }
+            else if (k == 0)
+            {
+                Console.WriteLine("system error");
+                ClientTipInfo(channel, "System error :(");
+            }
+            else
+            {
+                Console.WriteLine("system success");
+                ClientTipInfo(channel, "Congratulations :)");
+            }
+            
         }
     }
 }

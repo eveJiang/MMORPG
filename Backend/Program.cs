@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using System.Threading;
 using Common;
 using Backend.Network;
-
+ 
 class Program
 {
     static public int Main(String[] args)
@@ -14,6 +14,10 @@ class Program
             System.Console.WriteLine("backend.exe {Configure File Path}");
             return 0;
         }
+
+        var db = Backend.Database.Instance;
+        if (db.Connect())
+            Console.Write("Connected to database.\n");
 
         string confPath = args[0];
         XmlSerializer serializer = new XmlSerializer(typeof(BackendConf));

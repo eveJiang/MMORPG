@@ -1,6 +1,6 @@
 ﻿using Common;
 using Backend.Game;
-
+using System;
 namespace Backend.Network
 {
     public partial class Incoming
@@ -13,6 +13,8 @@ namespace Backend.Network
             // add the player to the scene
             player.Spawn();
             scene.AddEntity(player);
+            Console.WriteLine(message.ToString());
+
         }
     }
 }
