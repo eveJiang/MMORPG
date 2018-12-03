@@ -22,7 +22,7 @@ namespace Backend
             {
                 throw (e);
             }
-            Console.WriteLine("Connected to database.");
+            Console.WriteLine("connected to database.");
             return true;
         }
 
