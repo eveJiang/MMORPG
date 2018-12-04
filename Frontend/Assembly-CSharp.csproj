@@ -177,6 +177,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\STipInfo.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\Command.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\Delegate.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CChatMessage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CDamage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CEnemyClosing.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CFindPath.cs" />
