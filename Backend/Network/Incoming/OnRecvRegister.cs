@@ -13,11 +13,11 @@ namespace Backend.Network
             var userName = request.user;
             var userPassword = request.password;
             var db = Backend.Database.Instance;
-            //ClientTipInfo(channel, message.ToString());
+
             int k = db.RegisterUser(userName, userPassword);
             Console.WriteLine(k.ToString());
             ClientTipInfo(channel, k.ToString());
-            if ( k == 2)
+            if (k == 2)
             {
                 ClientTipInfo(channel, string.Format("Name {0} have already been used :(", userName));
             }
