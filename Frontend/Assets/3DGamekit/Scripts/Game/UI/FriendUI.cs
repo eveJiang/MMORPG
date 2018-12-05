@@ -19,6 +19,7 @@ public class FriendUI : MonoBehaviour
 
     private void OnEnable()
     {
+        //Test();
         PlayerMyController.Instance.EnabledWindowCount++;
     }
 
@@ -35,11 +36,13 @@ public class FriendUI : MonoBehaviour
 
     void Test()
     {
-        for (int i = 0; i < 100; i++)
+        for (int i = 0; i < 5; i++)
         {
             GameObject cloned = GameObject.Instantiate(FriendInfo);
             cloned.transform.SetParent(transform, false);
             cloned.SetActive(true);
+            var test = cloned.GetComponentInChildren<UnityEngine.UI.Text>();
+            test.text = i.ToString();
         }
     }
 }

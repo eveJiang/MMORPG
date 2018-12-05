@@ -22,4 +22,10 @@ public class ButtonHandler : MonoBehaviour
     {
 
     }
+
+    void onBuyButtonClick()
+    {
+        
+    }
+
 }

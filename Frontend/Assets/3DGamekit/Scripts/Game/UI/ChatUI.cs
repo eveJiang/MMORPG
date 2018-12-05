@@ -124,6 +124,8 @@ public class ChatUI : MonoBehaviour
 
         SendMyMessage("hello");
         ReceiveFriendMessage("hello");
+        SendMyMessage("h2");
+        SendMyMessage("H1");
     }
 
     /*

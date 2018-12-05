@@ -26,6 +26,7 @@ namespace Common
         S_SPRITE_DIE,
         S_PLAYER_DIE,
         S_TIP_INFO,
+        S_CHATMESSAGE,
         SEND,
 
         CBEGIN,
@@ -39,6 +40,8 @@ namespace Common
         C_POSITION_REVISE,
         C_ENEMY_CLOSING,
         C_DAMAGE,
+        C_CHATMESSAGE,
+        C_BUYMESSAGE,
         CEND,
 
         DEBUGGING, // THE FOLLOWING MESSEGES ARE FOR DEBUGGING
