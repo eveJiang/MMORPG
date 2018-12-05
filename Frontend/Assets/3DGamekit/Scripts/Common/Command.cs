@@ -30,6 +30,7 @@ namespace Common
         SEND,
 
         CBEGIN,
+        C_CHATMESSAGE,
         C_LOGIN,
         C_REGISTER,
         C_PLAYER_ENTER,
