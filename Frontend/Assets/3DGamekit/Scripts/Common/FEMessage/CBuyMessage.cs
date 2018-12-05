@@ -8,8 +8,7 @@ namespace Common
     [Serializable]
     public class CBuyMessage : Message
     {
-        public CBuyMessage() : base(Command.C_) { }
-        public string user;
-        public string password;
+        public CBuyMessage() : base(Command.C_BUYMESSAGE) { }
+        public string t;
     }
 }
