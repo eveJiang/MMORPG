@@ -41,7 +41,6 @@ namespace Common
         C_POSITION_REVISE,
         C_ENEMY_CLOSING,
         C_DAMAGE,
-        C_CHATMESSAGE,
         C_BUYMESSAGE,
         CEND,
 
