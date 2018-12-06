@@ -9,7 +9,7 @@ namespace Backend
     {
         private NpgsqlConnection conn = null;
 
-        public bool Connect(string ip="localhost", int port=5432)
+        public bool Connect(string ip="219.228.148.179", int port=5432)
         {
             
             var connString = string.Format("Host=" + ip + ";Port={0:D4};Username=postgres;Password=0515;Database=game", port);
@@ -22,7 +22,6 @@ namespace Backend
             {
                 throw (e);
             }
-            Console.WriteLine("connected to database.");
             return true;
         }
 

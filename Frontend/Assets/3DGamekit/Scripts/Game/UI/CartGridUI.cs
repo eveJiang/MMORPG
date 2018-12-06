@@ -71,12 +71,9 @@ public class CartGridUI : MonoBehaviour
         }
     }
 
-    public void OnBuyButtonClicked()
+    public Dictionary<string, GameObject> getItems()
     {
-        foreach (var kv in m_items)
-        {
-            // TODO ...
-        }
+        return m_items;
     }
 
 }
