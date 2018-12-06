@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Common;
+using Gamekit3D.Network;
 
 public class CartGridUI : MonoBehaviour
 {
@@ -71,9 +73,15 @@ public class CartGridUI : MonoBehaviour
         }
     }
 
-    public Dictionary<string, GameObject> getItems()
+    public CBuyMessage getBuyMessage()
     {
-        return m_items;
+        CBuyMessage message = new CBuyMessage();
+        foreach (var kv in m_items)
+        {
+            Debug.Log(kv.Key);
+        }
+        message.message = "buy test";
+        return message;
     }
 
 }

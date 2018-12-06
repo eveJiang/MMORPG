@@ -55,23 +55,18 @@ public class ShelfItemUI : MonoBehaviour
 
     public void AddToCart()
     {
+        Debug.Log(this);
         if (handler != null)
             handler.AddToCart(itemName);
     }
 
     public void OnBuyButtonClicked()
     {
-        Debug.Log(handler.ToString());
-        CBuyMessage message = new CBuyMessage();
-        message.message = "test";
-        var items = handler.getItems();
-        foreach (var kv in items)
+        Debug.Log(this);
+        if (handler != null)
         {
-            // TODO ...
-            var key = kv.Key;
-            var item = kv.Value;
-            Debug.Log(key);
+            CBuyMessage message = handler.getBuyMessage();
+            Client.Instance.Send(message);
         }
-        Client.Instance.Send(message);
     }
 }
