@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Common;
+using Gamekit3D.Network;
 
 public class CartGridUI : MonoBehaviour
 {
     public GameObject CartItem;
 
     private Dictionary<string, GameObject> m_items = new Dictionary<string, GameObject>();
+    private Dictionary<string, int> m_count = new Dictionary<string, int>();
 
     private void Awake()
     {
@@ -23,6 +26,16 @@ public class CartGridUI : MonoBehaviour
     void Update()
     {
 
+    }
+
+    public void Increase(string name)
+    {
+        m_count[name] += 1;
+    }
+
+    public void Decrease(string name)
+    {
+        m_count[name] -= 1;
     }
 
     public void AddToCart(string name)
@@ -44,6 +57,7 @@ public class CartGridUI : MonoBehaviour
             item.transform.SetParent(transform, false);
             item.SetActive(true);
             m_items.Add(name, item);
+            m_count.Add(name, 1);
         }
         CartItemUI handler = item.GetComponent<CartItemUI>();
         if (handler == null)
@@ -67,16 +81,23 @@ public class CartGridUI : MonoBehaviour
         if (m_items.TryGetValue(name, out item))
         {
             m_items.Remove(name);
+            m_count.Remove(name);
             Destroy(item);
         }
     }
 
-    public void OnBuyButtonClicked()
+    public CBuyMessage getBuyMessage()
     {
+        CBuyMessage message = new CBuyMessage();
         foreach (var kv in m_items)
         {
-            // TODO ...
+            var name = kv.Key;
+            var item = kv.Value;
+            int count = m_count[name];
+            
         }
+        message.message = "buy test";
+        return message;
     }
 
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Common;
+using Gamekit3D.Network;
+
 public class ShelfItemUI : MonoBehaviour
 {
     public string itemName;
@@ -10,7 +13,8 @@ public class ShelfItemUI : MonoBehaviour
     public Button button;
     public Text textName;
     public Text textCost;
-    CartGridUI handler;
+
+    private static CartGridUI handler;
 
     private void Awake()
     {
@@ -19,6 +23,7 @@ public class ShelfItemUI : MonoBehaviour
             handler = cartContent.GetComponent<CartGridUI>();
         }
     }
+
     // Use this for initialization
     void Start()
     {
@@ -52,5 +57,14 @@ public class ShelfItemUI : MonoBehaviour
     {
         if (handler != null)
             handler.AddToCart(itemName);
+    }
+
+    public void OnBuyButtonClicked()
+    {
+        if (handler != null)
+        {
+            CBuyMessage message = handler.getBuyMessage();
+            Client.Instance.Send(message);
+        }
     }
 }
