@@ -3159,6 +3159,7 @@ MonoBehaviour:
   button: {fileID: 114641936255054398}
   textCost: {fileID: 114096038188344710}
   inputCount: {fileID: 114588922520876646}
+  count: 0
 --- !u!114 &114030319200136446
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5856,7 +5857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9735700f4ded0b44871968c12380f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  friendInfo: {fileID: 1232032743547008}
+  FriendInfo: {fileID: 0}
 --- !u!114 &114386288514844910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7092,7 +7093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4811401a7481574b8794d8839120ca2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shelfItem: {fileID: 1310489074231410}
+  ShelfItem: {fileID: 0}
 --- !u!114 &114515976142470822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8617,9 +8618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2f973dd60e127b4bab38cfb04f2df0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  representedDamageable: {fileID: 0}
-  healthIconPrefab: {fileID: 1960223866097640, guid: 5e2d966f076c6144ba1b3f112e14ede1,
-    type: 2}
+  HealthIconPrefab: {fileID: 0}
 --- !u!114 &114698057482342100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9166,7 +9165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecdf8e2696609b41bc2d67e6d9c8954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cartItem: {fileID: 1766861146539610}
+  CartItem: {fileID: 0}
 --- !u!114 &114766695274378842
 MonoBehaviour:
   m_ObjectHideFlags: 1
