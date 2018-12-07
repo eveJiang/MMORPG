@@ -30,12 +30,12 @@ public class CartGridUI : MonoBehaviour
 
     public void Increase(string name)
     {
-
+        m_count[name] += 1;
     }
 
     public void Decrease(string name)
     {
-
+        m_count[name] -= 1;
     }
 
     public void AddToCart(string name)
@@ -93,6 +93,8 @@ public class CartGridUI : MonoBehaviour
         {
             var name = kv.Key;
             var item = kv.Value;
+            int count = m_count[name];
+            
         }
         message.message = "buy test";
         return message;
