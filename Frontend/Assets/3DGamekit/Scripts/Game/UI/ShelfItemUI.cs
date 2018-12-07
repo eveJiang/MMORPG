@@ -14,7 +14,7 @@ public class ShelfItemUI : MonoBehaviour
     public Text textName;
     public Text textCost;
 
-    private CartGridUI handler;
+    private static CartGridUI handler;
 
     private void Awake()
     {
@@ -55,14 +55,12 @@ public class ShelfItemUI : MonoBehaviour
 
     public void AddToCart()
     {
-        Debug.Log(this);
         if (handler != null)
             handler.AddToCart(itemName);
     }
 
     public void OnBuyButtonClicked()
     {
-        Debug.Log(this);
         if (handler != null)
         {
             CBuyMessage message = handler.getBuyMessage();

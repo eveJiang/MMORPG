@@ -7,7 +7,7 @@ public class CartItemUI : MonoBehaviour
     public Button button;
     public Text textCost;
     public InputField inputCount;
-    int count = 0;
+    public int count = 0;
     string itemName;
 
     void Awake()
@@ -40,21 +40,24 @@ public class CartItemUI : MonoBehaviour
 
     public void Increase()
     {
+        CartGridUI gridHandler = transform.parent.GetComponent<CartGridUI>();
         count++;
         inputCount.text = System.Convert.ToString(count);
         textCost.text = "$5";
+        gridHandler.Increase(itemName);
     }
 
     public void Decrease()
     {
         count--;
+        CartGridUI gridHandler = transform.parent.GetComponent<CartGridUI>();
+        gridHandler.Decrease(itemName);
         if (count == 0)
         {
             if (transform.parent == null)
             {
                 return;
             }
-            CartGridUI gridHandler = transform.parent.GetComponent<CartGridUI>();
             if (gridHandler != null)
             {
                 gridHandler.RemoveFromCart(itemName);
