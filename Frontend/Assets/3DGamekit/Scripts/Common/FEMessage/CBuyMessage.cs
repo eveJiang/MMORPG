@@ -9,6 +9,6 @@ namespace Common
     public class CBuyMessage : Message
     {
         public CBuyMessage() : base(Command.C_BUYMESSAGE) { }
-        public string message;
+        public List<Treasure> items = new List<Treasure>();
     }
 }

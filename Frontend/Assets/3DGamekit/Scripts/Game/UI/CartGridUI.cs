@@ -94,9 +94,16 @@ public class CartGridUI : MonoBehaviour
             var name = kv.Key;
             var item = kv.Value;
             int count = m_count[name];
-            
+            for (int i = 0; i < count; ++i)
+            {
+                Treasure treasure = new Treasure
+                {
+                    name = name,
+                    price = 5
+                };
+                message.items.Add(treasure);
+            }
         }
-        message.message = "buy test";
         return message;
     }
 

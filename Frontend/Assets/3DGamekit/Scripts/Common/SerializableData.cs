@@ -126,6 +126,16 @@ namespace Common
         public string asset_path;
         public List<string> scenes;
     }
+
+    [Serializable]
+    public struct Treasure
+    {
+        public string name;
+        public int value;
+        public int price;
+        public char type;
+        public char effect;
+    }
 }
 
 

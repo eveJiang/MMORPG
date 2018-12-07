@@ -9,7 +9,13 @@ namespace Backend.Network
         private void OnRecvBuy(IChannel channel, Message message)
         {
             CBuyMessage request = message as CBuyMessage;
-            Console.Write("ttttt");            
+            int totalCost = 0;
+            foreach (var item in request.items)
+            {
+                totalCost += item.price;
+            }
+            // TODO: check if silver coins are enough
+            // TODO: transaction, write db
         }
     }
 }
