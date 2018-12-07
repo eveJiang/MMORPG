@@ -1,5 +1,6 @@
 ﻿using Common;
 using Backend.Game;
+using System;
 
 namespace Backend.Network
 {
@@ -7,7 +8,15 @@ namespace Backend.Network
     {
         private void OnRecvChat(IChannel channel, Message message)
         {
-            CEnemyClosing request = message as CEnemyClosing;
+            CChatMessage request = message as CChatMessage;
+            SChatMessage reply = new SChatMessage();
+            reply.message = request.message;
+            reply.from = request.from;
+            reply.to = request.to;
+            Player player = World.Instance.GetEntity(reply.to) as Player;
+            Console.WriteLine(string.Format("Back: On receive chat. from : {0}, to {1}, message {2}", reply.from, reply.to, reply.message));
+            player.connection.Send(reply);
+
         }
     }
 }

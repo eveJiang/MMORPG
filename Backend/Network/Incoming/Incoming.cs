@@ -23,7 +23,7 @@ namespace Backend.Network
             register.Register(Command.C_POSITION_REVISE, OnRecvPositionRevise);
             register.Register(Command.C_ENEMY_CLOSING, OnRecvEnemyClosing);
             register.Register(Command.C_DAMAGE, OnRecvDamage);
-            register.Register(Command.C_CHATMESSAGE, OnRecvChat);
+            register.Register(Command.C_CHAT_MESSAGE, OnRecvChat);
 
             // DEBUG ..
             register.Register(Command.C_FIND_PATH, OnRecvFindPath);
@@ -37,10 +37,6 @@ namespace Backend.Network
             tipInfo.info = info;
             channel.Send(tipInfo);
         }
-
-
-
-
 
     }
 }

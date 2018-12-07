@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Text.RegularExpressions;
+using Assets._3DGamekit.Scripts.Game;
 
 public class GameStart : MonoBehaviour
 {
@@ -100,6 +101,7 @@ public class GameStart : MonoBehaviour
         CLogin login = new CLogin();
         login.user = username;
         login.password = password;
+
         if (save)
         {
             PlayerPrefs.SetString(USERNAME, username);

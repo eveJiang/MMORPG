@@ -90,6 +90,14 @@ namespace Backend.Network
                 e.message = null;
                 m_queue.Add(e);
             }
+            SCommunity msg = new SCommunity();
+            Backend.Game.Player p = this.GetContent() as Backend.Game.Player;
+            p.alive = false;
+            msg.name = p.user;
+            Console.WriteLine(string.Format("Channel {0} remove", p.user));
+            msg.id = 0;
+            msg.enter = false;
+            Backend.Game.World.Instance.Broundcast(msg);
         }
         public void BeginRecv()
         {

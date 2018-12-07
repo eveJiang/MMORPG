@@ -5,13 +5,13 @@ using Npgsql;
 
 namespace Backend
 {
-    class Database:Singleton<Database>
+    class Database : Singleton<Database>
     {
         private NpgsqlConnection conn = null;
 
-        public bool Connect(string ip="localhost", int port=5432)
+        public bool Connect(string ip = "219.228.148.179", int port = 5432)
         {
-            
+
             var connString = string.Format("Host=" + ip + ";Port={0:D4};Username=postgres;Password=0515;Database=game", port);
             conn = new NpgsqlConnection(connString);
             try
@@ -59,7 +59,14 @@ namespace Backend
                 return true;   //success
             else
                 return false;
-            
+
+        }
+
+        public int GetID(string username)
+        {
+            var cmd = new NpgsqlCommand(string.Format("select id from uu where name = '{0}';", username), conn);
+            int id = Convert.ToInt32(cmd.ExecuteScalar());
+            return id;
         }
     }
 }

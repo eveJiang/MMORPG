@@ -93,7 +93,8 @@ namespace Backend.Game
             {
                 foreach (KeyValuePair<int, Player> p in kv.Value.Players)
                 {
-                    p.Value.connection.Send(message);
+                    if(p.Value.alive == true)
+                        p.Value.connection.Send(message);
                 }
             }
         }

@@ -161,6 +161,7 @@
     <Compile Include="Assets\3DGamekit\Packages\SceneManagement\Runtime\TransitionPoint.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SAttack.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SChatMessage.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SCommunity.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SEntityDestroy.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SEquipWeapon.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SExit.cs" />
@@ -315,7 +316,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\ButtonHandler.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\CartGridUI.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\CartItemUI.cs" />
-    <Compile Include="Assets\3DGamekit\Scripts\Game\UI\ChatHistory.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Game\UI\Chatting.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\ChatUI.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\DialogueCanvasController.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\FriendUI.cs" />
@@ -347,12 +348,14 @@
     <Compile Include="Assets\3DGamekit\Scripts\Game\Weapon\Spit.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\Weapon\TimeEffect.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\Weapon\WeaponTake.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Game\World.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Client.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\IClient.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\ICreatureBehavior.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\Incoming.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvAttack.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvChat.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvCommunity.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvDie.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvEntityDestory.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvEquipWeapon.cs" />

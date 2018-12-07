@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Gamekit3D;
+using Common;
+using Assets._3DGamekit.Scripts.Game;
+using Gamekit3D.Network;
+
 
 public class ChatUI : MonoBehaviour
 {
@@ -12,6 +16,10 @@ public class ChatUI : MonoBehaviour
     public GameObject myMessage;
     public GameObject friendMessage;
 
+    private string friendName;
+    private int friendID;
+    private List<content> messages = null;
+    private List<GameObject> messageObjects = new List<GameObject>();
 
     // my message info content layout | ----------------- message text | image |
     // friend's info content layout   | image | message text ----------------- |
@@ -25,22 +33,48 @@ public class ChatUI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        Test();
+        //Test();
     }
 
     private void OnEnable()
     {
         PlayerMyController.Instance.EnabledWindowCount++;
-    }
+      }
 
     private void OnDisable()
     {
         PlayerMyController.Instance.EnabledWindowCount--;
+        friendName = null;
+        messages = null;
+        foreach (var msgOb in messageObjects)
+            msgOb.SetActive(false);
+        messageObjects.Clear();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(!World.Instance.chatHistory.ContainsKey(World.Instance.partner))
+        {
+            Debug.Log(World.Instance.partner);
+            messages = null;
+            return;
+        }
+        else
+        {
+            messages = World.Instance.chatHistory[World.Instance.partner];
+        }
+        if(messages.Count > messageObjects.Count)
+        {
+            for(int i = messageObjects.Count; i < messages.Count; i++)
+            {
+                var msg = messages[i];
+                if (msg.source == 0)
+                    ReceiveFriendMessage(msg.message);
+                else
+                    SendMyMessage(msg.message);
+            }
+        }
 
     }
 
@@ -48,8 +82,8 @@ public class ChatUI : MonoBehaviour
     {
         if (friendMessage == null)
             return;
-
         GameObject cloned = GameObject.Instantiate(friendMessage);
+        messageObjects.Add(cloned);
         if (cloned == null)
             return;
         cloned.SetActive(true);
@@ -62,6 +96,7 @@ public class ChatUI : MonoBehaviour
             return;
 
         GameObject cloned = GameObject.Instantiate(myMessage);
+        messageObjects.Add(cloned);
         if (cloned == null)
             return;
         cloned.SetActive(true);
@@ -77,9 +112,23 @@ public class ChatUI : MonoBehaviour
         if (input.text.Trim().Length == 0)
             return;
 
-
-        SendMyMessage(input.text);
-
+        //SendMyMessage(input.text);
+        CChatMessage m = new CChatMessage();
+        m.from = World.Instance.selfId;
+        m.to = World.Instance.partner;
+        m.message = input.text;
+        if(World.Instance.chatHistory.ContainsKey(m.to))
+        {
+            World.Instance.chatHistory[m.to].Add(new content(1, input.text));
+        }
+        else
+        {
+            List<content> temp = new List<content>();
+            World.Instance.chatHistory.Add(m.to, temp);
+            World.Instance.chatHistory[m.to].Add(new content(1, input.text));
+        }
+        Debug.Log(string.Format("Frontend: sendmessage from {0} to {1} message {2}", m.from, m.to, m.message));
+        Client.Instance.Send(m);
         input.text = "";
     }
 

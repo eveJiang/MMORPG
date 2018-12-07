@@ -113,6 +113,40 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &293047396 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1354531980865784, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1760275628}
+--- !u!114 &293047401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 293047396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09561de7356aa5e45bfcc7e956282b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FriendInfo: {fileID: 0}
+  partner: 0
+--- !u!1 &805056973 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1054673992651466, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1760275628}
+--- !u!114 &805056978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 805056973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1009130adeaa348a899d6304c76353, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &916394186
 GameObject:
   m_ObjectHideFlags: 0
@@ -256,6 +290,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1205648068 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1459007610998190, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1760275628}
+--- !u!114 &1205648074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1205648068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09561de7356aa5e45bfcc7e956282b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FriendInfo: {fileID: 0}
+  partner: 0
 --- !u!224 &1274352766 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224964844259509136, guid: 4765367dc0574fb44bd05a6ed0306d8c,
@@ -361,6 +413,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 224794789247414576, guid: 4765367dc0574fb44bd05a6ed0306d8c,
         type: 2}
       propertyPath: m_LocalPosition.x
@@ -580,6 +637,36 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: JYF
+      objectReference: {fileID: 0}
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1205648074}
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: OnClickButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 114805105270615076, guid: 4765367dc0574fb44bd05a6ed0306d8c,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4765367dc0574fb44bd05a6ed0306d8c, type: 2}

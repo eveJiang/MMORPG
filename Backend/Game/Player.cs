@@ -8,13 +8,16 @@ namespace Backend.Game
     {
         public IChannel connection;
         public string user;
+        public int id;
         public string token;
+        public bool alive;
         private Weapon m_weapon;
 
         public Weapon Weapon { get { return m_weapon; } }
         public Player(IChannel channel)
         {
             connection = channel;
+            alive = true;
             channel.SetContent(this);
         }
         override public void OnHit(Creature enemy, int hpDec)

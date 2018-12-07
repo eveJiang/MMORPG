@@ -9,5 +9,7 @@ namespace Common
         public string user;
         public string token;
         public string scene;
+        public int id;
+        public string name;
     }
 }
