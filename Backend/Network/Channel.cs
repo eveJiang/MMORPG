@@ -92,7 +92,7 @@ namespace Backend.Network
             }
             SCommunity msg = new SCommunity();
             Backend.Game.Player p = this.GetContent() as Backend.Game.Player;
-            p.alive = false;
+            p.online = false;
             msg.name = p.user;
             Console.WriteLine(string.Format("Channel {0} remove", p.user));
             msg.id = 0;

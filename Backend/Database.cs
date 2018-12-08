@@ -28,7 +28,7 @@ namespace Backend
         public int RegisterUser(string username, string password)
         {
             int count = 0;
-            var cmd = new NpgsqlCommand(string.Format("select * from uu where name = '{0}';", username), conn);
+            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", username), conn);
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -37,7 +37,7 @@ namespace Backend
             reader.Close();
             if (count != 0)
                 return 2;   //user name error
-            var cmd2 = new NpgsqlCommand(string.Format("insert into \"uu\"(name, password) values('{0}', '{1}');", username, password), conn);
+            var cmd2 = new NpgsqlCommand(string.Format("insert into \"player\"(name, password) values('{0}', '{1}');", username, password), conn);
             var ret = cmd2.ExecuteNonQuery();
             if (ret != 0)
                 return 1;  //success
@@ -47,7 +47,7 @@ namespace Backend
         public bool LoginUser(string username, string password)
         {
             int count = 0;
-            var cmd = new NpgsqlCommand(string.Format("select * from uu where name = '{0}' and password = '{1}';", username, password), conn);
+            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}' and password = '{1}';", username, password), conn);
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -63,7 +63,7 @@ namespace Backend
 
         public int GetID(string username)
         {
-            var cmd = new NpgsqlCommand(string.Format("select id from uu where name = '{0}';", username), conn);
+            var cmd = new NpgsqlCommand(string.Format("select id from player where name = '{0}';", username), conn);
             int id = Convert.ToInt32(cmd.ExecuteScalar());
             return id;
         }

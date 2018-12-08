@@ -30,15 +30,14 @@ namespace Backend.Network
                 ClientTipInfo(channel, "Sorry :(");
                 return;
             }
-            //ClientTipInfo(channel, string.Format("('{0}', '{1}');", request.user.ToString(), request.password.ToString()));
-
             Player player = new Player(channel);
             player.scene = scene;
             player.user = request.user;
             player.id = response.id;
+            player.dbid = db.GetID(request.user);
             int k = player.entityId;
             response.id = k;
-            // TODO read from database
+            ClientTipInfo(channel, string.Format("Backend:('name: {0}', 'entity_id: {1}','sql_id: {2});", player.user, player.entityId, player.dbid));
             DEntity dentity = World.Instance.EntityData["Ellen"];
             player.FromDEntity(dentity);
             player.forClone = false;
@@ -46,8 +45,6 @@ namespace Backend.Network
             bm.name = request.user;
             bm.id = k;
             bm.enter = true;
-            //Console.WriteLine(bm.name);
-            //Console.WriteLine(bm.id);
             channel.Send(response);
             Scene scenes = World.Instance.GetScene(player.scene);
             foreach (var kvp in scenes.Players)

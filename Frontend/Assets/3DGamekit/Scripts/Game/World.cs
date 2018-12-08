@@ -20,6 +20,7 @@ namespace Assets._3DGamekit.Scripts.Game
     {
         public string selfName;
         public int selfId;
+        public int selfDbid;
         public int partner;
         public Dictionary<string, int> players = new Dictionary<string, int>();
         public Dictionary<int, List<content>> chatHistory = new Dictionary<int, List<content>>();
@@ -31,10 +32,11 @@ namespace Assets._3DGamekit.Scripts.Game
         {
             this.players.Add(name, id);
         }
-        public void init(string name, int id)
+        public void init(string name, int id, int db)
         {
             this.selfName = name;
             this.selfId = id;
+            this.selfDbid = db;
         }
         
     }
