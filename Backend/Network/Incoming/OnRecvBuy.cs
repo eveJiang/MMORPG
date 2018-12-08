@@ -8,14 +8,15 @@ namespace Backend.Network
     {
         private void OnRecvBuy(IChannel channel, Message message)
         {
+            Player player = channel.GetContent() as Player;
             CBuyMessage request = message as CBuyMessage;
             int totalCost = 0;
             foreach (var item in request.items)
             {
                 totalCost += item.price;
             }
-            if (totalCost <= Database.Instance.GetSilverCoins())
-                Database.Instance.BuyItems(request.items);
+            if (totalCost <= Database.Instance.GetSilverCoins(player.dbid))
+                Database.Instance.BuyItems(request.items, player.dbid);
         }
     }
 }

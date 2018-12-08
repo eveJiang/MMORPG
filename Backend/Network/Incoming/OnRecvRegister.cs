@@ -13,8 +13,10 @@ namespace Backend.Network
             var userName = request.user;
             var userPassword = request.password;
             var db = Backend.Database.Instance;
-
-            int k = db.RegisterUser(userName, userPassword);
+            Random ran = new Random();
+            int gold = ran.Next(100, 999);
+            int silver = ran.Next(100, 999);
+            int k = db.RegisterUser(userName, userPassword, gold, silver);
             Console.WriteLine(k.ToString());
             ClientTipInfo(channel, k.ToString());
             if (k == 2)

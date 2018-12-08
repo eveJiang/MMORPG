@@ -27,7 +27,7 @@ namespace Backend
             return true;
         }
 
-        public int RegisterUser(string username, string password)
+        public int RegisterUser(string username, string password, int a, int b)
         {
             int count = 0;
             var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", username), conn);
@@ -39,7 +39,7 @@ namespace Backend
             reader.Close();
             if (count != 0)
                 return 2;   //user name error
-            var cmd2 = new NpgsqlCommand(string.Format("insert into \"player\"(name, password) values('{0}', '{1}');", username, password), conn);
+            var cmd2 = new NpgsqlCommand(string.Format("insert into \"player\"(name, password, gold_coin, silver_coin) values('{0}', '{1}', {2}, {3});", username, password, a, b), conn);
             var ret = cmd2.ExecuteNonQuery();
             if (ret != 0)
                 return 1;  //success
@@ -70,21 +70,31 @@ namespace Backend
             return id;
         }
 
-        public int GetSilverCoins()
+        public int GetSilverCoins(int id)
         {
-            int id = World.Instance.selfDbId;
             var cmd = new NpgsqlCommand(string.Format("select silver_coin from player where id = '{0:D}';", id), conn);
             int coins = Convert.ToInt32(cmd.ExecuteScalar());
             return coins;
         }
 
-        public int GetGoldCoins()
+        public int GetGoldCoins(int id)
         {
-            // TODO: return gold coins
-            return 0;
+            using (NpgsqlTransaction trans = conn.BeginTransaction())
+            {
+                try
+                {
+                    var cmd = new NpgsqlCommand(string.Format("select gold_coin from player where id = '{0:D}';", id), conn);
+                    int coins = Convert.ToInt32(cmd.ExecuteScalar());
+                    return coins;
+                }
+                catch
+                {
+                    throw;
+                }
+            }
         }
 
-        public bool BuyItems(List<Treasure> items)
+        public bool BuyItems(List<Treasure> items, int id)
         {
             using (NpgsqlTransaction trans = conn.BeginTransaction())
             {
@@ -92,7 +102,10 @@ namespace Backend
                 {
                     foreach (var item in items)
                     {
-                        // TODO: sql buy each item, deduct silver coins
+                        //status: 1 occupied; 2 dressing
+                        var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});", 
+                                                                    item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
+                        cmd.ExecuteScalar();
                     }
                     return true;
                 }
