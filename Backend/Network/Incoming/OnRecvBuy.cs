@@ -14,8 +14,8 @@ namespace Backend.Network
             {
                 totalCost += item.price;
             }
-            // TODO: check if silver coins are enough
-            // TODO: transaction, write db
+            if (totalCost <= Database.Instance.GetSilverCoins())
+                Database.Instance.BuyItems(request.items);
         }
     }
 }

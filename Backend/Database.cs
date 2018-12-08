@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Npgsql;
+using Common;
+using Backend.Game;
 
 namespace Backend
 {
@@ -66,6 +68,39 @@ namespace Backend
             var cmd = new NpgsqlCommand(string.Format("select id from player where name = '{0}';", username), conn);
             int id = Convert.ToInt32(cmd.ExecuteScalar());
             return id;
+        }
+
+        public int GetSilverCoins()
+        {
+            int id = World.Instance.selfDbId;
+            var cmd = new NpgsqlCommand(string.Format("select silver_coin from player where id = '{0:D}';", id), conn);
+            int coins = Convert.ToInt32(cmd.ExecuteScalar());
+            return coins;
+        }
+
+        public int GetGoldCoins()
+        {
+            // TODO: return gold coins
+            return 0;
+        }
+
+        public bool BuyItems(List<Treasure> items)
+        {
+            using (NpgsqlTransaction trans = conn.BeginTransaction())
+            {
+                try
+                {
+                    foreach (var item in items)
+                    {
+                        // TODO: sql buy each item, deduct silver coins
+                    }
+                    return true;
+                }
+                catch
+                {
+                    throw;
+                }
+            }
         }
     }
 }

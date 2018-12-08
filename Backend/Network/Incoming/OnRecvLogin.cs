@@ -55,6 +55,7 @@ namespace Backend.Network
                 am.enter = true;
                 channel.Send(am);
             }
+            World.Instance.selfDbId = player.dbid;
             World.Instance.Broundcast(bm);
 
             //ClientTipInfo(channel, "TODO: get player's attribute from database");

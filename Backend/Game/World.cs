@@ -10,6 +10,7 @@ namespace Backend.Game
     class World : Singleton<World>
     {
         public const float DeltaTime = 0.04f;
+        public int selfDbId;
 
         private Dictionary<int, Entity> entities = new Dictionary<int, Entity>();
 
