@@ -130,6 +130,7 @@ namespace Common
     [Serializable]
     public struct Treasure
     {
+        public int id;
         public string name;
         public int value;
         public int price;

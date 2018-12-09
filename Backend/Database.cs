@@ -22,6 +22,7 @@ namespace Backend
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.ToString());
                 throw (e);
             }
             return true;
@@ -102,7 +103,7 @@ namespace Backend
             foreach (var item in items)
             {
                 //status: 1 occupied; 2 dressing
-                var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','1','1',{3},{4},'{5}',{6});", 
+                var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});", 
                                                             item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
                 Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
                                                     item.name, item.value, item.price, '1', id));
@@ -116,6 +117,26 @@ namespace Backend
             cmd2.ExecuteScalar();
             tr.Commit();
             return true;
+        }
+
+        public List<Treasure> GetInventory(int id)
+        {
+            List<Treasure> inventory = new List<Treasure>();
+            var cmd = new NpgsqlCommand(string.Format("select * from treasure where owner_id = {0};", id), conn);
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Treasure treasure = new Treasure
+                {
+                    id = (int)reader["id"],
+                    name = (string)reader["name"],
+                    price = (int)reader["price"],
+                    type = (char)reader["type"],
+                    effect = (char)reader["effect"]
+                };
+                inventory.Add(treasure);
+            }
+            return inventory;
         }
     }
 }

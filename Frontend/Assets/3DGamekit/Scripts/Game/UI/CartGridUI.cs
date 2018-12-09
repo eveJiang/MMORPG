@@ -99,7 +99,9 @@ public class CartGridUI : MonoBehaviour
                 Treasure treasure = new Treasure
                 {
                     name = name,
-                    price = 5
+                    price = 5,
+                    type = '0',
+                    effect = '0'
                 };
                 message.items.Add(treasure);
             }
