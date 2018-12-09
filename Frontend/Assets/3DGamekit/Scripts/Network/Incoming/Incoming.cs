@@ -35,6 +35,7 @@ namespace Gamekit3D.Network
             register.Register(Command.S_PLAYER_RESPAWN, OnRecvPlayerReSpawn);
             register.Register(Command.S_CHAT_MESSAGE, OnRecvChat);
             register.Register(Command.S_COMMUNITY, OnRecvCommunity);
+            register.Register(Command.S_BUYMESSAGE, OnRecvBuy);
             // DEBUG ...
             register.Register(Command.S_FIND_PATH, OnRecvFindPath);
         }

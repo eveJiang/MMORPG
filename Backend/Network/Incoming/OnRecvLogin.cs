@@ -41,10 +41,12 @@ namespace Backend.Network
             DEntity dentity = World.Instance.EntityData["Ellen"];
             player.FromDEntity(dentity);
             player.forClone = false;
+
             SCommunity bm = new SCommunity();
             bm.name = request.user;
             bm.id = k;
             bm.enter = true;
+            response.inventory = db.GetInventory(player.dbid);
             channel.Send(response);
             Scene scenes = World.Instance.GetScene(player.scene);
             foreach (var kvp in scenes.Players)
@@ -56,6 +58,8 @@ namespace Backend.Network
                 channel.Send(am);
             }
             World.Instance.Broundcast(bm);
+
+
 
             //ClientTipInfo(channel, "TODO: get player's attribute from database");
             // player will be added to scene when receive client's CEnterSceneDone message

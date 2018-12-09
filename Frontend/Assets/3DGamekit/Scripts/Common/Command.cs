@@ -28,6 +28,7 @@ namespace Common
         S_TIP_INFO,
         S_CHAT_MESSAGE,
         S_COMMUNITY,
+        S_BUYMESSAGE,
         SEND,
 
         CBEGIN,
