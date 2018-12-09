@@ -119,23 +119,16 @@ namespace Backend
             return true;
         }
 
-        public List<Treasure> GetInventory(int id)
+        public List<String> GetInventory(int id)
         {
-            List<Treasure> inventory = new List<Treasure>();
-            var cmd = new NpgsqlCommand(string.Format("select * from treasure where owner_id = {0};", id), conn);
+            List<String> inventory = new List<String>();
+            var cmd = new NpgsqlCommand(string.Format("select name from treasure where owner_id = {0};", id), conn);
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                Treasure treasure = new Treasure
-                {
-                    id = (int)reader["id"],
-                    name = (string)reader["name"],
-                    price = (int)reader["price"],
-                    type = (char)reader["type"],
-                    effect = (char)reader["effect"]
-                };
-                inventory.Add(treasure);
+                inventory.Add((string)reader["name"]);
             }
+            reader.Close();
             return inventory;
         }
     }

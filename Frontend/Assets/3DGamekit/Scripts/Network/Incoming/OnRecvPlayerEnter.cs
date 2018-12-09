@@ -22,7 +22,7 @@ namespace Gamekit3D.Network
             //Console.WriteLine("Receive Enter...");
             SPlayerEnter msg = message as SPlayerEnter;
             //World.Instance.addPlayers(msg.user, msg.id);
-            World.Instance.init(msg.user, msg.id, msg.dbid);
+            World.Instance.init(msg.user, msg.id, msg.dbid, msg.inventory);
             World.Instance.addPlayers(msg.user, msg.id);
             foreach (KeyValuePair<string, int> kvp in World.Instance.get_players())
             {

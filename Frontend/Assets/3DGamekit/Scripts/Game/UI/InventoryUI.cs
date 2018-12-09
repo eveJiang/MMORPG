@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Gamekit3D;
 using Gamekit3D.Network;
+using Assets._3DGamekit.Scripts.Game;
 
 public class InventoryUI : MonoBehaviour
 {
@@ -21,15 +22,17 @@ public class InventoryUI : MonoBehaviour
     private void OnEnable()
     {
         PlayerMyController.Instance.EnabledWindowCount++;
-        int capacity = PlayerMyController.Instance.InventoryCapacity;
-        int count = PlayerMyController.Instance.Inventory.Count;
-        foreach (var kv in PlayerMyController.Instance.Inventory)
+        int capacity = World.Instance.inventoryCapacity;
+        int count = World.Instance.inventoryCount;
+        foreach (var kv in World.Instance.myinventory)
         {
             GameObject cloned = GameObject.Instantiate(InventoryCell);
             Button button = cloned.GetComponent<Button>();
             // TODO ... specify icon by item types
-            Sprite icon = GetAllIcons.icons["Sword_2"];
+            Sprite icon = GetAllIcons.icons[kv];
             button.image.sprite = icon;
+            //Sprite icon = GetAllIcons.icons["Sword_2"];
+            //button.image.sprite = icon;
             cloned.SetActive(true);
             cloned.transform.SetParent(InventoryGridContent.transform, false);
         }

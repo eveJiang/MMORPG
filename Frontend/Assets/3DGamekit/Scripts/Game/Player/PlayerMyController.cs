@@ -4,6 +4,7 @@ using System.Collections;
 using Gamekit3D.Network;
 using System.Collections.Generic;
 using Common;
+using System;
 
 
 namespace Gamekit3D
@@ -291,5 +292,6 @@ namespace Gamekit3D
             }
             m_inventory.Add(item.EntityId, item);
         }
+
     }
 }
