@@ -1,4 +1,5 @@
 ﻿using Common;
+using System;
 using Backend.Game;
 
 namespace Backend.Network
@@ -11,7 +12,7 @@ namespace Backend.Network
             Creature creature = World.Instance.GetEntity(request.entityId) as Creature;
             if (creature == null)
                 return;
-
+            Console.WriteLine(request.entityId);
             creature.OnHit(null, request.decHP);
         }
     }

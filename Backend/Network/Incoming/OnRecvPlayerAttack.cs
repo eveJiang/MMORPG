@@ -1,5 +1,6 @@
 ﻿using Common;
 using Backend.Game;
+using System;
 
 namespace Backend.Network
 {
@@ -23,6 +24,7 @@ namespace Backend.Network
             {
                 player.OnAttack(null);
             }
+            Console.WriteLine(request.target);
         }
     }
 }

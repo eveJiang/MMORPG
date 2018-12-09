@@ -213,6 +213,7 @@ namespace Gamekit3D
             CPlayerAttack action = new CPlayerAttack();
             action.player = m_entity.entityId;
             action.target = m_attackTarget;
+            Debug.Log(m_attackTarget);
             MyNetwork.Send(action);
         }
 
