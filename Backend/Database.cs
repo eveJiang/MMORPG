@@ -96,60 +96,26 @@ namespace Backend
 
         public bool BuyItems(List<Treasure> items, int id)
         {
-            Console.Write(id);
+            int sum = 0;
+
+            NpgsqlTransaction tr = (NpgsqlTransaction)conn.BeginTransaction();
             foreach (var item in items)
             {
                 //status: 1 occupied; 2 dressing
-                Console.WriteLine(item.name);
-                var connString = string.Format("Host=" + "219.228.148.179" + ";Port={0:D4};Username=postgres;Password=0515;Database=game", 5432);
-                NpgsqlConnection conn2 = new NpgsqlConnection(connString);
-                try
-                {
-                    conn2.Open();
-                }
-                catch (Exception e)
-                {
-                    throw (e);
-                }
-                //string a = "insert into \"treasure\"(name) values('aaaaaaaaaaaaaaaa');";
-                //var cmd2 = new NpgsqlCommand(a, conn);
-
-                var cmd2 = new NpgsqlCommand(string.Format("insert into \"treasure\"(name) values('{0}');",
-                                                            item.name), conn2);
-                Console.WriteLine(string.Format("backend database.cs buyitem item_name {0}", item.name));
-
-                cmd2.ExecuteScalar();
-
-                //sum += item.price;
+                var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','1','1',{3},{4},'{5}',{6});", 
+                                                            item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
+                Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
+                                                    item.name, item.value, item.price, '1', id));
+                cmd.Transaction = tr;
+                cmd.ExecuteScalar();
+                sum += item.price;
             }
+            var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
+            Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
+            cmd2.Transaction = tr;
+            cmd2.ExecuteScalar();
+            tr.Commit();
             return true;
-            /*
-            using (NpgsqlTransaction trans = conn.BeginTransaction())
-            {
-                try
-                {
-                    int sum = 0;
-                    foreach (var item in items)
-                    {
-                        //status: 1 occupied; 2 dressing
-                        Console.WriteLine(item.name);
-                        
-                        var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});", 
-                                                                    item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
-                        Console.WriteLine(string.Format("backend database.cs buyitem item_name {0}", item.name));
-
-                        cmd.ExecuteScalar();
-                        
-                        sum += item.price;
-                    }
-                    return true;
-                }
-                catch
-                {
-                    throw;
-                }
-            }
-            */
         }
     }
 }

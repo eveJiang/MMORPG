@@ -65,6 +65,7 @@ public class ShelfItemUI : MonoBehaviour
         {
             CBuyMessage message = handler.getBuyMessage();
             Client.Instance.Send(message);
+            Debug.Log("FrontEnd: Receive BuyButtonClicked");
         }
     }
 }
