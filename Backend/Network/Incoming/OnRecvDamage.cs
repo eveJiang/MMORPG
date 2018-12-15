@@ -12,7 +12,7 @@ namespace Backend.Network
             Creature creature = World.Instance.GetEntity(request.entityId) as Creature;
             if (creature == null)
                 return;
-            Console.WriteLine(request.entityId);
+            Console.WriteLine(string.Format("OnRecvDamage creature id {0:D}", request.entityId));
             creature.OnHit(null, request.decHP);
         }
     }

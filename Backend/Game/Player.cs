@@ -23,6 +23,7 @@ namespace Backend.Game
         }
         override public void OnHit(Creature enemy, int hpDec)
         {
+            Console.WriteLine(string.Format("OnHit id={0:D}", id));
             if (currentHP == 0)
                 return;
 

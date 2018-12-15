@@ -24,7 +24,7 @@ namespace Backend.Network
             {
                 player.OnAttack(null);
             }
-            Console.WriteLine(request.target);
+            Console.WriteLine(string.Format("OnRecvPlayerAttack {0:D}", request.target));
         }
     }
 }
