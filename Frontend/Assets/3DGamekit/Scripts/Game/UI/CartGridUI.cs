@@ -94,19 +94,58 @@ public class CartGridUI : MonoBehaviour
             var name = kv.Key;
             var item = kv.Value;
             int count = m_count[name];
-            for (int i = 0; i < count; ++i)
+            // type: amulet = a, armor = b, ax = c, bow = d, elixir = e, flail = f, 
+            // helmet = g, ring = h, shield = i, shurikens = j, stone = k,  sword = l
+            // effect: 防御(0)：a, i, g 生命(1)：e, 智力(2)：h, k 速度(3)：b 攻击(4)：c, d, f, j, l
+            char type_ = 'a', effect_ = '0';
+            int value_ = (int)kv.Key[kv.Key.Length - 1] - '0';
+            if (value_ >9 || value_ < 0) value_ = 1;
+            if (kv.Key.Contains("Amulet") || kv.Key.Contains("Shield") || kv.Key.Contains("Helmet"))
             {
-                Treasure treasure = new Treasure
-                {
-                    name = name,
-                    price = 5,
-                    type = '0',
-                    effect = '0'
-                };
-                message.items.Add(treasure);
+                effect_ = '0';
+                if (kv.Key.Contains("Amulet")) type_ = 'a';
+                if (kv.Key.Contains("Shield")) type_ = 'i';
+                if (kv.Key.Contains("Helmet")) type_ = 'g';
             }
+            else if( kv.Key.Contains("Elixir"))
+            {
+                effect_ = '1';
+                type_ = 'e';
+            }
+            else if(kv.Key.Contains("Ring") || kv.Key.Contains("Stone"))
+            {
+                effect_ = '2';
+                if(kv.Key.Contains("Ring")) type_ = 'h';
+                else type_ = 'k';
+            }
+            else if(kv.Key.Contains("Armor"))
+            {
+                effect_ = '3';
+                type_ = 'b';
+            }
+            else
+            {
+                effect_ = '4';
+                if (kv.Key.Contains("Ax")) type_ = 'c';
+                else if (kv.Key.Contains("Bow")) type_ = 'd';
+                else if (kv.Key.Contains("Flail")) type_ = 'f';
+                else if (kv.Key.Contains("Shurikens")) type_ = 'j';
+                else  type_ = 'l';
+            }
+            // 1 拥有 2穿着
+            Treasure treasure = new Treasure
+            {
+                name = name,
+                price = 5,
+                type = type_,
+                effect = effect_,
+                value = value_,
+                status = '1'
+            };
+            for(int i = 0; i <count; ++i)
+                message.items.Add(treasure);
         }
         return message;
-    }
 
+    }
 }

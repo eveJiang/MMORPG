@@ -178,9 +178,11 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SSpriteDie.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SSpriteMove.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\STipInfo.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\STreasureMessage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\Command.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\Delegate.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CBuyMessage.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CChangeStatus.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CChatMessage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CDamage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CEnemyClosing.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CPlayerTake.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CPositionRevisecs.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CRegister.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CTreasureMessage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\IChannel.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\IRegister.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\Message.cs" />
@@ -327,6 +330,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\InventoryUI.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\KeyUI.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\MenuActivityController.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Game\UI\propertyUI.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\RoleUI.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\SetCursorMode.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\UI\ShelfGridUI.cs" />
@@ -373,6 +377,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvSpriteMove.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvTakeItem.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvTipInfo.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvTreasure.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\IPlayerBehavior.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\ISpriteBehavior.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\MyNetwork.cs" />

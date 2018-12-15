@@ -14,6 +14,7 @@ namespace Backend.Network
             Player player = channel.GetContent() as Player;
             CBuyMessage request = message as CBuyMessage;
             SBuyMessage response = new SBuyMessage();
+            response.success = false;
             Console.WriteLine("Backend: OnRecvBuy.cs");
             int totalCost = 0;
             foreach (var item in request.items)
@@ -27,6 +28,7 @@ namespace Backend.Network
             {
                 Console.WriteLine("Backend : OnRecvBuy player.dbid = {0}", player.dbid);
                 Database.Instance.BuyItems(request.items, player.dbid);
+                response.success = true;
             }
             channel.Send(response);
             Console.WriteLine("Backend : Finish OnRecvBuy");

@@ -14,12 +14,18 @@ namespace Gamekit3D.Network
         {
             SBuyMessage msg = message as SBuyMessage;
             Debug.Log("Frontend: OnRecvBuy");
-            foreach(var k in msg.items)
+            if (msg.success == true)
             {
-                World.Instance.addItem(k);
-                World.Instance.inventoryCount++;
-                Debug.Log(string.Format("Frontend: OnRecvBuy {0} Item", k));
+                foreach (var k in msg.items)
+                {
+                    World.Instance.addItem(k);
+                    World.Instance.inventoryCount++;
+                    Debug.Log(string.Format("Frontend: OnRecvBuy {0} Item", k));
+                }
+                MessageBox.Show(":)");
             }
+            else
+                MessageBox.Show(":(");
         }
 
     }
