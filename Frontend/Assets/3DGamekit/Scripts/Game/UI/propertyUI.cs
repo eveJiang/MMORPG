@@ -46,8 +46,8 @@ namespace Assets._3DGamekit.Scripts.Game.UI
                 m.userDbid = World.Instance.selfDbid;
                 m.on = true;
                 Client.Instance.Send(m);
-                Sprite icon = GetAllIcons.icons["Grid"];
-                GameObject.Find("Defence1").GetComponent<Image>().sprite = icon;
+                Sprite icon = GetAllIcons.icons[World.Instance.view.name];
+                GameObject.Find(World.Instance.position[World.Instance.view.id]).GetComponent<Image>().sprite = icon;
             }
             else
                 MessageBox.Show("Cannot put on the clothes");
