@@ -10,5 +10,6 @@ namespace Common
     {
         public CBuyMessage() : base(Command.C_BUYMESSAGE) { }
         public List<Treasure> items = new List<Treasure>();
+        public int dbid;
     }
 }

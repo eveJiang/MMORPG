@@ -21,7 +21,20 @@ namespace Assets._3DGamekit.Scripts.Game.UI
         }
         public void onClickOff()
         {
-
+            CChangeStatus m = new CChangeStatus();
+            if (World.Instance.off())
+            {
+                MessageBox.Show(":)");
+                Debug.Log(string.Format("{0}", World.Instance.view.id));
+                m.treasureId = World.Instance.view.id;
+                m.userDbid = World.Instance.selfDbid;
+                m.on = false;
+                Client.Instance.Send(m);
+                Sprite icon = GetAllIcons.icons["Grid"];
+                GameObject.Find("Defence1").GetComponent<Image>().sprite = icon;
+            }
+            else
+                MessageBox.Show(":(");
         }
         public void onClickOn()
         {
@@ -29,9 +42,12 @@ namespace Assets._3DGamekit.Scripts.Game.UI
             if (World.Instance.check())
             {
                 MessageBox.Show("Successfully put on the clothes");
-                m.treasureName = World.Instance.view.name;
+                m.treasureId = World.Instance.view.id;
                 m.userDbid = World.Instance.selfDbid;
+                m.on = true;
                 Client.Instance.Send(m);
+                Sprite icon = GetAllIcons.icons["Grid"];
+                GameObject.Find("Defence1").GetComponent<Image>().sprite = icon;
             }
             else
                 MessageBox.Show("Cannot put on the clothes");

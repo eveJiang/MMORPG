@@ -119,14 +119,22 @@ namespace Backend
             return true;
         }
 
-        public List<String> GetInventory(int id)
+        public List<Treasure> GetInventory(int id)
         {
-            List<String> inventory = new List<String>();
-            var cmd = new NpgsqlCommand(string.Format("select name from treasure where owner_id = {0};", id), conn);
+            List<Treasure> inventory = new List<Treasure>();
+            var cmd = new NpgsqlCommand(string.Format("select * from treasure where owner_id = {0};", id), conn);
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                inventory.Add((string)reader["name"]);
+                Treasure result = new Treasure();
+                Console.WriteLine(string.Format("{0}, {1}, {2}, {3}, {4}", reader["id"], reader["name"], reader["value"], reader["type"], reader["effect"]));
+                result.id = Convert.ToInt32(reader["id"]);
+                result.name = Convert.ToString(reader["name"]);
+                result.value = Convert.ToInt32(reader["value"]);
+                result.type = Convert.ToChar(reader["type"]);
+                result.effect = Convert.ToChar(reader["effect"]);
+                result.status = Convert.ToChar(reader["status"]);
+                inventory.Add(result);
             }
             reader.Close();
             return inventory;
@@ -152,14 +160,21 @@ namespace Backend
             return result;
         }
 
-        public void ChangeStatusOn(int dbid, String treasureName)
+        public void ChangeStatusOn(int dbid, int treasureId)
         {
-            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '2' where owner_id = {0} and name = '{1}';", dbid, treasureName), conn);
+            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '2' where owner_id = {0} and id = '{1}';", dbid, treasureId), conn);
+            cmd.ExecuteScalar();
         }
 
-        public void ChangeStatusOff(int dbid, String treasureName)
+        public void ChangeStatusOff(int dbid, int treasureId)
         {
-            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0} and name = '{1}';", dbid, treasureName), conn);
+            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0} and id = '{1}';", dbid, treasureId), conn);
+            cmd.ExecuteScalar();
+        }
+        public void playerExit(int dbid)
+        {
+            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0};", dbid), conn);
+            cmd.ExecuteScalar();
         }
     }
 }

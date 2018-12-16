@@ -18,9 +18,12 @@ namespace Gamekit3D.Network
             {
                 foreach (var k in msg.items)
                 {
-                    World.Instance.addItem(k);
-                    World.Instance.inventoryCount++;
-                    Debug.Log(string.Format("Frontend: OnRecvBuy {0} Item", k));
+                    if(World.Instance.myinventory.Contains(k) == false)
+                    {
+                        World.Instance.addItem(k);
+                        World.Instance.inventoryCount++;
+                        Debug.Log(string.Format("Frontend: OnRecvBuy {0} Item", k));
+                    }
                 }
                 MessageBox.Show(":)");
             }

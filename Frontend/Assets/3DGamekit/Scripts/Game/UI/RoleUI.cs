@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Gamekit3D;
+using System;
+using UnityEngine.UI;
+using Common;
+using Assets._3DGamekit.Scripts.Game;
+using Gamekit3D.Network;
 
 public class RoleUI : MonoBehaviour
 {
@@ -24,7 +29,6 @@ public class RoleUI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
     }
 
     private void OnEnable()
@@ -49,6 +53,19 @@ public class RoleUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        GameObject.Find("ItemValue").GetComponent<Text>().text = String.Format("Value : {0}", Convert.ToString(World.Instance.view.value));
+        GameObject.Find("ItemValue").GetComponent<Text>().text = String.Format("Value : {0}", Convert.ToString(World.Instance.view.value));
+        if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
+        else if (World.Instance.view.effect == '1') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Medicine");
+        else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
+        else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
+        else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
+        GameObject.Find("HPValue").GetComponent<Text>().text = Convert.ToString(World.Instance.view.value);
+        GameObject.Find("IntelligenceValue").GetComponent<Text>().text = Convert.ToString(World.Instance.view.value);
+        GameObject.Find("SpeedValue").GetComponent<Text>().text = Convert.ToString(World.Instance.view.value);
+        GameObject.Find("AttackValue").GetComponent<Text>().text = Convert.ToString(World.Instance.view.value);
+        GameObject.Find("DefenseValue").GetComponent<Text>().text = Convert.ToString(World.Instance.view.value);
+
     }
 
     void Test()

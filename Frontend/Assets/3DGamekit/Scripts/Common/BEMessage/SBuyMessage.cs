@@ -9,7 +9,7 @@ namespace Common
     public class SBuyMessage : Message
     {
         public SBuyMessage() : base(Command.S_BUYMESSAGE) { }
-        public List<String> items = new List<String>();
+        public List<Treasure> items = new List<Treasure>();
         public bool success;
     }
 }

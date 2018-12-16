@@ -97,6 +97,7 @@ namespace Backend.Network
             Console.WriteLine(string.Format("Channel {0} remove", p.user));
             msg.id = 0;
             msg.enter = false;
+            Database.Instance.playerExit(p.dbid);
             Backend.Game.World.Instance.Broundcast(msg);
         }
         public void BeginRecv()
