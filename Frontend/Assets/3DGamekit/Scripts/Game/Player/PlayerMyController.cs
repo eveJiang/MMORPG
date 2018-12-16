@@ -214,7 +214,7 @@ namespace Gamekit3D
             CPlayerAttack action = new CPlayerAttack();
             action.player = m_entity.entityId;
             action.target = m_attackTarget;
-            Debug.Log(m_attackTarget);
+            Debug.Log(string.Format("SendAttackingAction {0:D}", m_attackTarget));
             MyNetwork.Send(action);
         }
 
@@ -259,7 +259,10 @@ namespace Gamekit3D
         private void OnTriggerEnter(Collider other)
         {
             if ((damagedLayers.value & 1 << other.gameObject.layer) == 0)
+            {
+                Debug.Log("OnTriggerEnter");
                 return;
+            }
 
             NetworkEntity damager = other.gameObject.GetComponent<NetworkEntity>();
             if (damager == null)
