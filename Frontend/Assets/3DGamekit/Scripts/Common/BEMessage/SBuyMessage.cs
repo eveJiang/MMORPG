@@ -11,5 +11,6 @@ namespace Common
         public SBuyMessage() : base(Command.S_BUYMESSAGE) { }
         public List<Treasure> items = new List<Treasure>();
         public bool success;
+        public int sum;
     }
 }

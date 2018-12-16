@@ -23,6 +23,7 @@ namespace Backend.Network
                 //response.items.Add(item.name);
                 Console.WriteLine(string.Format("item_name: {0}", item.name));
             }
+            response.sum = totalCost;
             Console.WriteLine(string.Format("player_goldcoin: {0}; player_silvercoin: {1}", Database.Instance.GetGoldCoins(player.dbid), Database.Instance.GetSilverCoins(player.dbid)));
             if (totalCost <= Database.Instance.GetSilverCoins(player.dbid))
             {

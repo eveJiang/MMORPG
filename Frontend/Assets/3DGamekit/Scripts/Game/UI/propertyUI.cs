@@ -14,6 +14,7 @@ namespace Assets._3DGamekit.Scripts.Game.UI
 {
     class propertyUI : MonoBehaviour
     {
+        public Sprite grid;
         public void onClickSale()
         {
             string price = this.GetComponentInChildren<InputField>().text;
@@ -26,12 +27,14 @@ namespace Assets._3DGamekit.Scripts.Game.UI
             {
                 MessageBox.Show(":)");
                 Debug.Log(string.Format("{0}", World.Instance.view.id));
-                m.treasureId = World.Instance.view.id;
+                m.treasure = World.Instance.view;
                 m.userDbid = World.Instance.selfDbid;
                 m.on = false;
                 Client.Instance.Send(m);
-                Sprite icon = GetAllIcons.icons["Grid"];
-                GameObject.Find("Defence1").GetComponent<Image>().sprite = icon;
+                //Sprite icon = GetAllIcons.icons["Grid"];
+                GameObject.Find(World.Instance.position[World.Instance.view.id]).GetComponent<Image>().sprite = grid;
+                World.Instance.position.Remove(World.Instance.view.id);
+
             }
             else
                 MessageBox.Show(":(");
@@ -42,7 +45,7 @@ namespace Assets._3DGamekit.Scripts.Game.UI
             if (World.Instance.check())
             {
                 MessageBox.Show("Successfully put on the clothes");
-                m.treasureId = World.Instance.view.id;
+                m.treasure = World.Instance.view;
                 m.userDbid = World.Instance.selfDbid;
                 m.on = true;
                 Client.Instance.Send(m);

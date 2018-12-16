@@ -10,9 +10,14 @@ namespace Backend.Network
         {
             CChangeStatus request = message as CChangeStatus;
             if (request.on == true)
-                Database.Instance.ChangeStatusOn(request.userDbid, request.treasureId);
+            {
+                if (request.treasure.effect != '1')
+                    Database.Instance.ChangeStatusOn(request.userDbid, request.treasure.id);
+                else
+                    Database.Instance.DeleteTreasure(request.treasure.id);
+            }
             else
-                Database.Instance.ChangeStatusOff(request.userDbid, request.treasureId);
+                Database.Instance.ChangeStatusOff(request.userDbid, request.treasure.id);
         }
     }
 }

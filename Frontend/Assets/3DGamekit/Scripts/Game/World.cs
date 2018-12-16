@@ -31,11 +31,17 @@ namespace Assets._3DGamekit.Scripts.Game
         public Dictionary<String, Treasure> intelligence = new Dictionary<string, Treasure>();
         public Dictionary<int, String> position = new Dictionary<int, string>(); //dbid, position
         public Dictionary<String, int> occupied = new Dictionary<string, int>(); //0 空闲 1 占有
-        public int life;
+        public int count_HP = 5;
+        public int count_defence = 0;
+        public int count_attack = 0;
+        public int count_speed = 0;
+        public int count_intelligence = 0;
         public int inventoryCount = 0;
         public int inventoryCapacity = 40;
         public Treasure view = new Treasure(); //正在看的商品
         public int messageLock = 1;
+        public int gold;
+        public int silver;
         public Dictionary<String, int> get_players()
         {
             return players;
@@ -44,11 +50,13 @@ namespace Assets._3DGamekit.Scripts.Game
         {
             this.players.Add(name, id);
         }
-        public void init(string name, int id, int db, List<Treasure> items)
+        public void init(string name, int id, int db, List<Treasure> items, int gcoin, int scoin)
         {
             this.selfName = name;
             this.selfId = id;
             this.selfDbid = db;
+            this.gold = gcoin;
+            this.silver = scoin;
             foreach(var item in items)
             {
                 myinventory.Add(item);
@@ -86,7 +94,8 @@ namespace Assets._3DGamekit.Scripts.Game
             int k = myinventory.IndexOf(view);
             if (view.effect == '0' && defence.Count < 2 && defence.ContainsValue(view) == false)
             {
-                if(occupied["Defence1"] == 0)
+                count_defence += view.value;
+                if (occupied["Defence1"] == 0)
                 {
                     occupied["Defence1"] = 1;
                     position.Add(view.id, "Defence1");
@@ -101,12 +110,13 @@ namespace Assets._3DGamekit.Scripts.Game
             }
             else if (view.effect == '1')
             {
-                life += view.value;
+                count_HP += view.value;
                 removeItem(view);
                 return true;
             }
             else if (view.effect == '2' && intelligence.Count < 2 && intelligence.ContainsValue(view) == false)
             {
+                count_intelligence += view.value;
                 if (occupied["Intelligence1"] == 0)
                 {
                     occupied["Intelligence1"] = 1;
@@ -122,6 +132,7 @@ namespace Assets._3DGamekit.Scripts.Game
             }
             else if (view.effect == '3' && speed.Count < 2 && speed.ContainsValue(view) == false)
             {
+                count_speed += view.value;
                 if (occupied["Speed1"] == 0)
                 {
                     occupied["Speed1"] = 1;
@@ -137,6 +148,7 @@ namespace Assets._3DGamekit.Scripts.Game
             }
             else if (view.effect == '4' && attack.Count < 2 && attack.ContainsValue(view) == false)
             {
+                count_attack += view.value;
                 if (occupied["Attack1"] == 0)
                 {
                     occupied["Attack1"] = 1;
@@ -157,29 +169,29 @@ namespace Assets._3DGamekit.Scripts.Game
             int k = myinventory.IndexOf(view);
             if (view.effect == '0'&& defence.ContainsValue(view) == true)
             {
+                count_defence -= view.value;
                 occupied[position[view.id]] = 0;
-                position.Remove(view.id);
                 defence.Remove(view.name);
                 return true;
             }
             else if (view.effect == '2' && intelligence.ContainsValue(view) == true)
             {
+                count_intelligence -= view.value;
                 occupied[position[view.id]] = 0;
-                position.Remove(view.id);
                 intelligence.Remove(view.name);
                 return true;
             }
             else if (view.effect == '3' && speed.ContainsValue(view) == true)
             {
+                count_speed -= view.value;
                 occupied[position[view.id]] = 0;
-                position.Remove(view.id);
                 speed.Remove(view.name);
                 return true;
             }
             else if (view.effect == '4' && attack.ContainsValue(view) == true)
             {
+                count_attack -= view.value;
                 occupied[position[view.id]] = 0;
-                position.Remove(view.id);
                 attack.Remove(view.name);
                 return true;
             }

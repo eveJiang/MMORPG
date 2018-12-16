@@ -10,7 +10,7 @@ namespace Common
     {
         public CChangeStatus() : base(Command.C_STATUSMESSAGE) { }
         public int userDbid;
-        public int treasureId;
+        public Treasure treasure;
         public bool on; //true 穿衣服 false 脱衣服
     }
 }

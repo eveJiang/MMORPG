@@ -176,5 +176,10 @@ namespace Backend
             var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0};", dbid), conn);
             cmd.ExecuteScalar();
         }
+        public void DeleteTreasure(int treasureId)
+        {
+            var cmd = new NpgsqlCommand(string.Format("delete from treasure where id = {0};", treasureId), conn);
+            cmd.ExecuteScalar();
+        }
     }
 }

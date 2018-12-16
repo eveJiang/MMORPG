@@ -26,6 +26,7 @@ namespace Gamekit3D.Network
                     }
                 }
                 MessageBox.Show(":)");
+                World.Instance.silver -= msg.sum;
             }
             else
                 MessageBox.Show(":(");

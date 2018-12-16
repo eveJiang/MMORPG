@@ -185,6 +185,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CChangeStatus.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CChatMessage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CDamage.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CDeleteTreasure.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CEnemyClosing.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CFindPath.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CLogin.cs" />
