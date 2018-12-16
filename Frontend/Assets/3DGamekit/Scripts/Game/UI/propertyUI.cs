@@ -14,6 +14,7 @@ namespace Assets._3DGamekit.Scripts.Game.UI
 {
     class propertyUI : MonoBehaviour
     {
+        public Sprite grid;
         public void onClickSale()
         {
             string price = this.GetComponentInChildren<InputField>().text;
@@ -21,7 +22,22 @@ namespace Assets._3DGamekit.Scripts.Game.UI
         }
         public void onClickOff()
         {
+            CChangeStatus m = new CChangeStatus();
+            if (World.Instance.off())
+            {
+                MessageBox.Show(":)");
+                Debug.Log(string.Format("{0}", World.Instance.view.id));
+                m.treasure = World.Instance.view;
+                m.userDbid = World.Instance.selfDbid;
+                m.on = false;
+                Client.Instance.Send(m);
+                //Sprite icon = GetAllIcons.icons["Grid"];
+                GameObject.Find(World.Instance.position[World.Instance.view.id]).GetComponent<Image>().sprite = grid;
+                World.Instance.position.Remove(World.Instance.view.id);
 
+            }
+            else
+                MessageBox.Show(":(");
         }
         public void onClickOn()
         {
@@ -29,9 +45,12 @@ namespace Assets._3DGamekit.Scripts.Game.UI
             if (World.Instance.check())
             {
                 MessageBox.Show("Successfully put on the clothes");
-                m.treasureName = World.Instance.view.name;
+                m.treasure = World.Instance.view;
                 m.userDbid = World.Instance.selfDbid;
+                m.on = true;
                 Client.Instance.Send(m);
+                Sprite icon = GetAllIcons.icons[World.Instance.view.name];
+                GameObject.Find(World.Instance.position[World.Instance.view.id]).GetComponent<Image>().sprite = icon;
             }
             else
                 MessageBox.Show("Cannot put on the clothes");

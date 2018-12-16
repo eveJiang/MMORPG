@@ -14,6 +14,7 @@ public class GetAllIcons : MonoBehaviour
         foreach (Component component in components)
         {
             SpriteRenderer sr = (SpriteRenderer)component;
+            Debug.Log(sr.gameObject.name);
             icons.Add(sr.gameObject.name, sr.sprite);
         }
         gameObject.SetActive(false);

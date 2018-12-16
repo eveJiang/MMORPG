@@ -32,24 +32,14 @@ public class InventoryUI : MonoBehaviour
             GameObject cloned = GameObject.Instantiate(InventoryCell);
             Button button = cloned.GetComponent<Button>();
             // TODO ... specify icon by item types
-            Sprite icon = GetAllIcons.icons[kv];
+            Sprite icon = GetAllIcons.icons[kv.name];
             button.image.sprite = icon;
 
             button.onClick.AddListener(delegate ()
             {
-                CTreasureMessage m = new CTreasureMessage();
-                m.dbid = World.Instance.selfDbid;
-                m.treasureName = kv;
-                Client.Instance.Send(m);
                 GameObject.Find("ItemImage").GetComponent<Image>().sprite = icon;
-                GameObject.Find("ItemText").GetComponent<Text>().text = kv;
-                World.Instance.view.name = kv;
-                //while(true)
-                //{
-                //    if (World.Instance.messageLock == 1)
-                //        break;
-                //}
-                Debug.Log(string.Format("treausre: {0}, dbid : {1}", m.treasureName, m.dbid));
+                GameObject.Find("ItemText").GetComponent<Text>().text = kv.name;
+                World.Instance.setView(kv);
                 GameObject.Find("ItemValue").GetComponent<Text>().text = String.Format("Value : {0}",Convert.ToString(World.Instance.view.value));
                 // effect: 防御(0)：a, i, g 生命(1)：e, 智力(2)：h, k 速度(3)：b 攻击(4)：c, d, f, j, l
                 if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
@@ -58,7 +48,6 @@ public class InventoryUI : MonoBehaviour
                 else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
                 else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
                 World.Instance.messageLock = 0;
-                //GameObject.Find("Helmet").GetComponent<Image>().sprite = icon;
             });
             //Sprite icon = GetAllIcons.icons["Sword_2"];
             //button.image.sprite = icon;
@@ -91,7 +80,6 @@ public class InventoryUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     void ExtendBagCapacity(int n)

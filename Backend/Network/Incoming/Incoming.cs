@@ -27,6 +27,7 @@ namespace Backend.Network
             register.Register(Command.C_BUYMESSAGE, OnRecvBuy);
             register.Register(Command.C_TREASUREMESSAGE, OnRecvTreasure);
             register.Register(Command.C_STATUSMESSAGE, OnRecvChangeStatus);
+            register.Register(Command.C_DELETETREASURE, OnRecvDelete);
             // DEBUG ..
             register.Register(Command.C_FIND_PATH, OnRecvFindPath);
 

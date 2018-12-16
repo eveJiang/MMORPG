@@ -19,10 +19,9 @@ namespace Gamekit3D.Network
             {// ignore enter scene message when debug mode
                 return;
             }
-            //Console.WriteLine("Receive Enter...");
+            Debug.Log("Receive Enter...");
             SPlayerEnter msg = message as SPlayerEnter;
-            //World.Instance.addPlayers(msg.user, msg.id);
-            World.Instance.init(msg.user, msg.id, msg.dbid, msg.inventory);
+            World.Instance.init(msg.user, msg.id, msg.dbid, msg.inventory, msg.gold, msg.silver);
             World.Instance.addPlayers(msg.user, msg.id);
             foreach (KeyValuePair<string, int> kvp in World.Instance.get_players())
             {

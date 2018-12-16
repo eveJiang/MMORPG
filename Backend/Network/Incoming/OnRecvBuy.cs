@@ -20,9 +20,10 @@ namespace Backend.Network
             foreach (var item in request.items)
             {
                 totalCost += item.price;
-                response.items.Add(item.name);
+                //response.items.Add(item.name);
                 Console.WriteLine(string.Format("item_name: {0}", item.name));
             }
+            response.sum = totalCost;
             Console.WriteLine(string.Format("player_goldcoin: {0}; player_silvercoin: {1}", Database.Instance.GetGoldCoins(player.dbid), Database.Instance.GetSilverCoins(player.dbid)));
             if (totalCost <= Database.Instance.GetSilverCoins(player.dbid))
             {
@@ -30,6 +31,7 @@ namespace Backend.Network
                 Database.Instance.BuyItems(request.items, player.dbid);
                 response.success = true;
             }
+            response.items = Database.Instance.GetInventory(request.dbid);
             channel.Send(response);
             Console.WriteLine("Backend : Finish OnRecvBuy");
         }

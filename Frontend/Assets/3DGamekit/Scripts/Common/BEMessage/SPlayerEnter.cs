@@ -15,6 +15,8 @@ namespace Common
         public int id;
         public string name;
         public int dbid;
-        public List<String> inventory;
+        public int silver;
+        public int gold;
+        public List<Treasure> inventory;
     }
 }

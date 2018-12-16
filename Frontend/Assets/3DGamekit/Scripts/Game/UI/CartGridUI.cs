@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Common;
 using Gamekit3D.Network;
+using Assets._3DGamekit.Scripts.Game;
 
 public class CartGridUI : MonoBehaviour
 {
@@ -89,6 +90,7 @@ public class CartGridUI : MonoBehaviour
     public CBuyMessage getBuyMessage()
     {
         CBuyMessage message = new CBuyMessage();
+        message.dbid = World.Instance.selfDbid;
         foreach (var kv in m_items)
         {
             var name = kv.Key;
