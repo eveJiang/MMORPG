@@ -37,6 +37,7 @@ namespace Backend.Network
             player.dbid = db.GetID(request.user);
             int k = player.entityId;
             response.id = k;
+            response.dbid = player.dbid;
             ClientTipInfo(channel, string.Format("Backend:('name: {0}', 'entity_id: {1}','sql_id: {2});", player.user, player.entityId, player.dbid));
             DEntity dentity = World.Instance.EntityData["Ellen"];
             player.FromDEntity(dentity);

@@ -37,6 +37,8 @@ public class RoleUI : MonoBehaviour
         }
         string hp = string.Format("{0}/{1}", m_damageable.currentHitPoints, m_damageable.maxHitPoints);
         HPValue.SetText(hp, true);
+        GameObject.Find("ItemImage").SetActive(true);
+        GameObject.Find("ItemText").SetActive(true);
     }
 
     private void OnDisable()
@@ -47,7 +49,6 @@ public class RoleUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
 
     void Test()

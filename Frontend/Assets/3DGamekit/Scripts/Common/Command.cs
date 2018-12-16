@@ -29,6 +29,7 @@ namespace Common
         S_CHAT_MESSAGE,
         S_COMMUNITY,
         S_BUYMESSAGE,
+        S_TREASUREMESSAGE,
         SEND,
 
         CBEGIN,
@@ -44,6 +45,8 @@ namespace Common
         C_ENEMY_CLOSING,
         C_DAMAGE,
         C_BUYMESSAGE,
+        C_TREASUREMESSAGE,
+        C_STATUSMESSAGE,
         CEND,
 
         DEBUGGING, // THE FOLLOWING MESSEGES ARE FOR DEBUGGING

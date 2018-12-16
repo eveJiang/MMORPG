@@ -136,6 +136,7 @@ namespace Common
         public int price;
         public char type;
         public char effect;
+        public char status;
     }
 }
 

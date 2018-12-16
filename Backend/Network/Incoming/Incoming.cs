@@ -25,7 +25,8 @@ namespace Backend.Network
             register.Register(Command.C_DAMAGE, OnRecvDamage);
             register.Register(Command.C_CHAT_MESSAGE, OnRecvChat);
             register.Register(Command.C_BUYMESSAGE, OnRecvBuy);
-
+            register.Register(Command.C_TREASUREMESSAGE, OnRecvTreasure);
+            register.Register(Command.C_STATUSMESSAGE, OnRecvChangeStatus);
             // DEBUG ..
             register.Register(Command.C_FIND_PATH, OnRecvFindPath);
 
