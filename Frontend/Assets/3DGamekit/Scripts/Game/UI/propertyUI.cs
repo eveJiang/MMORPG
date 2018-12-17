@@ -36,7 +36,12 @@ namespace Gamekit3D
             };
             msgSell.items.Add(item);
             if (World.Instance.view.status != '2')
+            {
                 Client.Instance.Send(msgSell);
+                World.Instance.myinventory.Remove(World.Instance.view);
+                World.Instance.view.status = '3';
+                World.Instance.mymarket.Add(World.Instance.view);
+            }
             else
                 MessageBox.Show("Please unload before selling");
         }

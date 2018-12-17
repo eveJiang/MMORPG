@@ -64,6 +64,24 @@ public class ShelfItemUI : MonoBehaviour
         if (handler != null)
         {
             CBuyMessage message = handler.getBuyMessage();
+            foreach (var msg in message.items)
+            {
+                Debug.Log(msg.name);
+            }
+            Client.Instance.Send(message);
+            Debug.Log("FrontEnd: Receive BuyButtonClicked");
+        }
+    }
+
+    public void OnMarketBuyButtonClicked()
+    {
+        if (handler != null)
+        {
+            var message = handler.GetMarketBuyMessage();
+            foreach (var msg in message.items)
+            {
+                Debug.Log(msg.name);
+            }
             Client.Instance.Send(message);
             Debug.Log("FrontEnd: Receive BuyButtonClicked");
         }

@@ -25,12 +25,13 @@ namespace Assets._3DGamekit.Scripts.Game
         public Dictionary<string, int> players = new Dictionary<string, int>();
         public Dictionary<int, List<content>> chatHistory = new Dictionary<int, List<content>>();
         public List<Treasure> myinventory = new List<Treasure>();
+        public List<Treasure> mymarket = new List<Treasure>();
         public Dictionary<String, Treasure> defence = new Dictionary<String, Treasure>();
         public Dictionary<String, Treasure> attack = new Dictionary<String, Treasure>();
-        public Dictionary<String, Treasure> speed = new Dictionary<string, Treasure>();
-        public Dictionary<String, Treasure> intelligence = new Dictionary<string, Treasure>();
-        public Dictionary<int, String> position = new Dictionary<int, string>(); //dbid, position
-        public Dictionary<String, int> occupied = new Dictionary<string, int>(); //0 空闲 1 占有
+        public Dictionary<String, Treasure> speed = new Dictionary<String, Treasure>();
+        public Dictionary<String, Treasure> intelligence = new Dictionary<String, Treasure>();
+        public Dictionary<int, String> position = new Dictionary<int, String>(); //dbid, position
+        public Dictionary<String, int> occupied = new Dictionary<String, int>(); //0 空闲 1 占有
         public int count_HP = 5;
         public int count_defence = 0;
         public int count_attack = 0;
