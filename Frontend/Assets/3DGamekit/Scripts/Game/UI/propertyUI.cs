@@ -15,6 +15,7 @@ namespace Gamekit3D
     class propertyUI : MonoBehaviour
     {
         public Sprite grid;
+        public bool coinType = false; // false - silver, true - gold
         public void onClickSale()
         {
             int price = int.Parse(GetComponentInChildren<InputField>().text);
@@ -27,7 +28,8 @@ namespace Gamekit3D
                 effect = World.Instance.view.effect,
                 value = World.Instance.view.value,
                 price = price,
-                status = '3'
+                status = '3',
+                coinType = coinType
             };
             CMarketMessage msgSell = new CMarketMessage
             {
@@ -44,6 +46,14 @@ namespace Gamekit3D
             }
             else
                 MessageBox.Show("Please unload before selling");
+        }
+
+        public void onClickCoinType()
+        {
+            coinType = !coinType;
+            var image = GetComponentInChildren<Image>();
+            // TODO: corresponding image = Resources.Load(coin picture) as Sprite
+            // image.sprite = corresponding image;
         }
 
         public void onClickOff()
@@ -95,7 +105,7 @@ namespace Gamekit3D
         {
             //Test();
             //initialize
-
+            onClickCoinType();
         }
 
         private void OnDisable()

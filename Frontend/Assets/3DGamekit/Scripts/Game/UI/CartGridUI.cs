@@ -39,6 +39,11 @@ public class CartGridUI : MonoBehaviour
         m_count[name] -= 1;
     }
 
+    public void AddToMarketCart(MarketTreasure treasure)
+    {
+
+    }
+
     public void AddToCart(string name)
     {
         Sprite sprite;

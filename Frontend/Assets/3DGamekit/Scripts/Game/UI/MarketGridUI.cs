@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MarketGridUI : MonoBehaviour
 {
     public GameObject ShelfItem;
-    public List<GameObject> market;
+    public Dictionary<int, GameObject> market;
 
     private IEnumerator ShowItems()
     {
@@ -31,8 +31,8 @@ public class MarketGridUI : MonoBehaviour
             {
                 continue;
             }
-            handler.Init(key);
-            market.Add(cloned);
+            handler.Init(item);
+            market.Add(item.id, cloned);
         }
     }
 
@@ -57,7 +57,7 @@ public class MarketGridUI : MonoBehaviour
     {
         foreach (var o in market)
         {
-            Destroy(o);
+            Destroy(o.Value);
         }
     }
 

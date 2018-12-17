@@ -225,7 +225,8 @@ namespace Backend
                     effect = Convert.ToChar(reader["effect"]),
                     status = Convert.ToChar(reader["status"]),
                     price = Convert.ToInt32(reader["price"]),
-                    owner_id = Convert.ToInt32(reader["owner_id"])
+                    owner_id = Convert.ToInt32(reader["owner_id"]),
+                    coinType = Convert.ToBoolean(reader["coinType"])
                 };
                 Console.WriteLine(result.id);
                 market.Add(result);
@@ -239,8 +240,8 @@ namespace Backend
             Console.WriteLine("MarketSell");
             NpgsqlTransaction tr = conn.BeginTransaction();
             var cmd1 = new NpgsqlCommand(string.Format("delete from treasure where id = {0};", item.id), conn);
-            var cmd2 = new NpgsqlCommand(string.Format("insert into \"market\"(name, type, effect, value, price, status, owner_id, id) values('{0}','{1}','{2}',{3}, {4},'{5}',{6}, {7});",
-                                                       item.name, item.type, item.effect, item.value, item.price, '3', item.owner_id, item.id), conn);
+            var cmd2 = new NpgsqlCommand(string.Format("insert into \"market\"(name, type, effect, value, price, status, owner_id, id, coinType) values('{0}','{1}','{2}',{3}, {4},'{5}',{6}, {7}, {8});",
+                                                       item.name, item.type, item.effect, item.value, item.price, '3', item.owner_id, item.id, item.coinType), conn);
             Console.WriteLine(string.Format("{0}, {1}, {2}", item.id, item.name, item.owner_id));
             cmd1.Transaction = tr;
             cmd1.ExecuteScalar();

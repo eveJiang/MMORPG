@@ -150,6 +150,7 @@ namespace Common
         public char type;
         public char effect;
         public char status;
+        public bool coinType;
     }
 }
 

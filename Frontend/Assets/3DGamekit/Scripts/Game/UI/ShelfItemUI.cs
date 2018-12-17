@@ -13,6 +13,7 @@ public class ShelfItemUI : MonoBehaviour
     public Button button;
     public Text textName;
     public Text textCost;
+    public MarketTreasure item;
 
     private static CartGridUI handler;
 
@@ -36,6 +37,24 @@ public class ShelfItemUI : MonoBehaviour
 
     }
 
+    public void Init(MarketTreasure treasure)
+    {
+        itemName = treasure.name;
+        item = treasure;
+        Sprite sprite;
+        if (button == null || textName == null || textCost == null)
+        {
+            return;
+        }
+        if (!GetAllIcons.icons.TryGetValue(name, out sprite))
+        {
+            return;
+        }
+        button.image.sprite = sprite;
+        textName.text = name;
+        textCost.text = "$" + treasure.price.ToString();
+    }
+
     public void Init(string name)
     {
         itemName = name;
@@ -57,6 +76,14 @@ public class ShelfItemUI : MonoBehaviour
     {
         if (handler != null)
             handler.AddToCart(itemName);
+    }
+
+    public void AddToMarketCart()
+    {
+        /*
+        if (handler != null)
+            handler.AddToMarketCart(itemName);*
+        */
     }
 
     public void OnBuyButtonClicked()
