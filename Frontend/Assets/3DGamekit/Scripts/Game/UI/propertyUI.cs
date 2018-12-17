@@ -10,16 +10,37 @@ using Assets._3DGamekit.Scripts.Game;
 using Gamekit3D.Network;
 
 
-namespace Assets._3DGamekit.Scripts.Game.UI
+namespace Gamekit3D
 {
     class propertyUI : MonoBehaviour
     {
         public Sprite grid;
         public void onClickSale()
         {
-            string price = this.GetComponentInChildren<InputField>().text;
-            Debug.Log(string.Format("frontEnd: propertyUI:{0}", price));
+            int price = int.Parse(GetComponentInChildren<InputField>().text);
+            MarketTreasure item = new MarketTreasure
+            {
+                owner_id = World.Instance.selfDbid,
+                id = World.Instance.view.id,
+                name = World.Instance.view.name,
+                type = World.Instance.view.type,
+                effect = World.Instance.view.effect,
+                value = World.Instance.view.value,
+                price = price,
+                status = '3'
+            };
+            CMarketMessage msgSell = new CMarketMessage
+            {
+                option = "sell",
+                items = new List<MarketTreasure>()
+            };
+            msgSell.items.Add(item);
+            if (World.Instance.view.status != '2')
+                Client.Instance.Send(msgSell);
+            else
+                MessageBox.Show("Please unload before selling");
         }
+
         public void onClickOff()
         {
             CChangeStatus m = new CChangeStatus();

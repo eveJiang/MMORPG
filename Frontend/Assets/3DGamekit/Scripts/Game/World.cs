@@ -11,12 +11,12 @@ namespace Assets._3DGamekit.Scripts.Game
         public string message;
         public content(int a, string b)
         {
-            source = a; 
+            source = a;
             message = b;
         }
     }
 
-    class World:Singleton<World>
+    class World : Singleton<World>
     {
         public string selfName;
         public int selfId;
@@ -57,7 +57,7 @@ namespace Assets._3DGamekit.Scripts.Game
             this.selfDbid = db;
             this.gold = gcoin;
             this.silver = scoin;
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 myinventory.Add(item);
                 inventoryCount++;
@@ -105,13 +105,17 @@ namespace Assets._3DGamekit.Scripts.Game
                     occupied["Defence2"] = 1;
                     position.Add(view.id, "Defence2");
                 }
+                myinventory.Remove(view);
+                view.status = '2';
+                myinventory.Add(view);
                 defence.Add(view.name, view);
                 return true;
             }
-            else if (view.effect == '1')
+            else if (view.effect == '1' && view.status == '1')
             {
                 count_HP += view.value;
                 removeItem(view);
+                view.status = '2';
                 return true;
             }
             else if (view.effect == '2' && intelligence.Count < 2 && intelligence.ContainsValue(view) == false)
@@ -127,6 +131,9 @@ namespace Assets._3DGamekit.Scripts.Game
                     occupied["Intelligence2"] = 1;
                     position.Add(view.id, "Intelligence2");
                 }
+                myinventory.Remove(view);
+                view.status = '2';
+                myinventory.Add(view);
                 intelligence.Add(view.name, view);
                 return true;
             }
@@ -143,6 +150,9 @@ namespace Assets._3DGamekit.Scripts.Game
                     occupied["Speed2"] = 1;
                     position.Add(view.id, "Speed2");
                 }
+                myinventory.Remove(view);
+                view.status = '2';
+                myinventory.Add(view);
                 speed.Add(view.name, view);
                 return true;
             }
@@ -159,6 +169,9 @@ namespace Assets._3DGamekit.Scripts.Game
                     occupied["Attack2"] = 1;
                     position.Add(view.id, "Attack2");
                 }
+                myinventory.Remove(view);
+                view.status = '2';
+                myinventory.Add(view);
                 attack.Add(view.name, view);
                 return true;
             }
@@ -167,35 +180,32 @@ namespace Assets._3DGamekit.Scripts.Game
         public bool off()
         {
             int k = myinventory.IndexOf(view);
-            if (view.effect == '0'&& defence.ContainsValue(view) == true)
+            if (view.effect == '0' && defence.ContainsValue(view) == true)
             {
                 count_defence -= view.value;
-                occupied[position[view.id]] = 0;
                 defence.Remove(view.name);
-                return true;
             }
             else if (view.effect == '2' && intelligence.ContainsValue(view) == true)
             {
                 count_intelligence -= view.value;
-                occupied[position[view.id]] = 0;
                 intelligence.Remove(view.name);
-                return true;
             }
             else if (view.effect == '3' && speed.ContainsValue(view) == true)
             {
                 count_speed -= view.value;
-                occupied[position[view.id]] = 0;
                 speed.Remove(view.name);
-                return true;
             }
             else if (view.effect == '4' && attack.ContainsValue(view) == true)
             {
                 count_attack -= view.value;
-                occupied[position[view.id]] = 0;
                 attack.Remove(view.name);
-                return true;
             }
             else return false;
+            occupied[position[view.id]] = 0;
+            myinventory.Remove(view);
+            view.status = '1';
+            myinventory.Add(view);
+            return true;
         }
     }
 }

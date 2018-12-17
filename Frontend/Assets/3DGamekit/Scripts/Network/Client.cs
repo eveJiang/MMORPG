@@ -36,6 +36,8 @@ namespace Gamekit3D.Network
 
         private object player;
 
+        public List<MarketTreasure> market = new List<MarketTreasure>();
+
         public void SetContent(object content)
         {
             player = content;

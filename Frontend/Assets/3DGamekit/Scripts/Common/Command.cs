@@ -30,6 +30,7 @@ namespace Common
         S_COMMUNITY,
         S_BUYMESSAGE,
         S_TREASUREMESSAGE,
+        S_MARKETMESSAGE,
         SEND,
 
         CBEGIN,
@@ -48,6 +49,7 @@ namespace Common
         C_TREASUREMESSAGE,
         C_STATUSMESSAGE,
         C_DELETETREASURE,
+        C_MARKETMESSAGE,
         CEND,
 
         DEBUGGING, // THE FOLLOWING MESSEGES ARE FOR DEBUGGING

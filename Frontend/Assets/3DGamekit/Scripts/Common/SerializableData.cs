@@ -138,6 +138,19 @@ namespace Common
         public char effect;
         public char status;
     }
+
+    [Serializable]
+    public struct MarketTreasure
+    {
+        public int id;
+        public int owner_id;
+        public string name;
+        public int value;
+        public int price;
+        public char type;
+        public char effect;
+        public char status;
+    }
 }
 
 

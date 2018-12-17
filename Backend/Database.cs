@@ -95,27 +95,53 @@ namespace Backend
             }
         }
 
-        public bool BuyItems(List<Treasure> items, int id)
+        public bool BuyItems(List<Treasure> items, int id, int mark)
         {
             int sum = 0;
-
-            NpgsqlTransaction tr = (NpgsqlTransaction)conn.BeginTransaction();
-            foreach (var item in items)
+            int gold = 0;
+            int silver = 0;
+            if(mark == 1) //一旦有别的东西加入进来，就需要transaction了，知道了嘛
             {
-                //status: 1 occupied; 2 dressing; 3 sale
-                var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});", 
-                                                            item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
-                Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
-                                                    item.name, item.value, item.price, '1', id));
-                cmd.Transaction = tr;
-                cmd.ExecuteScalar();
-                sum += item.price;
+                NpgsqlTransaction tr = (NpgsqlTransaction)conn.BeginTransaction();
+                foreach (var item in items)
+                {
+                    //status: 1 occupied; 2 dressing; 3 sale
+                    var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});",
+                                                                item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
+                    Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
+                                                        item.name, item.value, item.price, '1', id));
+                    cmd.Transaction = tr;
+                    cmd.ExecuteScalar();
+                    if (item.type == 'e') silver += item.price;
+                    else gold += item.price;
+                }
+                var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", silver, id), conn);
+                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", silver, id));
+                cmd2.Transaction = tr;
+                cmd2.ExecuteScalar();
+                var cmd3 = new NpgsqlCommand(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id={1};", gold, id), conn);
+                Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id = {1};", silver, id));
+                cmd3.Transaction = tr;
+                cmd3.ExecuteScalar();
+                tr.Commit();
             }
-            var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
-            Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
-            cmd2.Transaction = tr;
-            cmd2.ExecuteScalar();
-            tr.Commit();
+            else //只买药水的情况，是不需要transaction的
+            {
+                foreach (var item in items)
+                {
+                    //status: 1 occupied; 2 dressing; 3 sale
+                    var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});",
+                                                                item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
+                    Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
+                                                        item.name, item.value, item.price, '1', id));
+                    cmd.ExecuteScalar();
+                    sum += item.price;
+                }
+                var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
+                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
+                cmd2.ExecuteScalar();
+            }
+            
             return true;
         }
 
@@ -142,8 +168,6 @@ namespace Backend
 
         public Treasure GetTreasure(int dbid, string treasureName)
         {
-            //dbid = 2;
-            //treasureName = "Elixir_1";
             Console.WriteLine(string.Format("{0}, {1}", dbid, treasureName));
             var cmd = new NpgsqlCommand(string.Format("select * from treasure where owner_id = {0} and name = '{1}';", dbid, treasureName), conn);
             var reader = cmd.ExecuteReader();
@@ -171,15 +195,58 @@ namespace Backend
             var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0} and id = '{1}';", dbid, treasureId), conn);
             cmd.ExecuteScalar();
         }
+
         public void playerExit(int dbid)
         {
             var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0};", dbid), conn);
             cmd.ExecuteScalar();
         }
+
         public void DeleteTreasure(int treasureId)
         {
             var cmd = new NpgsqlCommand(string.Format("delete from treasure where id = {0};", treasureId), conn);
             cmd.ExecuteScalar();
+        }
+        
+        public List<MarketTreasure> GetMarket()
+        {
+            Console.WriteLine("GetMarket()");
+            var cmd = new NpgsqlCommand("select * from market;", conn);
+            List<MarketTreasure> market = new List<MarketTreasure>();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                MarketTreasure result = new MarketTreasure
+                {
+                    id = Convert.ToInt32(reader["id"]),
+                    name = Convert.ToString(reader["name"]),
+                    value = Convert.ToInt32(reader["value"]),
+                    type = Convert.ToChar(reader["type"]),
+                    effect = Convert.ToChar(reader["effect"]),
+                    status = Convert.ToChar(reader["status"]),
+                    price = Convert.ToInt32(reader["price"]),
+                    owner_id = Convert.ToInt32(reader["owner_id"])
+                };
+                Console.WriteLine(result.id);
+                market.Add(result);
+            }
+            reader.Close();
+            return market;
+        }
+
+        public void MarketSell(MarketTreasure item)
+        {
+            Console.WriteLine("MarketSell");
+            NpgsqlTransaction tr = conn.BeginTransaction();
+            var cmd1 = new NpgsqlCommand(string.Format("delete from treasure where id = {0};", item.id), conn);
+            var cmd2 = new NpgsqlCommand(string.Format("insert into \"market\"(name, type, effect, value, price, status, owner_id, id) values('{0}','{1}','{2}',{3}, {4},'{5}',{6}, {7});",
+                                                       item.name, item.type, item.effect, item.value, item.price, '3', item.owner_id, item.id), conn);
+            Console.WriteLine(string.Format("{0}, {1}, {2}", item.id, item.name, item.owner_id));
+            cmd1.Transaction = tr;
+            cmd1.ExecuteScalar();
+            cmd2.Transaction = tr;
+            cmd2.ExecuteScalar();
+            tr.Commit();
         }
     }
 }

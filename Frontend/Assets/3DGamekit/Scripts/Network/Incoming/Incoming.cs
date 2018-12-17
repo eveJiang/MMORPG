@@ -37,6 +37,7 @@ namespace Gamekit3D.Network
             register.Register(Command.S_COMMUNITY, OnRecvCommunity);
             register.Register(Command.S_BUYMESSAGE, OnRecvBuy);
             register.Register(Command.S_TREASUREMESSAGE, OnRecvTreausre);
+            register.Register(Command.S_MARKETMESSAGE, OnRecvMarket);
             // DEBUG ...
             register.Register(Command.S_FIND_PATH, OnRecvFindPath);
         }
