@@ -49,8 +49,6 @@ public class InventoryUI : MonoBehaviour
                 else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
                 World.Instance.messageLock = 0;
             });
-            //Sprite icon = GetAllIcons.icons["Sword_2"];
-            //button.image.sprite = icon;
             cloned.SetActive(true);
             cloned.transform.SetParent(InventoryGridContent.transform, false);
         }

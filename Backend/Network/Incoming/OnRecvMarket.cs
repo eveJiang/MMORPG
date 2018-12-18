@@ -29,13 +29,23 @@ namespace Backend.Network
                         if (i.coinType)
                             gold += i.price;
                         else silver += i.price;
+                        Treasure temp = new Treasure();
+                        temp.id = i.id;
+                        temp.name = i.name;
+                        temp.value = i.value;
+                        temp.price = i.price;
+                        temp.type = i.type;
+                        temp.effect = i.effect;
+                        temp.status = i.status;
+                        reply.invent.Add(temp);
                     }
+                    int owner = request.items[0].owner_id;
                     if(gold <= gold_coin && silver <= silver_coin)
                     {
                         if(gold > 0)
-                            Database.Instance.MarketBuy(request.items, request.dbid, true);
+                            Database.Instance.MarketBuy(request.items, request.dbid, owner, true);
                         else
-                            Database.Instance.MarketBuy(request.items, request.dbid, false);
+                            Database.Instance.MarketBuy(request.items, request.dbid, owner, false);
                         reply.success = true;
                         reply.gold = gold;
                         reply.silver = silver;

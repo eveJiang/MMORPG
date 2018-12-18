@@ -250,7 +250,7 @@ namespace Backend
             tr.Commit();
         }
 
-        public void MarketBuy(List<MarketTreasure> items, int id, bool type)
+        public void MarketBuy(List<MarketTreasure> items, int id, int owner, bool type)
         {
             int sum = 0;
             int gold = 0;
@@ -281,6 +281,14 @@ namespace Backend
                 Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id = {1};", silver, id));
                 cmd3.Transaction = tr;
                 cmd3.ExecuteScalar();
+                var cmd5 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin+{0} where id={1};", silver, owner), conn);
+                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin+{0} where id={1};", gold, owner));
+                cmd5.Transaction = tr;
+                cmd5.ExecuteScalar();
+                var cmd6 = new NpgsqlCommand(string.Format("update \"player\" set gold_coin=gold_coin+{0} where id={1};", gold, owner), conn);
+                Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin+{0} where id = {1};", gold, owner));
+                cmd6.Transaction = tr;
+                cmd6.ExecuteScalar();
                 tr.Commit();
             }
             else 
@@ -300,6 +308,9 @@ namespace Backend
                 var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
                 Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
                 cmd2.ExecuteScalar();
+                var cmd4 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin+{0} where id={1};", sum, owner), conn);
+                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin+{0} where id = {1};", sum, owner));
+                cmd4.ExecuteScalar();
             }
         }
     }

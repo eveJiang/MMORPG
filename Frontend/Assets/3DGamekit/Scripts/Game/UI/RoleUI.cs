@@ -18,7 +18,7 @@ public class RoleUI : MonoBehaviour
     public TextMeshProUGUI LevelValue;
     public TextMeshProUGUI AttackValue;
     public TextMeshProUGUI DefenseValue;
-    
+    public Sprite init;
     private Damageable m_damageable;
     private PlayerController m_controller;
 
@@ -45,11 +45,16 @@ public class RoleUI : MonoBehaviour
         AttackValue.SetText(Convert.ToString(World.Instance.count_attack), true);
         GameObject.Find("ItemImage").SetActive(true);
         GameObject.Find("ItemText").SetActive(true);
+        GameObject.Find("ItemImage").GetComponent<Image>().sprite = init;
+        GameObject.Find("ItemValue").GetComponent<Text>().text = "Value";
+        GameObject.Find("ItemText").GetComponent<Text>().text = World.Instance.selfName;
     }
 
     private void OnDisable()
     {
         PlayerMyController.Instance.EnabledWindowCount--;
+        World.Instance.view.effect = '5';
+
     }
 
     // Update is called once per frame
@@ -68,7 +73,7 @@ public class RoleUI : MonoBehaviour
         else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
         else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
         else if (World.Instance.view.effect == '4') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
-        else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:");
+        else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funtion");
     }
 
     void Test()
