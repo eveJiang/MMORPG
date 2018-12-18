@@ -249,5 +249,53 @@ namespace Backend
             cmd2.ExecuteScalar();
             tr.Commit();
         }
+
+        public void MarketBuy(List<MarketTreasure> items, int id, bool type)
+        {
+            int sum = 0;
+            int gold = 0;
+            int silver = 0;
+            if (type) //一旦有别的东西加入进来，就需要transaction了，知道了嘛
+            {
+                NpgsqlTransaction tr = (NpgsqlTransaction)conn.BeginTransaction();
+                foreach (var item in items)
+                {
+                    //status: 1 occupied; 2 dressing; 3 sale
+                    var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});",
+                                                                item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
+                    Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
+                                                        item.name, item.value, item.price, '1', id));
+                    cmd.Transaction = tr;
+                    cmd.ExecuteScalar();
+                    if (!item.coinType) silver += item.price;
+                    else gold += item.price;
+                }
+                var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", silver, id), conn);
+                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", silver, id));
+                cmd2.Transaction = tr;
+                cmd2.ExecuteScalar();
+                var cmd3 = new NpgsqlCommand(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id={1};", gold, id), conn);
+                Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id = {1};", silver, id));
+                cmd3.Transaction = tr;
+                cmd3.ExecuteScalar();
+                tr.Commit();
+            }
+            else 
+            {
+                foreach (var item in items)
+                {
+                    //status: 1 occupied; 2 dressing; 3 sale
+                    var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});",
+                                                                item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
+                    Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
+                                                        item.name, item.value, item.price, '1', id));
+                    cmd.ExecuteScalar();
+                    sum += item.price;
+                }
+                var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
+                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
+                cmd2.ExecuteScalar();
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ public class CartGridUI : MonoBehaviour
 
     private Dictionary<string, GameObject> m_items = new Dictionary<string, GameObject>();
     private Dictionary<string, int> m_count = new Dictionary<string, int>();
+    private List<MarketTreasure> market_items = new List<MarketTreasure>();
 
     private void Awake()
     {
@@ -41,7 +42,8 @@ public class CartGridUI : MonoBehaviour
 
     public void AddToMarketCart(MarketTreasure treasure)
     {
-
+        market_items.Add(treasure);
+        AddToCart(treasure.name);
     }
 
     public void AddToCart(string name)
@@ -89,6 +91,16 @@ public class CartGridUI : MonoBehaviour
             m_items.Remove(name);
             m_count.Remove(name);
             Destroy(item);
+        }
+        int c = 0;
+        foreach (var i in market_items)
+        {
+            if (i.name == name)
+            {
+                market_items.RemoveAt(c);
+                break;
+            }
+            ++c;
         }
     }
 
@@ -163,14 +175,13 @@ public class CartGridUI : MonoBehaviour
 
     public CMarketMessage GetMarketBuyMessage()
     {
-        CMarketMessage message = new CMarketMessage();
-        message.option = "buy";
-        foreach (var kv in m_items)
+        CMarketMessage message = new CMarketMessage
         {
-            var name = kv.Key;
-            var treasure = GetTreasureByName(name);
-            treasure.status = '3';
-            
+            option = "buy"
+        };
+        foreach (var i in market_items)
+        {
+            message.items.Add(i);
         }
         return message;
     }

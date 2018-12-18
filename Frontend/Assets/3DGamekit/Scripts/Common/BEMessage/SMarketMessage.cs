@@ -11,5 +11,6 @@ namespace Common
         public SMarketMessage() : base(Command.S_MARKETMESSAGE) { }
         public List<MarketTreasure> items = new List<MarketTreasure>();
         public string option;
+        public bool success;
     }
 }

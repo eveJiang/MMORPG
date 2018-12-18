@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MarketGridUI : MonoBehaviour
 {
     public GameObject ShelfItem;
-    public Dictionary<int, GameObject> market;
+    public Dictionary<int, GameObject> market = new Dictionary<int, GameObject>();
 
     private IEnumerator ShowItems()
     {
@@ -50,7 +50,6 @@ public class MarketGridUI : MonoBehaviour
     private void OnEnable()
     {
         GetMarket();
-        Debug.Log("awake");
     }
 
     private void OnDisable()
@@ -59,6 +58,7 @@ public class MarketGridUI : MonoBehaviour
         {
             Destroy(o.Value);
         }
+        market.Clear();
     }
 
     private void Awake()

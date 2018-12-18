@@ -12,7 +12,7 @@ namespace Backend.Network
             SMarketMessage reply = new SMarketMessage();
             switch (request.option)
             {
-                case "get":
+                case "get": 
                     reply.items = Database.Instance.GetMarket();
                     reply.option = "get";
                     break;
@@ -21,6 +21,28 @@ namespace Backend.Network
                     reply.option = "done";
                     break;
                 case "buy":
+                    int gold = 0, silver = 0;
+                    int silver_coin = Database.Instance.GetSilverCoins(request.dbid);
+                    int gold_coin = Database.Instance.GetGoldCoins(request.dbid);
+                    foreach (var i in request.items)
+                    {
+                        if (i.coinType)
+                            gold += i.price;
+                        else silver += i.price;
+                    }
+                    if(gold <= gold_coin && silver <= silver_coin)
+                    {
+                        if(gold > 0)
+                            Database.Instance.MarketBuy(request.items, request.dbid, true);
+                        else
+                            Database.Instance.MarketBuy(request.items, request.dbid, false);
+                        reply.success = true;
+                    }
+                    else
+                    {
+                        reply.success = false;
+                    }
+                    reply.option = "done";
                     break;
                 default:
                     break;

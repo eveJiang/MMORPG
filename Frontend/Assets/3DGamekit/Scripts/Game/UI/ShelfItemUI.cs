@@ -42,17 +42,20 @@ public class ShelfItemUI : MonoBehaviour
         itemName = treasure.name;
         item = treasure;
         Sprite sprite;
+        Image coinType;
         if (button == null || textName == null || textCost == null)
         {
             return;
         }
-        if (!GetAllIcons.icons.TryGetValue(name, out sprite))
+        if (!GetAllIcons.icons.TryGetValue(item.name, out sprite))
         {
             return;
         }
         button.image.sprite = sprite;
-        textName.text = name;
+        textName.text = item.name;
         textCost.text = "$" + treasure.price.ToString();
+        coinType = GetComponentInChildren<Image>();
+        // coinType setimage treasure.coinType
     }
 
     public void Init(string name)
@@ -80,10 +83,8 @@ public class ShelfItemUI : MonoBehaviour
 
     public void AddToMarketCart()
     {
-        /*
         if (handler != null)
-            handler.AddToMarketCart(itemName);*
-        */
+            handler.AddToMarketCart(item);
     }
 
     public void OnBuyButtonClicked()
@@ -91,10 +92,6 @@ public class ShelfItemUI : MonoBehaviour
         if (handler != null)
         {
             CBuyMessage message = handler.getBuyMessage();
-            foreach (var msg in message.items)
-            {
-                Debug.Log(msg.name);
-            }
             Client.Instance.Send(message);
             Debug.Log("FrontEnd: Receive BuyButtonClicked");
         }
@@ -105,10 +102,7 @@ public class ShelfItemUI : MonoBehaviour
         if (handler != null)
         {
             var message = handler.GetMarketBuyMessage();
-            foreach (var msg in message.items)
-            {
-                Debug.Log(msg.name);
-            }
+            message.option = "buy";
             Client.Instance.Send(message);
             Debug.Log("FrontEnd: Receive BuyButtonClicked");
         }
