@@ -269,6 +269,9 @@ namespace Backend
                     cmd.ExecuteScalar();
                     if (!item.coinType) silver += item.price;
                     else gold += item.price;
+                    var cmd4 = new NpgsqlCommand(string.Format("delete from \"market\" where id = {0};", item.id), conn);
+                    cmd4.Transaction = tr;
+                    cmd4.ExecuteScalar();
                 }
                 var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", silver, id), conn);
                 Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", silver, id));
@@ -291,6 +294,8 @@ namespace Backend
                                                         item.name, item.value, item.price, '1', id));
                     cmd.ExecuteScalar();
                     sum += item.price;
+                    var cmd3 = new NpgsqlCommand(string.Format("delete from \"market\" where id = {0};", item.id), conn);
+                    cmd3.ExecuteScalar();
                 }
                 var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
                 Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
