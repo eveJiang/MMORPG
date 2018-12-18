@@ -43,10 +43,10 @@ public class CartGridUI : MonoBehaviour
     public void AddToMarketCart(MarketTreasure treasure)
     {
         market_items.Add(treasure);
-        AddToCart(treasure.name);
+        AddToCart(treasure.name, treasure.price, false);
     }
 
-    public void AddToCart(string name)
+    public void AddToCart(string name, int price, bool inc=true)
     {
         Sprite sprite;
         GameObject item;
@@ -73,13 +73,13 @@ public class CartGridUI : MonoBehaviour
             return;
         }
 
-        if (exists)
+        if (exists && inc)
         {
             handler.Increase();
         }
         else
         {
-            handler.Init(name);
+            handler.Init(name, price, inc);
         }
     }
 
@@ -180,9 +180,7 @@ public class CartGridUI : MonoBehaviour
             option = "buy"
         };
         foreach (var i in market_items)
-        {
             message.items.Add(i);
-        }
         message.dbid = World.Instance.selfDbid;
         return message;
     }

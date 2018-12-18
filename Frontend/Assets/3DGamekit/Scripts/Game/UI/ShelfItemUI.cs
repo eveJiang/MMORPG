@@ -61,6 +61,7 @@ public class ShelfItemUI : MonoBehaviour
     public void Init(string name)
     {
         itemName = name;
+        item.price = 5;
         Sprite sprite;
         if (button == null || textName == null || textCost == null)
         {
@@ -72,13 +73,13 @@ public class ShelfItemUI : MonoBehaviour
         }
         button.image.sprite = sprite;
         textName.text = name;
-        textCost.text = "$5";
+        textCost.text = "$" + item.price.ToString();
     }
 
     public void AddToCart()
     {
         if (handler != null)
-            handler.AddToCart(itemName);
+            handler.AddToCart(itemName, item.price);
     }
 
     public void AddToMarketCart()
@@ -94,6 +95,10 @@ public class ShelfItemUI : MonoBehaviour
             CBuyMessage message = handler.getBuyMessage();
             Client.Instance.Send(message);
             Debug.Log("FrontEnd: Receive BuyButtonClicked");
+            foreach (var i in message.items)
+            {
+                handler.RemoveFromCart(i.name);
+            }
         }
     }
 
@@ -105,6 +110,10 @@ public class ShelfItemUI : MonoBehaviour
             message.option = "buy";
             Client.Instance.Send(message);
             Debug.Log("FrontEnd: Receive BuyButtonClicked");
+            foreach (var i in message.items)
+            {
+                handler.RemoveFromCart(i.name);
+            }
         }
     }
 }

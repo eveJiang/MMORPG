@@ -9,6 +9,7 @@ public class CartItemUI : MonoBehaviour
     public InputField inputCount;
     public int count = 0;
     string itemName;
+    int cost;
 
     void Awake()
     {
@@ -20,7 +21,7 @@ public class CartItemUI : MonoBehaviour
 
     }
 
-    public void Init(string name)
+    public void Init(string name, int cost, bool displayCount=true)
     {
         Sprite sprite;
         if (button == null || textCost == null || textCost == null)
@@ -31,11 +32,14 @@ public class CartItemUI : MonoBehaviour
         {
             return;
         }
+        //textCost = GetComponentInChildren<Text>();
         itemName = name;
         count++;
         button.image.sprite = sprite;
-        inputCount.text = System.Convert.ToString(count);
-        textCost.text = "$5";
+        if (displayCount)
+            inputCount.text = System.Convert.ToString(count);
+        textCost.text = "$" + cost.ToString();
+        this.cost = cost;
     }
 
     public void Increase()
@@ -43,7 +47,7 @@ public class CartItemUI : MonoBehaviour
         CartGridUI gridHandler = transform.parent.GetComponent<CartGridUI>();
         count++;
         inputCount.text = System.Convert.ToString(count);
-        textCost.text = "$5";
+        textCost.text = "$" + cost.ToString();
         gridHandler.Increase(itemName);
     }
 
@@ -66,7 +70,7 @@ public class CartItemUI : MonoBehaviour
         else
         {
             inputCount.text = System.Convert.ToString(count);
-            textCost.text = "$5";
+            textCost.text = "$" + cost.ToString();
         }
     }
 
