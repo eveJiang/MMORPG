@@ -183,6 +183,7 @@ public class CartGridUI : MonoBehaviour
         {
             message.items.Add(i);
         }
+        message.dbid = World.Instance.selfDbid;
         return message;
     }
 }

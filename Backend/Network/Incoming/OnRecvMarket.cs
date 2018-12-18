@@ -37,12 +37,14 @@ namespace Backend.Network
                         else
                             Database.Instance.MarketBuy(request.items, request.dbid, false);
                         reply.success = true;
+                        reply.gold = gold;
+                        reply.silver = silver;
                     }
                     else
                     {
                         reply.success = false;
                     }
-                    reply.option = "done";
+                    reply.option = "buy";
                     break;
                 default:
                     break;

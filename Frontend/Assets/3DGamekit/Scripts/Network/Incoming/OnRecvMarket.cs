@@ -18,6 +18,30 @@ namespace Gamekit3D.Network
                 case "get":
                     Client.Instance.market = msg.items;
                     break;
+                case "buy":
+                    if (msg.success == true)
+                    {
+                        foreach (var k in msg.items)
+                        {
+                            Treasure t = new Treasure();
+                            t.id = k.id;
+                            t.name = k.name;
+                            t.value = k.value;
+                            t.type = k.type;
+                            t.effect = k.effect;
+                            t.status = k.status;
+                            if (World.Instance.myinventory.Contains(t) == false)
+                            {
+                                World.Instance.addItem(t);
+                                World.Instance.inventoryCount++;
+                                Debug.Log(string.Format("Frontend: OnRecvBuy {0} Item", k));
+                            }
+                        }
+                        MessageBox.Show(":)");
+                        World.Instance.silver -= msg.silver;
+                        World.Instance.gold -= msg.gold;
+                    }
+                    break;
                 default:
                     break;
             }

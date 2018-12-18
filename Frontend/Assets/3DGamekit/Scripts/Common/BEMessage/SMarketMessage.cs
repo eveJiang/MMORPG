@@ -12,5 +12,7 @@ namespace Common
         public List<MarketTreasure> items = new List<MarketTreasure>();
         public string option;
         public bool success;
+        public int silver;
+        public int gold;
     }
 }
