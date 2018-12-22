@@ -40,6 +40,9 @@ public class RoleUI : MonoBehaviour
             m_damageable = PlayerController.Mine.GetComponent<Damageable>();
         }
         string hp = string.Format("{0}/{1}", m_damageable.currentHitPoints, m_damageable.maxHitPoints);
+        CCoinMessage m = new CCoinMessage();
+        m.userdbid = World.Instance.selfDbid;
+        Client.Instance.Send(m);
         HPValue.SetText(hp, true);
         SpeedValue.SetText(Convert.ToString(World.Instance.count_speed), true);
         AttackValue.SetText(Convert.ToString(World.Instance.count_attack), true);
@@ -47,6 +50,7 @@ public class RoleUI : MonoBehaviour
         GameObject.Find("ItemText").SetActive(true);
         GameObject.Find("ItemImage").GetComponent<Image>().sprite = init;
         GameObject.Find("ItemValue").GetComponent<Text>().text = "Value";
+        GameObject.Find("ItemEffect").GetComponent<Text>().text = "Function";
         GameObject.Find("ItemText").GetComponent<Text>().text = World.Instance.selfName;
     }
 
@@ -68,12 +72,12 @@ public class RoleUI : MonoBehaviour
         DefenseValue.SetText(Convert.ToString(World.Instance.count_defence), true);
         GameObject.Find("Gold").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.gold));
         GameObject.Find("Silver").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.silver));
-        if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
-        else if (World.Instance.view.effect == '1') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Medicine");
-        else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
-        else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
-        else if (World.Instance.view.effect == '4') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
-        else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funtion");
+        //if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
+        //else if (World.Instance.view.effect == '1') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Medicine");
+        //else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
+        //else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
+        //else if (World.Instance.view.effect == '4') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
+        //else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funtion");
     }
 
     void Test()

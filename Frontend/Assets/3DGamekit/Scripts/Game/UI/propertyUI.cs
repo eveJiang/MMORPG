@@ -42,7 +42,17 @@ namespace Gamekit3D
                 Client.Instance.Send(msgSell);
                 World.Instance.myinventory.Remove(World.Instance.view);
                 World.Instance.view.status = '3';
-                World.Instance.mymarket.Add(World.Instance.view);
+                MarketTreasure insert = new MarketTreasure();
+                insert.id = World.Instance.view.id;
+                insert.owner_id = World.Instance.selfId;
+                insert.name = World.Instance.view.name;
+                insert.value = World.Instance.view.value;
+                insert.price = price;
+                insert.type = World.Instance.view.type;
+                insert.effect = World.Instance.view.effect;
+                insert.status = World.Instance.view.status;
+                insert.coinType = coinType;
+                World.Instance.mymarket.Add(insert);
             }
             else
                 MessageBox.Show("Please unload before selling");

@@ -249,7 +249,20 @@ namespace Backend
             cmd2.ExecuteScalar();
             tr.Commit();
         }
-
+        public void MarketChange(MarketTreasure item)
+        {
+            Console.WriteLine("MarketChange");
+            NpgsqlTransaction tr = conn.BeginTransaction();
+            var cmd1 = new NpgsqlCommand(string.Format("delete from market where id = {0};", item.id), conn);
+            var cmd2 = new NpgsqlCommand(string.Format("insert into \"market\"(name, type, effect, value, price, status, owner_id, id, coinType) values('{0}','{1}','{2}',{3}, {4},'{5}',{6}, {7}, {8});",
+                                                       item.name, item.type, item.effect, item.value, item.price, '3', item.owner_id, item.id, item.coinType), conn);
+            Console.WriteLine(string.Format("{0}, {1}, {2}, {3}", item.id, item.name, item.owner_id, item.price));
+            cmd1.Transaction = tr;
+            cmd1.ExecuteScalar();
+            cmd2.Transaction = tr;
+            cmd2.ExecuteScalar();
+            tr.Commit();
+        }
         public void MarketBuy(List<MarketTreasure> items, int id, int owner, bool type)
         {
             int sum = 0;
@@ -312,6 +325,37 @@ namespace Backend
                 Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin+{0} where id = {1};", sum, owner));
                 cmd4.ExecuteScalar();
             }
+        }
+        public List<MarketTreasure> GetMyMarket(int dbid)
+        {
+            Console.WriteLine("GetMarket()");
+            var cmd = new NpgsqlCommand(string.Format("select * from market where owner_id={0};",dbid), conn);
+            List<MarketTreasure> market = new List<MarketTreasure>();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                MarketTreasure result = new MarketTreasure
+                {
+                    id = Convert.ToInt32(reader["id"]),
+                    name = Convert.ToString(reader["name"]),
+                    value = Convert.ToInt32(reader["value"]),
+                    type = Convert.ToChar(reader["type"]),
+                    effect = Convert.ToChar(reader["effect"]),
+                    status = Convert.ToChar(reader["status"]),
+                    price = Convert.ToInt32(reader["price"]),
+                    owner_id = Convert.ToInt32(reader["owner_id"]),
+                    coinType = Convert.ToBoolean(reader["coinType"])
+                };
+                Console.WriteLine(string.Format("GetMyMarket: {0}", result.id));
+                market.Add(result);
+            }
+            reader.Close();
+            return market;
+        }
+
+        public void Withdraw(MarketTreasure t)
+        {
+
         }
     }
 }

@@ -48,6 +48,7 @@ namespace Backend.Network
             bm.id = k;
             bm.enter = true;
             response.inventory = db.GetInventory(player.dbid);
+            response.market = db.GetMyMarket(player.dbid);
             response.silver = db.GetSilverCoins(player.dbid);
             response.gold = db.GetGoldCoins(player.dbid);
             channel.Send(response);

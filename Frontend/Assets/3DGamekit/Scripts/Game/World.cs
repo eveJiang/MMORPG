@@ -25,7 +25,7 @@ namespace Assets._3DGamekit.Scripts.Game
         public Dictionary<string, int> players = new Dictionary<string, int>();
         public Dictionary<int, List<content>> chatHistory = new Dictionary<int, List<content>>();
         public List<Treasure> myinventory = new List<Treasure>();
-        public List<Treasure> mymarket = new List<Treasure>();
+        public List<MarketTreasure> mymarket = new List<MarketTreasure>();
         public Dictionary<String, Treasure> defence = new Dictionary<String, Treasure>();
         public Dictionary<String, Treasure> attack = new Dictionary<String, Treasure>();
         public Dictionary<String, Treasure> speed = new Dictionary<String, Treasure>();
@@ -39,8 +39,10 @@ namespace Assets._3DGamekit.Scripts.Game
         public int count_intelligence = 0;
         public int inventoryCount = 0;
         public int inventoryCapacity = 40;
-        public Treasure view = new Treasure(); //正在看的商品
-        public int messageLock = 1;
+        public int marketCount = 0;
+        public int marketCapacity = 40;
+        public Treasure view = new Treasure(); //正在看的宝物
+        public MarketTreasure mview = new MarketTreasure();//正在看的商品
         public int gold;
         public int silver;
         public Dictionary<String, int> get_players()
@@ -82,6 +84,19 @@ namespace Assets._3DGamekit.Scripts.Game
             view.effect = a.effect;
             view.status = a.status;
         }
+        public void setMView(MarketTreasure a)
+        {
+            mview.id = a.id;
+            mview.name = a.name;
+            mview.owner_id = a.owner_id;
+            mview.name = a.name;
+            mview.value = a.value;
+            mview.price = a.price;
+            mview.type = a.type;
+            mview.effect = a.effect;
+            mview.status = a.status;
+            mview.coinType = a.coinType;
+        }
         public void addItem(Treasure newItem)
         {
             myinventory.Add(newItem);
@@ -93,7 +108,7 @@ namespace Assets._3DGamekit.Scripts.Game
         public bool check()
         {
             int k = myinventory.IndexOf(view);
-            if (view.effect == '0' && defence.Count < 2 && defence.ContainsValue(view) == false)
+            if (view.effect == '0' && defence.Count < 2 && defence.ContainsValue(view) == false && view.status == '1')
             {
                 count_defence += view.value;
                 if (occupied["Defence1"] == 0)
@@ -112,14 +127,14 @@ namespace Assets._3DGamekit.Scripts.Game
                 defence.Add(view.name, view);
                 return true;
             }
-            else if (view.effect == '1' && view.status == '1')
+            else if (view.effect == '1' && view.status == '1' && view.status == '1')
             {
                 count_HP += view.value;
                 removeItem(view);
                 view.status = '2';
                 return true;
             }
-            else if (view.effect == '2' && intelligence.Count < 2 && intelligence.ContainsValue(view) == false)
+            else if (view.effect == '2' && intelligence.Count < 2 && intelligence.ContainsValue(view) == false && view.status == '1')
             {
                 count_intelligence += view.value;
                 if (occupied["Intelligence1"] == 0)
@@ -138,7 +153,7 @@ namespace Assets._3DGamekit.Scripts.Game
                 intelligence.Add(view.name, view);
                 return true;
             }
-            else if (view.effect == '3' && speed.Count < 2 && speed.ContainsValue(view) == false)
+            else if (view.effect == '3' && speed.Count < 2 && speed.ContainsValue(view) == false && view.status == '1')
             {
                 count_speed += view.value;
                 if (occupied["Speed1"] == 0)
@@ -157,7 +172,7 @@ namespace Assets._3DGamekit.Scripts.Game
                 speed.Add(view.name, view);
                 return true;
             }
-            else if (view.effect == '4' && attack.Count < 2 && attack.ContainsValue(view) == false)
+            else if (view.effect == '4' && attack.Count < 2 && attack.ContainsValue(view) == false && view.status == '1')
             {
                 count_attack += view.value;
                 if (occupied["Attack1"] == 0)

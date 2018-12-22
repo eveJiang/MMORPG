@@ -30,8 +30,6 @@ namespace Gamekit3D.Network
                             Debug.Log(string.Format("Frontend: OnRecvMarket {0} Item", k));
                         }
                         MessageBox.Show(":)");
-                        World.Instance.silver -= msg.silver;
-                        World.Instance.gold -= msg.gold;
                     }
                     break;
                 default:

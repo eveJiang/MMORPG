@@ -31,6 +31,8 @@ namespace Common
         S_BUYMESSAGE,
         S_TREASUREMESSAGE,
         S_MARKETMESSAGE,
+        S_MYMARKET,
+        S_COINMESSAGE,
         SEND,
 
         CBEGIN,
@@ -50,6 +52,8 @@ namespace Common
         C_STATUSMESSAGE,
         C_DELETETREASURE,
         C_MARKETMESSAGE,
+        C_MYMARKET,
+        C_COINMESSAGE,
         CEND,
 
         DEBUGGING, // THE FOLLOWING MESSEGES ARE FOR DEBUGGING

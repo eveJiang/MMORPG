@@ -47,7 +47,6 @@ public class InventoryUI : MonoBehaviour
                 else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
                 else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
                 else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
-                World.Instance.messageLock = 0;
             });
             cloned.SetActive(true);
             cloned.transform.SetParent(InventoryGridContent.transform, false);

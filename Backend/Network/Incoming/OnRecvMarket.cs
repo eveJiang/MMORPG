@@ -40,7 +40,7 @@ namespace Backend.Network
                         reply.invent.Add(temp);
                     }
                     int owner = request.items[0].owner_id;
-                    if(gold <= gold_coin && silver <= silver_coin)
+                    if((gold <= gold_coin && silver <= silver_coin) || request.items[0].owner_id == request.dbid)
                     {
                         if(gold > 0)
                             Database.Instance.MarketBuy(request.items, request.dbid, owner, true);
@@ -55,6 +55,10 @@ namespace Backend.Network
                         reply.success = false;
                     }
                     reply.option = "buy";
+                    break;
+                case "change":
+                    Database.Instance.MarketChange(request.items[0]);
+                    reply.option = "done";
                     break;
                 default:
                     break;
