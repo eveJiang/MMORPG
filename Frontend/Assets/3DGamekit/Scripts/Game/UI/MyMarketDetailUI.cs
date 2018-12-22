@@ -89,6 +89,9 @@ public class MyMarketDetailUI : MonoBehaviour
             m_controller = PlayerController.Mine;
             m_damageable = PlayerController.Mine.GetComponent<Damageable>();
         }
+        CCoinMessage m = new CCoinMessage();
+        m.userdbid = World.Instance.selfDbid;
+        Client.Instance.Send(m);
         string hp = string.Format("{0}/{1}", m_damageable.currentHitPoints, m_damageable.maxHitPoints);
         HPValue.SetText(hp, true);
         SpeedValue.SetText(Convert.ToString(World.Instance.count_speed), true);
@@ -146,14 +149,8 @@ public class MyMarketDetailUI : MonoBehaviour
         SpeedValue.SetText(Convert.ToString(World.Instance.count_speed), true);
         AttackValue.SetText(Convert.ToString(World.Instance.count_attack), true);
         DefenseValue.SetText(Convert.ToString(World.Instance.count_defence), true);
-        //GameObject.Find("MarketGold").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.gold));
-        //GameObject.Find("MarketSilver").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.silver));
-        //if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
-        //else if (World.Instance.view.effect == '1') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Medicine");
-        //else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
-        //else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
-        //else if (World.Instance.view.effect == '4') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
-        //else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funtion");
+        GameObject.Find("MarketGold").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.gold));
+        GameObject.Find("MarketSilver").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.silver));
     }
 
     void Test()

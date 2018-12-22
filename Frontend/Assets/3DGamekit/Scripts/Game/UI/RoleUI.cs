@@ -72,12 +72,6 @@ public class RoleUI : MonoBehaviour
         DefenseValue.SetText(Convert.ToString(World.Instance.count_defence), true);
         GameObject.Find("Gold").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.gold));
         GameObject.Find("Silver").GetComponent<Text>().text = String.Format("{0}", Convert.ToString(World.Instance.silver));
-        //if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
-        //else if (World.Instance.view.effect == '1') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Medicine");
-        //else if (World.Instance.view.effect == '2') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Intelligence");
-        //else if (World.Instance.view.effect == '3') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Speed");
-        //else if (World.Instance.view.effect == '4') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Function:Attack");
-        //else GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funtion");
     }
 
     void Test()
