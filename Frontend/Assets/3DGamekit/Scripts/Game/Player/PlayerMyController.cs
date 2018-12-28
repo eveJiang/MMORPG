@@ -255,7 +255,25 @@ namespace Gamekit3D
             InitMove(action);
             MyNetwork.Send(action);
         }
-
+		public void SendFlash(int x_,int y_, int z_)
+		{
+			CPlayerFlash action = new CPlayerFlash();
+			action.player = m_entity.entityId;
+			action.rot.x = transform.rotation.x;
+			action.rot.y = transform.rotation.y;
+			action.rot.z = transform.rotation.z;
+			action.rot.w = transform.rotation.w;
+			action.pos.x = x_;
+			action.pos.y = y_;
+			action.pos.z = z_;
+			//action.pos = new Vector3(1, 2, 3);//!!!!!!!!!!!!
+			Debug.Log("======================");
+			print(action.player);
+			Debug.Log("======================");
+			MyNetwork.Send(action);
+			//Client.Instance.Send(action);
+			Debug.Log("success use flashfuction in step 1");
+		}
         private void OnTriggerEnter(Collider other)
         {
             if ((damagedLayers.value & 1 << other.gameObject.layer) == 0)

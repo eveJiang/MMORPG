@@ -33,7 +33,8 @@ namespace Common
         S_MARKETMESSAGE,
         S_MYMARKET,
         S_COINMESSAGE,
-        SEND,
+		S_PLAYER_FLASH,
+		SEND,
 
         CBEGIN,
         C_CHAT_MESSAGE,
@@ -54,7 +55,9 @@ namespace Common
         C_MARKETMESSAGE,
         C_MYMARKET,
         C_COINMESSAGE,
-        CEND,
+		C_ADDGOLDS,
+		C_PLAYER_FLASH,//
+		CEND,
 
         DEBUGGING, // THE FOLLOWING MESSEGES ARE FOR DEBUGGING
         C_FIND_PATH,

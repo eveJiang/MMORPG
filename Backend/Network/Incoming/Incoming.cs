@@ -31,8 +31,10 @@ namespace Backend.Network
             register.Register(Command.C_MARKETMESSAGE, OnRecvMarket);
             register.Register(Command.C_MYMARKET, OnRecvMyMarket);
             register.Register(Command.C_COINMESSAGE, OnRecvCoin);
-            // DEBUG ..
-            register.Register(Command.C_FIND_PATH, OnRecvFindPath);
+			register.Register(Command.C_ADDGOLDS, OnRecvAddGolds);
+			register.Register(Command.C_PLAYER_FLASH, OnRecvPlayerFlash);//
+			// DEBUG ..
+			register.Register(Command.C_FIND_PATH, OnRecvFindPath);
 
         }
 

@@ -357,5 +357,12 @@ namespace Backend
         {
 
         }
+		//Database.Instacne.AddGold(
+		public void AddGolds(int golds, int dbid)
+		{
+			var cmd = new NpgsqlCommand(string.Format("update player set gold_coin=gold_coin+{0} where id = {1};", golds, dbid), conn);
+			cmd.ExecuteScalar();
+			Console.WriteLine(string.Format("add gold nums =  {0}", golds));
+		}
     }
 }

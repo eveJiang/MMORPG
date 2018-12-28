@@ -22,5 +22,10 @@ namespace Gamekit3D.Network
             Vector2 move,
             Vector3 position,
             Quaternion rotation);
-    }
+
+		void Flash(
+			//Vector2 move,
+			Vector3 position,
+			Quaternion rotation);
+	}
 }

@@ -4,6 +4,7 @@ using System.Collections;
 using Gamekit3D.Network;
 using System.Collections.Generic;
 using Common;
+using System;
 
 namespace Gamekit3D
 {
@@ -836,7 +837,21 @@ namespace Gamekit3D
             */
         }
 
-        public void Attack(ICreatureBehavior target)
+		public void Flash(
+			Vector3 position,
+			Quaternion rotation)
+		{
+			Console.WriteLine(string.Format("sucees flash function"));
+			
+			transform.position = position;
+			transform.rotation = rotation;
+			m_movement.Set(0f, 0f);
+			m_moving = IsMine ? m_moving : false;
+			Debug.Log("suceesfully");
+
+		}
+
+		public void Attack(ICreatureBehavior target)
         {
             m_attacking = true;
         }
