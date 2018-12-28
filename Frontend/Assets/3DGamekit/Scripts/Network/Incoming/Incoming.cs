@@ -41,8 +41,8 @@ namespace Gamekit3D.Network
             register.Register(Command.S_MYMARKET, OnRecvMyMarket);
             register.Register(Command.S_COINMESSAGE, OnRecvCoin);
 			register.Register(Command.S_PLAYER_FLASH, OnRecvPlayerFlash);//
-
-			// DEBUG ...
+			register.Register(Command.S_FLASH, OnRecvFlash);//
+																		 // DEBUG ...
 			register.Register(Command.S_FIND_PATH, OnRecvFindPath);
         }
 

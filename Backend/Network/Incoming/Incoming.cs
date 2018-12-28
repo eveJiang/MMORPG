@@ -33,6 +33,7 @@ namespace Backend.Network
             register.Register(Command.C_COINMESSAGE, OnRecvCoin);
 			register.Register(Command.C_ADDGOLDS, OnRecvAddGolds);
 			register.Register(Command.C_PLAYER_FLASH, OnRecvPlayerFlash);//
+			register.Register(Command.C_FLASH, OnRecvFlash);//
 			// DEBUG ..
 			register.Register(Command.C_FIND_PATH, OnRecvFindPath);
 

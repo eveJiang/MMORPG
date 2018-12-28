@@ -168,6 +168,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SEquipWeapon.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SExit.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SFindPath.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SFlash.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SHit.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SJump.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\BEMessage\SMarketMessage.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CDeleteTreasure.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CEnemyClosing.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CFindPath.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CFlash.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CLogin.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CMarketMessage.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CMyMarket.cs" />
@@ -383,6 +385,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvEquipWeapon.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvExit.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvFindPath.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvFlash.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvHit.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvJump.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Network\Incoming\OnRecvMarket.cs" />
