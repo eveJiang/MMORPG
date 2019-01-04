@@ -45,6 +45,7 @@ namespace Assets._3DGamekit.Scripts.Game
         public MarketTreasure mview = new MarketTreasure();//正在看的商品
         public int gold;
         public int silver;
+		public int _deathId;//
         public Dictionary<String, int> get_players()
         {
             return players;

@@ -19,9 +19,9 @@ namespace Gamekit3D.Network
         public bool gameScene = false;
 
         [Tooltip("address")]
-        public string address = "127.0.0.1";
+		public string address = "127.0.0.1";
 
-        [Tooltip("port")]
+		[Tooltip("port")]
         public short port = 7777;
 
         void Awake()
@@ -33,7 +33,7 @@ namespace Gamekit3D.Network
                 if (PlayerPrefs.HasKey(HOST) && PlayerPrefs.HasKey(PORT))
                 {
                     string host = PlayerPrefs.GetString(HOST);
-                    short port = (short)PlayerPrefs.GetInt(PORT);
+					short port = (short)PlayerPrefs.GetInt(PORT);
                     connected = MyNetwork.Connect(host, port);
                     if (!connected)
                     {
