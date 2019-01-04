@@ -13,15 +13,16 @@ namespace Backend.Network
 	{
 		private void OnRecvFlash(IChannel channel, Message message)
 		{
+			Console.WriteLine(string.Format("Backend recieve gold to flash"));//
 			Player player = channel.GetContent() as Player;
 			CFlash request = message as CFlash;
 			SFlash response = new SFlash();
 			response.success = false;
 			response.gold = request.gold_nums;
-			if (request.gold_nums <= Database.Instance.GetSilverCoins(player.dbid)) //身上的钱足够则可以购买
+			if (request.gold_nums <= Database.Instance.GetGoldCoins(player.dbid)) //身上的钱足够则可以购买
 			{
 				Console.WriteLine("Backend : OnRecvFlash player.dbid = {0}", player.dbid);
-				Database.Instance.FlashCost(request.gold_nums, player.dbid);
+				Database.Instance.MinesGolds(request.gold_nums, player.dbid);
 				response.success = true;
 			}
 			channel.Send(response);

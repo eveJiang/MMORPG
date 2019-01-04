@@ -1,4 +1,5 @@
 ﻿using Common;
+using Assets._3DGamekit.Scripts.Game;
 
 namespace Gamekit3D.Network
 {
@@ -12,6 +13,10 @@ namespace Gamekit3D.Network
             {
                 NetworkEntity target = networkEntities[msg.targetID];
                 source.behavior.Attack(target.behavior);
+                if (msg.targetID == World.Instance.selfId && source.entityType == EntityType.PLAYER)
+                    World.Instance._deathId = source.entityId;
+                else
+                    World.Instance._deathId = -1;
             }
             else
             {

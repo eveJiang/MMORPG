@@ -200,6 +200,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CFlash.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CLogin.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CMarketMessage.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CMinesGolds.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CMyMarket.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CPlayerAttack.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Common\FEMessage\CPlayerEnter.cs" />
@@ -224,6 +225,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Effects\SimulateParticleSystem.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Effects\SunSkybox.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Effects\WaterRipple.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Game\_PlayerDeath.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\_SendPlace.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\Audio\AudioPlayerOnEnable.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\Audio\MixerSliderLink.cs" />

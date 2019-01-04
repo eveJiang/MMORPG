@@ -365,11 +365,11 @@ namespace Backend
 			Console.WriteLine(string.Format("add gold nums =  {0}", golds));
 		}
 
-		public void FlashCost(int golds, int dbid)
+		public void MinesGolds(int golds, int dbid)
 		{
 			var cmd = new NpgsqlCommand(string.Format("update player set gold_coin=gold_coin-{0} where id = {1};", golds, dbid), conn);
 			cmd.ExecuteScalar();
-			Console.WriteLine(string.Format("Flash cost = {0}", golds));
+			Console.WriteLine(string.Format("Player {0} Mines nums = {1}", dbid, golds));
 		}
 
         public List<AddFriend> GetAddFriend(int dbid)
