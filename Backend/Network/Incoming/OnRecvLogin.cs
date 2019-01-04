@@ -53,18 +53,19 @@ namespace Backend.Network
             response.gold = db.GetGoldCoins(player.dbid);
             channel.Send(response);
             Scene scenes = World.Instance.GetScene(player.scene);
+            List<int> myFriend = Database.Instance.getMyFriend(player.dbid);
             foreach (var kvp in scenes.Players)
             {
+                if (myFriend.Contains(kvp.Value.dbid) == false)
+                    continue;
                 SCommunity am = new SCommunity();
                 am.name = kvp.Value.user;
                 am.id = kvp.Value.entityId;
                 am.enter = true;
                 channel.Send(am);
+                kvp.Value.connection.Send(bm);
             }
-            World.Instance.Broundcast(bm);
-
-
-
+            //World.Instance.Broundcast(bm);
             //ClientTipInfo(channel, "TODO: get player's attribute from database");
             // player will be added to scene when receive client's CEnterSceneDone message
         }

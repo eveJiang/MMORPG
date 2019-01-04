@@ -13,7 +13,7 @@ namespace Backend.Network
             STreasureMessage reply = new STreasureMessage();
             reply.treasure = Database.Instance.GetTreasure(Convert.ToInt16(request.dbid), Convert.ToString(request.treasureName));
             channel.Send(reply);
-            Console.WriteLine(string.Format("Backend: OnRecvTreasure {0}, {1}， {2}, {3}", reply.treasure.name, reply.treasure.type, reply.treasure.value, reply.treasure.effect));
+            //Console.WriteLine(string.Format("Backend: OnRecvTreasure {0}, {1}， {2}, {3}", reply.treasure.name, reply.treasure.type, reply.treasure.value, reply.treasure.effect));
         }
     }
 }

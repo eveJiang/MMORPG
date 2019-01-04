@@ -371,5 +371,95 @@ namespace Backend
 			cmd.ExecuteScalar();
 			Console.WriteLine(string.Format("Flash cost = {0}", golds));
 		}
-	}
+
+        public List<AddFriend> GetAddFriend(int dbid)
+        {
+            Console.WriteLine("GetAddFriend()");
+            var cmd = new NpgsqlCommand(string.Format("select * from friend, player where friend.request=player.id and response = {0} and status = 0;", dbid), conn);
+            List<AddFriend> friendList = new List<AddFriend>();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                AddFriend result = new AddFriend
+                {
+                    dbID = Convert.ToInt32(reader["request"]),
+                    name = Convert.ToString(reader["name"]),
+                    info = Convert.ToString(reader["message"])
+                };
+                friendList.Add(result);
+            }
+            reader.Close();
+            return friendList;
+        }
+
+        public void AccFriend(int request, int response)
+        {
+            Console.WriteLine("AccFriend()");
+            var cmd = new NpgsqlCommand(string.Format("update friend set status = 1 where (response = {0} and request = {1}) or (response = {1} and request = {0});", request, response, response, request), conn);
+            cmd.ExecuteScalar();
+        }
+
+        public void RejFriend(int request, int response)
+        {
+            Console.WriteLine("RejFriend()");
+            var cmd = new NpgsqlCommand(string.Format("update friend set status = 2 where (response = {0} and request = {1}) or (response = {1} and request = {0});", request, response, response, request), conn);
+            cmd.ExecuteScalar();
+        }
+
+        public bool findFriend(string name)
+        {
+            Console.WriteLine("findFriend()");
+            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", name), conn);
+            int count = 0;
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                count++;
+            }
+            reader.Close();
+            if(count == 0)
+                return false;
+            return true;
+        }
+
+        public int insertFriend(string response, int request, string message)
+        {
+            int id = 0;
+            int count = 0;
+            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", response), conn);
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                id = Convert.ToInt32(reader["id"]);
+            }
+            reader.Close();
+            var cmd0 = new NpgsqlCommand(string.Format("select * from friend where (response = {0} and request = {1}) or (response = {1} and request = {0});", id, request), conn);
+            var reader0 = cmd0.ExecuteReader();
+            while (reader0.Read())
+            {
+                count++;
+            }
+            reader0.Close();
+            var cmd1 = new NpgsqlCommand(string.Format("insert into friend(response, request, status, message) values({0}, {1}, 0, '{2}');", id, request, message), conn);
+            cmd1.ExecuteScalar();
+            return count;
+        }
+
+        public List<int> getMyFriend(int dbid)
+        {
+            Console.WriteLine("getMyFriend()");
+            var cmd = new NpgsqlCommand(string.Format("select * from friend where (friend.request={0} or friend.response={0}) and status = 1;", dbid), conn);
+            List<int> friendList = new List<int>();
+            var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (Convert.ToInt32(reader["request"]) != dbid)
+                    friendList.Add(Convert.ToInt32(reader["request"]));
+                else
+                    friendList.Add(Convert.ToInt32(reader["response"]));
+            }
+            reader.Close();
+            return friendList;
+        }
+    }
 }
