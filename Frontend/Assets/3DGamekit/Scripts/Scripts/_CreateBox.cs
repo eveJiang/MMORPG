@@ -53,7 +53,7 @@ public class _CreateBox : MonoBehaviour {
 		if (probability < 10)
 			basic = new System.Random().Next(1, 200);
 		else
-			basic new System.Random().Next(200, 1000);
+			basic = new System.Random().Next(200, 1000);
 		golds = (int)(sum * basic * 0.1);
 		//golds = 20;//
 		//Debug.Log("sum = ");//

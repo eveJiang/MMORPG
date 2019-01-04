@@ -59,6 +59,10 @@ namespace Backend.Game
         // the enemy is null if not exists one
         virtual public void OnHit(Creature enemy, int hpDec)
         {
+            if (enemy.entityType == EntityType.PLAYER)
+            {
+
+            }
         }
 
         virtual public void OnDie()
