@@ -62,14 +62,17 @@ public class _PlayerDeath : MonoBehaviour
 
 			//4.死亡玩家扣除金币
 			CMinesGolds smsg = new CMinesGolds();
-			smsg.dbid = World.Instance.selfDbid;
+			smsg.Sdbid = World.Instance.selfDbid;
 			smsg.gold_nums = golds;
+			smsg.AentityId = Aid;
 			Client.Instance.Send(smsg);
-			//5.最后一击玩家获得金币
+			//5.最后一击玩家获得金币，同时获得dbid
+			/*
 			CAddGolds amsg = new CAddGolds();
 			amsg.dbid = Aid;
 			amsg.gold_nums = golds;
 			Client.Instance.Send(amsg);
+			*/
 		}
 	}
 

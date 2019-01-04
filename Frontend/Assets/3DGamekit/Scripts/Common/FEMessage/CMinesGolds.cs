@@ -10,8 +10,9 @@ namespace Common
 	{
 		public CMinesGolds() : base(Command.C_MINESGOLDS) { }
 		public List<Treasure> items = new List<Treasure>();
-		public int dbid;
+		public int Sdbid;
 		public int gold_nums;
+		public int AentityId;
 	}
 }
 
