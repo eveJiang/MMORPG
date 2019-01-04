@@ -13,6 +13,7 @@ namespace Gamekit3D.Network
 		//public GameObject close_UI;
 		private void OnRecvFlash(IChannel channel, Message message)
 		{
+			Console.WriteLine(string.Format("Fortend recieve gold to flash"));//
 			SFlash msg = message as SFlash;
 			Debug.Log("Frontend: OnRecvFlash");
 			if (msg.success == true)

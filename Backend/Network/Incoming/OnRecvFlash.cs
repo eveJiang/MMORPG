@@ -13,6 +13,7 @@ namespace Backend.Network
 	{
 		private void OnRecvFlash(IChannel channel, Message message)
 		{
+			Console.WriteLine(string.Format("Backend recieve gold to flash"));//
 			Player player = channel.GetContent() as Player;
 			CFlash request = message as CFlash;
 			SFlash response = new SFlash();
