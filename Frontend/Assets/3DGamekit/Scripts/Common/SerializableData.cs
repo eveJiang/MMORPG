@@ -159,6 +159,7 @@ namespace Common
         public int dbID;
         public string name;
         public string info;
+        public bool asTeam;
     }
 
 

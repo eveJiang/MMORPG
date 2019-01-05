@@ -495,7 +495,8 @@ namespace Backend
                 {
                     dbID = Convert.ToInt32(reader["request"]),
                     name = Convert.ToString(reader["name"]),
-                    info = Convert.ToString(reader["message"])
+                    info = Convert.ToString(reader["message"]),
+                    asTeam = Convert.ToBoolean(reader["asTeam"])
                 };
                 friendList.Add(result);
             }
@@ -534,7 +535,7 @@ namespace Backend
             return true;
         }
 
-        public int insertFriend(string response, int request, string message, NpgsqlConnection conn)
+        public int insertFriend(string response, int request, string message, bool asTeam, NpgsqlConnection conn)
         {
             int id = 0;
             int count = 0;
@@ -555,8 +556,9 @@ namespace Backend
             if (id == request)
                 count++;
             reader0.Close();
-            var cmd1 = new NpgsqlCommand(string.Format("insert into friend(response, request, status, message) values({0}, {1}, 0, @message);", id, request), conn);
+            var cmd1 = new NpgsqlCommand(string.Format("insert into friend(response, request, status, message, asTeam) values({0}, {1}, 0, @message, @team);", id, request), conn);
             cmd1.Parameters.AddWithValue("message", message);
+            cmd1.Parameters.AddWithValue("team", asTeam);
             cmd1.ExecuteScalar();
             return count;
         }

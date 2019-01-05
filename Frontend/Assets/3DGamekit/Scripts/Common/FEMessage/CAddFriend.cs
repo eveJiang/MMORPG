@@ -18,5 +18,6 @@ namespace Common
         public bool acc;    //是否同意对方的请求
         public string name; //对方的名字
         public string message; //给对方的消息
+        public bool asTeam; // add as team
     }
 }

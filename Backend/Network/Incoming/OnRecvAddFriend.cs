@@ -52,7 +52,7 @@ namespace Backend.Network
                 case "send":
                     if (db.Instance.findFriend(request.name, conn))
                     {
-                        int temp = db.Instance.insertFriend(request.name, request.selfdbid, request.message, conn);
+                        int temp = db.Instance.insertFriend(request.name, request.selfdbid, request.message, request.asTeam, conn);
                         if(temp == 0)
                             ClientTipInfo(channel, "Successfully send the message :)");
                         else

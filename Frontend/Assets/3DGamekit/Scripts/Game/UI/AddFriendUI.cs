@@ -12,6 +12,7 @@ using Gamekit3D.Network;
 public class AddFriendUI : MonoBehaviour
 {
     public Sprite init;
+    private bool asTeam = true;
     private Damageable m_damageable;
     private PlayerController m_controller;
 
@@ -45,6 +46,7 @@ public class AddFriendUI : MonoBehaviour
         m.option = "send";
         m.selfdbid = World.Instance.selfDbid;
         m.name = name;
+        m.asTeam = asTeam;
         m.message = GameObject.Find("SendMessage").GetComponentInChildren<InputField>().text;
         Client.Instance.Send(m);
     }
@@ -87,4 +89,8 @@ public class AddFriendUI : MonoBehaviour
         m_controller = controller;
     }
 
+    public void OnTeamCheckerChange(bool team)
+    {
+        asTeam = team;
+    }
 }
