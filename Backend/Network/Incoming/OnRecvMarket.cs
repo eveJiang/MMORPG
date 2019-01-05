@@ -23,8 +23,8 @@ namespace Backend.Network
                     break;
                 case "buy":
                     int gold = 0, silver = 0;
-                    int silver_coin = db.Instance.GetSilverCoins(request.dbid, conn);
-                    int gold_coin = db.Instance.GetGoldCoins(request.dbid, conn);
+                    //int silver_coin = db.Instance.GetSilverCoins(request.dbid, conn);
+                    //int gold_coin = db.Instance.GetGoldCoins(request.dbid, conn);
                     foreach (var i in request.items)
                     {
                         if (i.coinType)
@@ -41,7 +41,7 @@ namespace Backend.Network
                         reply.invent.Add(temp);
                     }
                     int owner = request.items[0].owner_id;
-                    if((gold <= gold_coin && silver <= silver_coin) || request.items[0].owner_id == request.dbid)
+                    if(/*(gold <= gold_coin && silver <= silver_coin) || request.items[0].owner_id == request.dbid*/ true)
                     {
                         if(gold > 0)
                             db.Instance.MarketBuy(request.items, request.dbid, owner, true, conn);
