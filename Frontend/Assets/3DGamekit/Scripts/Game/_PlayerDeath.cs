@@ -41,8 +41,9 @@ public class _PlayerDeath : MonoBehaviour
 		MessageBox.Show("You dead");
 		//1.获得打人的id
 		int Aid = World.Instance._deathId;
-		//2.是人杀死的id就不是-1
-		if(Aid != -1)
+        Debug.Log(string.Format("AttackID = {0};", Aid));
+        //2.是人杀死的id就不是-1
+        if (Aid != -1)
 		{
 			World.Instance._deathId = -1;
 			int golds;
@@ -59,13 +60,15 @@ public class _PlayerDeath : MonoBehaviour
 			else
 				basic = new System.Random().Next(200, 1000);
 			golds = (int) (sum * 0.2 * basic);
+            Debug.Log(string.Format("goldnums = {0};", golds));
 
-			//4.死亡玩家扣除金币
-			CMinesGolds smsg = new CMinesGolds();
+            //4.死亡玩家扣除金币
+            CMinesGolds smsg = new CMinesGolds();
 			smsg.Sdbid = World.Instance.selfDbid;
 			smsg.gold_nums = golds;
 			smsg.AentityId = Aid;
-			Client.Instance.Send(smsg);
+            Debug.Log(string.Format("start send death deal function"));
+            Client.Instance.Send(smsg);
 			//5.最后一击玩家获得金币，同时获得dbid
 			/*
 			CAddGolds amsg = new CAddGolds();
