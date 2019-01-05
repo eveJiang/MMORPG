@@ -11,11 +11,12 @@ namespace Backend.Network
 		private void OnRecvMinesGolds(IChannel channel, Message message)
 		{
 			CMinesGolds msg = message as CMinesGolds;
-			//Database.Instance.AddGolds(msg.gold_nums, msg.dbid);
-			int nums = Database.Instance.GetGoldCoins(msg.Sdbid);
+            var conn = db.Instance.Connect();
+            //Database.Instance.AddGolds(msg.gold_nums, msg.dbid);
+            int nums = db.Instance.GetGoldCoins(msg.Sdbid, conn);
 			int Adbid = -1;
-			//List<int> Players = ;
-			Player player = new Player(channel);
+            //List<int> Players = ;
+            Player player = new Player(channel);
 			Scene scenes = World.Instance.GetScene(player.scene);
 			foreach (var tmp in scenes.Players)
 			{
@@ -27,10 +28,10 @@ namespace Backend.Network
 			}
 			if (msg.gold_nums >= nums)//身上的钱足够
 			{
-				Database.Instance.MinesGolds(msg.gold_nums, msg.Sdbid);
+				db.Instance.MinesGolds(msg.gold_nums, msg.Sdbid, conn);
 				Console.WriteLine(string.Format("Player {0} Mines nums = {1}", msg.Sdbid, msg.gold_nums));
 				if(Adbid != -1)
-					Database.Instance.AddGolds(msg.gold_nums, Adbid);
+					db.Instance.AddGolds(msg.gold_nums, Adbid, conn);
 				else
 				{
 					Console.WriteLine(string.Format("Error to find Attacker!!!!"));
@@ -38,10 +39,10 @@ namespace Backend.Network
 			}
 			else
 			{
-				Database.Instance.MinesGolds(nums, msg.Sdbid);
+				db.Instance.MinesGolds(nums, msg.Sdbid, conn);
 				Console.WriteLine(string.Format("Player {0} Mines nums = {1}", msg.Sdbid, nums));
 				if (Adbid != -1)
-					Database.Instance.AddGolds(nums, Adbid);
+					db.Instance.AddGolds(nums, Adbid, conn);
 				else
 				{
 					Console.WriteLine(string.Format("Error to find Attacker!!!!"));

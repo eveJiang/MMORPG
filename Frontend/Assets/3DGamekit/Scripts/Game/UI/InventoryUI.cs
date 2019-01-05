@@ -21,12 +21,14 @@ public class InventoryUI : MonoBehaviour
     {
         InventoryCell.SetActive(false);
     }
-
-    private void OnEnable()
+    private IEnumerator ShowItems()
     {
-        PlayerMyController.Instance.EnabledWindowCount++;
-        int capacity = World.Instance.inventoryCapacity;
-        int count = World.Instance.inventoryCount;
+        while (World.Instance.myinventory == null)
+        {
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
+        int count = World.Instance.myinventory.Capacity;
+        int capacity = 40;
         foreach (var kv in World.Instance.myinventory)
         {
             GameObject cloned = GameObject.Instantiate(InventoryCell);
@@ -40,7 +42,7 @@ public class InventoryUI : MonoBehaviour
                 GameObject.Find("ItemImage").GetComponent<Image>().sprite = icon;
                 GameObject.Find("ItemText").GetComponent<Text>().text = kv.name;
                 World.Instance.setView(kv);
-                GameObject.Find("ItemValue").GetComponent<Text>().text = String.Format("Value : {0}",Convert.ToString(World.Instance.view.value));
+                GameObject.Find("ItemValue").GetComponent<Text>().text = String.Format("Value : {0}", Convert.ToString(World.Instance.view.value));
                 // effect: 防御(0)：a, i, g 生命(1)：e, 智力(2)：h, k 速度(3)：b 攻击(4)：c, d, f, j, l
                 if (World.Instance.view.effect == '0') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Defence");
                 else if (World.Instance.view.effect == '1') GameObject.Find("ItemEffect").GetComponent<Text>().text = Convert.ToString("Funciton:Medicine");
@@ -58,6 +60,20 @@ public class InventoryUI : MonoBehaviour
             cloned.SetActive(true);
             cloned.transform.SetParent(InventoryGridContent.transform, false);
         }
+    }
+
+    private void OnEnable()
+    {
+        PlayerMyController.Instance.EnabledWindowCount++;
+        CGetMessage msgPull = new CGetMessage
+        {
+            option = "inventory",
+            userdbid = World.Instance.selfDbid
+            
+        };
+        World.Instance.myinventory = null;
+        Client.Instance.Send(msgPull);
+        StartCoroutine(ShowItems());
     }
 
     private void OnDisable()

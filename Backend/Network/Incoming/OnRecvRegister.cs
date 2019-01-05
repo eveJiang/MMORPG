@@ -12,9 +12,9 @@ namespace Backend.Network
             CRegister request = message as CRegister;
             var userName = request.user;
             var userPassword = request.password;
-            var db = Backend.Database.Instance;
+            var conn = db.Instance.Connect();
             Random ran = new Random();
-            int k = db.RegisterUser(userName, userPassword);
+            int k = db.Instance.RegisterUser(userName, userPassword, conn);
             Console.WriteLine(k.ToString());
             ClientTipInfo(channel, k.ToString());
             if (k == 2)

@@ -32,6 +32,7 @@ namespace Assets._3DGamekit.Scripts.Game
         public Dictionary<String, Treasure> intelligence = new Dictionary<String, Treasure>();
         public Dictionary<int, String> position = new Dictionary<int, String>(); //dbid, position
         public Dictionary<String, int> occupied = new Dictionary<String, int>(); //0 空闲 1 占有
+        public List<AddFriend> myAddFriend = new List<AddFriend>();    
         public int count_HP = 5;
         public int count_defence = 0;
         public int count_attack = 0;
@@ -41,6 +42,7 @@ namespace Assets._3DGamekit.Scripts.Game
         public int inventoryCapacity = 40;
         public int marketCount = 0;
         public int marketCapacity = 40;
+        public AddFriend friendview = new AddFriend();
         public Treasure view = new Treasure(); //正在看的宝物
         public MarketTreasure mview = new MarketTreasure();//正在看的商品
         public int gold;

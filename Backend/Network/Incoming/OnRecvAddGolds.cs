@@ -12,7 +12,8 @@ namespace Backend.Network
 		private void OnRecvAddGolds(IChannel channel, Message message)
 		{
 			CAddGolds msg = message as CAddGolds;
-			Database.Instance.AddGolds(msg.gold_nums,msg.dbid);
+            var conn = db.Instance.Connect();
+            db.Instance.AddGolds(msg.gold_nums,msg.dbid, conn);
 			Console.WriteLine(string.Format("add nums = {0}", msg.gold_nums));
 		}
 	}

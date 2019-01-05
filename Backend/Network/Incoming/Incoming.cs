@@ -34,10 +34,9 @@ namespace Backend.Network
 			register.Register(Command.C_ADDGOLDS, OnRecvAddGolds);
 			register.Register(Command.C_PLAYER_FLASH, OnRecvPlayerFlash);//
 			register.Register(Command.C_FLASH, OnRecvFlash);//
-			register.Register(Command.C_MINESGOLDS, OnRecvMinesGolds);//
-			// DEBUG ..
+            register.Register(Command.C_ADDFRIEND, OnRecvAddFriend);
 			register.Register(Command.C_FIND_PATH, OnRecvFindPath);
-
+            register.Register(Command.C_GETMESSAGE, OnRecvGetMessage);
         }
 
 

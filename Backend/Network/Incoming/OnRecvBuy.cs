@@ -16,6 +16,7 @@ namespace Backend.Network
             SBuyMessage response = new SBuyMessage();
             response.success = false;
             Console.WriteLine("Backend: OnRecvBuy.cs");
+            var conn = db.Instance.Connect();
             int totalCost = 0;
             int mark = 0;
             int silver = 0;
@@ -29,19 +30,16 @@ namespace Backend.Network
                     gold += item.price;
                 }
                 else silver += item.price;
-                //response.items.Add(item.name);
                 Console.WriteLine(string.Format("item_name: {0}", item.name));
             }
             response.gold = gold;
             response.silver = silver;
             Console.WriteLine(string.Format("player_goldcoin: {0}; player_silvercoin: {1}", Database.Instance.GetGoldCoins(player.dbid), Database.Instance.GetSilverCoins(player.dbid)));
-            if (totalCost <= Database.Instance.GetSilverCoins(player.dbid))
+            if (db.Instance.BuyItems(request.items, gold, silver, player.dbid, mark, conn))
             {
-                Console.WriteLine("Backend : OnRecvBuy player.dbid = {0}", player.dbid);
-                Database.Instance.BuyItems(request.items, player.dbid, mark);
                 response.success = true;
             }
-            response.items = Database.Instance.GetInventory(request.dbid);
+            response.items = db.Instance.GetInventory(request.dbid, conn);
             channel.Send(response);
             Console.WriteLine("Backend : Finish OnRecvBuy");
         }

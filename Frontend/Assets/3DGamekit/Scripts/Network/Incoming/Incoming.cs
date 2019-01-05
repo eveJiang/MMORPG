@@ -42,8 +42,9 @@ namespace Gamekit3D.Network
             register.Register(Command.S_COINMESSAGE, OnRecvCoin);
 			register.Register(Command.S_PLAYER_FLASH, OnRecvPlayerFlash);//
 			register.Register(Command.S_FLASH, OnRecvFlash);//
-																		 // DEBUG ...
+            register.Register(Command.S_ADDFRIEND, OnRecvAdd);																 // DEBUG ...
 			register.Register(Command.S_FIND_PATH, OnRecvFindPath);
+            register.Register(Command.S_GETMESSAGE, OnRecvGetMessage);
         }
 
         public void InitNetworkEntity()

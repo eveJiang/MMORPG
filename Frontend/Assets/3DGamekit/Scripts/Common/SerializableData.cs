@@ -152,6 +152,16 @@ namespace Common
         public char status;
         public bool coinType;
     }
+
+    [Serializable]
+    public struct AddFriend
+    {
+        public int dbID;
+        public string name;
+        public string info;
+    }
+
+
 }
 
 

@@ -9,15 +9,16 @@ namespace Backend.Network
         private void OnRecvChangeStatus(IChannel channel, Message message)
         {
             CChangeStatus request = message as CChangeStatus;
+            var conn = db.Instance.Connect();
             if (request.on == true)
             {
                 if (request.treasure.effect != '1')
-                    Database.Instance.ChangeStatusOn(request.userDbid, request.treasure.id);
+                    db.Instance.ChangeStatusOn(request.userDbid, request.treasure.id, conn);
                 else
-                    Database.Instance.DeleteTreasure(request.treasure.id);
+                    db.Instance.DeleteTreasure(request.treasure.id, conn);
             }
             else
-                Database.Instance.ChangeStatusOff(request.userDbid, request.treasure.id);
+                db.Instance.ChangeStatusOff(request.userDbid, request.treasure.id, conn);
         }
     }
 }

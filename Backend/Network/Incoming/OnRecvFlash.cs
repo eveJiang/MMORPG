@@ -19,10 +19,11 @@ namespace Backend.Network
 			SFlash response = new SFlash();
 			response.success = false;
 			response.gold = request.gold_nums;
-			if (request.gold_nums <= Database.Instance.GetGoldCoins(player.dbid)) //身上的钱足够则可以购买
+            var conn = db.Instance.Connect();
+            if (request.gold_nums <= db.Instance.GetGoldCoins(player.dbid, conn)) //身上的钱足够则可以购买
 			{
 				Console.WriteLine("Backend : OnRecvFlash player.dbid = {0}", player.dbid);
-				Database.Instance.MinesGolds(request.gold_nums, player.dbid);
+				db.Instance.MinesGolds(request.gold_nums, player.dbid, conn);
 				response.success = true;
 			}
 			channel.Send(response);

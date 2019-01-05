@@ -10,20 +10,21 @@ namespace Backend.Network
         {
             CMarketMessage request = message as CMarketMessage;
             SMarketMessage reply = new SMarketMessage();
+            var conn = db.Instance.Connect();
             switch (request.option)
             {
                 case "get": 
-                    reply.items = Database.Instance.GetMarket();
+                    reply.items = db.Instance.GetMarket(conn);
                     reply.option = "get";
                     break;
                 case "sell":
-                    Database.Instance.MarketSell(request.items[0]);
+                    db.Instance.MarketSell(request.items[0], conn);
                     reply.option = "done";
                     break;
                 case "buy":
                     int gold = 0, silver = 0;
-                    int silver_coin = Database.Instance.GetSilverCoins(request.dbid);
-                    int gold_coin = Database.Instance.GetGoldCoins(request.dbid);
+                    int silver_coin = db.Instance.GetSilverCoins(request.dbid, conn);
+                    int gold_coin = db.Instance.GetGoldCoins(request.dbid, conn);
                     foreach (var i in request.items)
                     {
                         if (i.coinType)
@@ -43,9 +44,9 @@ namespace Backend.Network
                     if((gold <= gold_coin && silver <= silver_coin) || request.items[0].owner_id == request.dbid)
                     {
                         if(gold > 0)
-                            Database.Instance.MarketBuy(request.items, request.dbid, owner, true);
+                            db.Instance.MarketBuy(request.items, request.dbid, owner, true, conn);
                         else
-                            Database.Instance.MarketBuy(request.items, request.dbid, owner, false);
+                            db.Instance.MarketBuy(request.items, request.dbid, owner, false, conn);
                         reply.success = true;
                         reply.gold = gold;
                         reply.silver = silver;
@@ -57,7 +58,7 @@ namespace Backend.Network
                     reply.option = "buy";
                     break;
                 case "change":
-                    Database.Instance.MarketChange(request.items[0]);
+                    db.Instance.MarketChange(request.items[0], conn);
                     reply.option = "done";
                     break;
                 default:
