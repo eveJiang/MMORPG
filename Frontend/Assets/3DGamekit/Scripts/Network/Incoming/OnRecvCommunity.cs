@@ -23,6 +23,10 @@ namespace Gamekit3D.Network
             {
                 World.Instance.players.Remove(msg.name);
             }
+            if (msg.isTeammate)
+            {
+                World.Instance.teammate_dbid = msg.dbid;
+            }
         }
 
     }

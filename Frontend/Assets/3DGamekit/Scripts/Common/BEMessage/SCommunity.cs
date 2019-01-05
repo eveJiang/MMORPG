@@ -8,6 +8,8 @@ namespace Common
         public SCommunity() : base(Command.S_COMMUNITY) { }
         public string name;
         public int id;
-        public bool enter; 
+        public bool enter;
+        public bool isTeammate;
+        public int dbid;
     }
 }

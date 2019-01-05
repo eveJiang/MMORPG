@@ -10,7 +10,7 @@ namespace Gamekit3D.Network
         {
             SAttack msg = message as SAttack;
             NetworkEntity source = networkEntities[msg.ID];
-            if (msg.targetID != 0)
+            if (msg.targetID != 0 && msg.targetID != World.Instance.teammate_dbid)
             {
                 NetworkEntity target = networkEntities[msg.targetID];
                 source.behavior.Attack(target.behavior);
