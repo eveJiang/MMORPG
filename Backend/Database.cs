@@ -27,6 +27,22 @@ namespace Backend
             }
             return true;
         }
+        public NpgsqlConnection Connect2(string ip = "219.228.148.179", int port = 5432)
+        {
+
+            var connString = string.Format("Host=" + ip + ";Port={0:D4};Username=postgres;Password=0515;Database=game", port);
+            conn = new NpgsqlConnection(connString);
+            try
+            {
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+                throw (e);
+            }
+            return conn;
+        }
 
         public int RegisterUser(string username, string password)
         {
@@ -422,7 +438,7 @@ namespace Backend
             return true;
         }
 
-        public int insertFriend(string response, int request, string message)
+        public int insertFriend(string response, int request, string message, NpgsqlConnection con)
         {
             int id = 0;
             int count = 0;
@@ -439,6 +455,8 @@ namespace Backend
             {
                 count++;
             }
+            if (id == request)
+                count++;
             reader0.Close();
             var cmd1 = new NpgsqlCommand(string.Format("insert into friend(response, request, status, message) values({0}, {1}, 0, '{2}');", id, request, message), conn);
             cmd1.ExecuteScalar();

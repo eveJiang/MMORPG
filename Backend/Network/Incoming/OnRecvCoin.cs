@@ -10,8 +10,9 @@ namespace Backend.Network
         {
             CCoinMessage request = message as CCoinMessage;
             SCoinMessage reply = new SCoinMessage();
-            reply.gold = Database.Instance.GetGoldCoins(request.userdbid);
-            reply.silver = Database.Instance.GetSilverCoins(request.userdbid);
+            var conn = db.Instance.Connect();
+            reply.gold = db.Instance.GetGoldCoins(request.userdbid, conn);
+            reply.silver = db.Instance.GetSilverCoins(request.userdbid, conn);
             channel.Send(reply);
         }
     }

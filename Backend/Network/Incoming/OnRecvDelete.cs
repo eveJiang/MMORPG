@@ -9,7 +9,8 @@ namespace Backend.Network
         private void OnRecvDelete(IChannel channel, Message message)
         {
             CDeleteTreasure request = message as CDeleteTreasure;
-            Database.Instance.DeleteTreasure(request.treasureId);
+            var conn = db.Instance.Connect();
+            db.Instance.DeleteTreasure(request.treasureId, conn);
         }
     }
 }

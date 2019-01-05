@@ -60,6 +60,7 @@ namespace Common
 		C_ADDGOLDS,
 		C_PLAYER_FLASH,//
 		C_FLASH,//
+        C_MINESGOLDS,
         C_ADDFRIEND,
 		CEND,
 

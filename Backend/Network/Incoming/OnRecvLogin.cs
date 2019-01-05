@@ -15,10 +15,8 @@ namespace Backend.Network
             response.user = request.user;
             response.token = request.user;
             response.scene = scene;
-            
-            var db = Backend.Database.Instance;
-
-            if (db.LoginUser(request.user.ToString(), request.password.ToString()))
+            var conn = db.Instance.Connect();
+            if (db.Instance.LoginUser(request.user.ToString(), request.password.ToString(), conn))
             {
                 //response.id = db.GetID(request.user);
                 ClientTipInfo(channel, "Successfully login :)");
@@ -34,7 +32,7 @@ namespace Backend.Network
             player.scene = scene;
             player.user = request.user;
             player.id = response.id;
-            player.dbid = db.GetID(request.user);
+            player.dbid = db.Instance.GetID(request.user, conn);
             int k = player.entityId;
             response.id = k;
             response.dbid = player.dbid;
@@ -47,13 +45,13 @@ namespace Backend.Network
             bm.name = request.user;
             bm.id = k;
             bm.enter = true;
-            response.inventory = db.GetInventory(player.dbid);
-            response.market = db.GetMyMarket(player.dbid);
-            response.silver = db.GetSilverCoins(player.dbid);
-            response.gold = db.GetGoldCoins(player.dbid);
+            response.inventory = db.Instance.GetInventory(player.dbid, conn);
+            response.market = db.Instance.GetMyMarket(player.dbid, conn);
+            response.silver = db.Instance.GetSilverCoins(player.dbid, conn);
+            response.gold = db.Instance.GetGoldCoins(player.dbid, conn);
             channel.Send(response);
             Scene scenes = World.Instance.GetScene(player.scene);
-            List<int> myFriend = Database.Instance.getMyFriend(player.dbid);
+            List<int> myFriend = db.Instance.getMyFriend(player.dbid, conn);
             foreach (var kvp in scenes.Players)
             {
                 if (myFriend.Contains(kvp.Value.dbid) == false)
@@ -65,9 +63,6 @@ namespace Backend.Network
                 channel.Send(am);
                 kvp.Value.connection.Send(bm);
             }
-            //World.Instance.Broundcast(bm);
-            //ClientTipInfo(channel, "TODO: get player's attribute from database");
-            // player will be added to scene when receive client's CEnterSceneDone message
         }
     }
 }

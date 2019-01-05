@@ -10,7 +10,8 @@ namespace Backend.Network
         {
             CMyMarket request = message as CMyMarket;
             SMyMarket reply = new SMyMarket();
-            reply.items = Database.Instance.GetMyMarket(request.dbid);
+            var conn = db.Instance.Connect();
+            reply.items = db.Instance.GetMyMarket(request.dbid, conn);
             channel.Send(reply);
         }
     }

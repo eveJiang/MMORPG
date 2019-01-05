@@ -13,16 +13,17 @@ namespace Backend.Network
             SAddFriend reply = new SAddFriend();
             string scene = "Level1";
             Scene scenes = World.Instance.GetScene(scene);
+            var conn = db.Instance.Connect();
             switch (request.option)
             {
                 case "get":
-                    reply.items = Database.Instance.GetAddFriend(request.selfdbid);
+                    reply.items = db.Instance.GetAddFriend(request.selfdbid, conn);
                     reply.option = "get";
                     break;
                 case "feedback":
                     if (request.acc == true)
                     {
-                        Database.Instance.AccFriend(request.request, request.response);
+                        db.Instance.AccFriend(request.request, request.response, conn);
                         foreach (var kvp in scenes.Players)
                         {
                             if (kvp.Value.dbid == request.request)
@@ -44,14 +45,14 @@ namespace Backend.Network
                     }
                     else
                     {
-                        Database.Instance.RejFriend(request.request, request.response);
+                        db.Instance.RejFriend(request.request, request.response, conn);
                         ClientTipInfo(channel, "Successfully reject :)");
                     }
                     break;
                 case "send":
-                    if (Database.Instance.findFriend(request.name))
+                    if (db.Instance.findFriend(request.name, conn))
                     {
-                        int temp = Database.Instance.insertFriend(request.name, request.selfdbid, request.message);
+                        int temp = db.Instance.insertFriend(request.name, request.selfdbid, request.message, conn);
                         if(temp == 0)
                             ClientTipInfo(channel, "Successfully send the message :)");
                         else
