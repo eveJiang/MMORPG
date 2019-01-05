@@ -43,6 +43,7 @@ namespace Gamekit3D
         {
             ResetDamage();
             m_Collider = GetComponent<Collider>();
+            
         }
 
         void Update()
