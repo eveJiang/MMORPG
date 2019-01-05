@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Common;
+using UnityEngine;
 namespace Assets._3DGamekit.Scripts.Game
 {
     class content
@@ -48,6 +49,11 @@ namespace Assets._3DGamekit.Scripts.Game
         public int gold;
         public int silver;
 		public int _deathId;//
+        public void setDeathId(int id)
+        {
+            _deathId = id;
+            Debug.Log(_deathId);
+        }
         public Dictionary<String, int> get_players()
         {
             return players;

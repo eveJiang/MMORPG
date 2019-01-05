@@ -1,4 +1,5 @@
 ﻿using Common;
+using Assets._3DGamekit.Scripts.Game;
 
 namespace Gamekit3D.Network
 {
@@ -21,6 +22,11 @@ namespace Gamekit3D.Network
             ICreatureBehavior srcBehavior = source == null ? null : source.behavior;
             ICreatureBehavior tarBehavior = target.behavior;
             tarBehavior.BeHit(msg.decHP, srcBehavior);
+
+            if (target.entityId == World.Instance.selfId && source.entityType == EntityType.PLAYER)
+                World.Instance.setDeathId(source.entityId);
+            else
+                World.Instance.setDeathId(-1);
 
         }
     }
