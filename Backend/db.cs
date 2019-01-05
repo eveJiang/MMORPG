@@ -398,14 +398,21 @@ namespace Backend
                 Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin+{0} where id = {1};", gold, owner));
                 cmd6.Transaction = tr;
                 cmd6.ExecuteScalar();
-                var cmdGetGold = new NpgsqlCommand("select gold_coin from player where id = " + id.ToString() + ";");
+                var cmdGetGold = new NpgsqlCommand("select gold_coin from player where id = " + id.ToString() + ";", conn);
                 cmdGetGold.Transaction = tr;
-                int coins = Convert.ToInt32(cmdGetGold.ExecuteScalar());
+                var reader = cmdGetGold.ExecuteReader();
+                int coins = 0;
+                while(reader.Read())
+                    coins = Convert.ToInt32(reader["gold_coin"]);
+                reader.Close();
+                //int coins = Convert.ToInt32(cmdGetGold.ExecuteReader());
                 if (coins < gold && id != owner)
                 {
                     tr.Rollback();
                     Console.WriteLine("rollback");
+                    return;
                 }
+                
                 tr.Commit();
             }
             else 
