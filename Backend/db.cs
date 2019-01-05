@@ -319,14 +319,29 @@ namespace Backend
         {
             Console.WriteLine("MarketSell");
             NpgsqlTransaction tr = conn.BeginTransaction();
-            var cmd1 = new NpgsqlCommand(string.Format("delete from treasure where id = {0};", item.id), conn);
-            var cmd2 = new NpgsqlCommand(string.Format("insert into \"market\"(name, type, effect, value, price, status, owner_id, id, coinType) values('{0}','{1}','{2}',{3}, {4},'{5}',{6}, {7}, {8});",
-                                                       item.name, item.type, item.effect, item.value, item.price, '3', item.owner_id, item.id, item.coinType), conn);
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "delete from treasure where id = @id;";
+                cmd.Parameters.AddWithValue("id", item.id);
+                cmd.Transaction = tr;
+                cmd.ExecuteScalar();
+            }
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "insert into \"market\"(name, type, effect, value, price, status, owner_id, id, coinType) values(@name, @type, @effect, @value, @price, @status, @owner_id, @id, @coinType);";
+                cmd.Parameters.AddWithValue("name", item.name);
+                cmd.Parameters.AddWithValue("type", item.type);
+                cmd.Parameters.AddWithValue("effect", item.effect);
+                cmd.Parameters.AddWithValue("value", item.value);
+                cmd.Parameters.AddWithValue("price", item.price);
+                cmd.Parameters.AddWithValue("status", '3');
+                cmd.Parameters.AddWithValue("owner_id", item.owner_id);
+                cmd.Parameters.AddWithValue("id", item.id);
+                cmd.Parameters.AddWithValue("coinType", item.coinType);
+                cmd.Transaction = tr;
+                cmd.ExecuteScalar();
+            }
             Console.WriteLine(string.Format("{0}, {1}, {2}", item.id, item.name, item.owner_id));
-            cmd1.Transaction = tr;
-            cmd1.ExecuteScalar();
-            cmd2.Transaction = tr;
-            cmd2.ExecuteScalar();
             tr.Commit();
         }
         public void MarketChange(MarketTreasure item, NpgsqlConnection conn)
@@ -365,6 +380,7 @@ namespace Backend
                     var cmd4 = new NpgsqlCommand(string.Format("delete from \"market\" where id = {0};", item.id), conn);
                     cmd4.Transaction = tr;
                     cmd4.ExecuteScalar();
+                    Console.WriteLine(string.Format("delete from \"market\" where id = {0};", item.id));
                 }
                 var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", silver, id), conn);
                 Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", silver, id));
@@ -382,6 +398,21 @@ namespace Backend
                 Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin+{0} where id = {1};", gold, owner));
                 cmd6.Transaction = tr;
                 cmd6.ExecuteScalar();
+                var cmdGetGold = new NpgsqlCommand("select gold_coin from player where id = " + id.ToString() + ";", conn);
+                cmdGetGold.Transaction = tr;
+                var reader = cmdGetGold.ExecuteReader();
+                int coins = 0;
+                while(reader.Read())
+                    coins = Convert.ToInt32(reader["gold_coin"]);
+                reader.Close();
+                //int coins = Convert.ToInt32(cmdGetGold.ExecuteReader());
+                if (coins < gold && id != owner)
+                {
+                    tr.Rollback();
+                    Console.WriteLine("rollback");
+                    return;
+                }
+                
                 tr.Commit();
             }
             else 
@@ -489,7 +520,8 @@ namespace Backend
         public bool findFriend(string name, NpgsqlConnection conn)
         {
             Console.WriteLine("findFriend()");
-            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", name), conn);
+            var cmd = new NpgsqlCommand("select * from player where name = @name;", conn);
+            cmd.Parameters.AddWithValue("name", name);
             int count = 0;
             var reader = cmd.ExecuteReader();
             while (reader.Read())
@@ -506,7 +538,8 @@ namespace Backend
         {
             int id = 0;
             int count = 0;
-            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", response), conn);
+            var cmd = new NpgsqlCommand("select * from player where name = @response;", conn);
+            cmd.Parameters.AddWithValue("response", response);
             var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -522,7 +555,8 @@ namespace Backend
             if (id == request)
                 count++;
             reader0.Close();
-            var cmd1 = new NpgsqlCommand(string.Format("insert into friend(response, request, status, message) values({0}, {1}, 0, '{2}');", id, request, message), conn);
+            var cmd1 = new NpgsqlCommand(string.Format("insert into friend(response, request, status, message) values({0}, {1}, 0, @message);", id, request), conn);
+            cmd1.Parameters.AddWithValue("message", message);
             cmd1.ExecuteScalar();
             return count;
         }
