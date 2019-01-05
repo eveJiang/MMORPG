@@ -57,7 +57,7 @@ namespace Gamekit3D.Network
                 {
                     // for debug only ...
                     CLogin login = new CLogin();
-                    Send(login);
+                    //Send(login);
                 }
                 SceneManager.sceneLoaded += RecvSceneLoaded;
             }

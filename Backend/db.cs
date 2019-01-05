@@ -28,127 +28,208 @@ namespace Backend
         public int RegisterUser(string username, string password, NpgsqlConnection conn)
         {
             int count = 0;
-            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}';", username), conn);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using(var cmd = conn.CreateCommand())
             {
-                count++;
+                cmd.CommandText = "Select * from player where name = @username;";
+                cmd.Parameters.AddWithValue("username", username);
+                var res = cmd.ExecuteScalar();
+                if(res != null)
+                {
+                    return 2;
+                }
             }
-            reader.Close();
-            if (count != 0)
-                return 2;   //user name error
-            var cmd2 = new NpgsqlCommand(string.Format("insert into \"player\"(name, password, gold_coin, silver_coin) values('{0}', '{1}', 20, 100);", username, password), conn);
-            var ret = cmd2.ExecuteNonQuery();
-            if (ret != 0)
-                return 1;  //success
-            else return 0; //fail
+            using (var cmd2 = conn.CreateCommand())
+            {
+                cmd2.CommandText = "insert into player(name, password, gold_coin, silver_coin) values(@name, @password, 2000, 1000);";
+                cmd2.Parameters.AddWithValue("name", username);
+                cmd2.Parameters.AddWithValue("password", password);
+                var ret = cmd2.ExecuteNonQuery();
+                if (ret != 0)
+                    return 1;  //success
+                else return 0; //fail
+            }
+            
         }
 
         public bool LoginUser(string username, string password, NpgsqlConnection conn)
         {
-            int count = 0;
-            var cmd = new NpgsqlCommand(string.Format("select * from player where name = '{0}' and password = '{1}';", username, password), conn);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using(var cmd = conn.CreateCommand())
             {
-                count++;
+                cmd.CommandText = "select * from player where name = @name and password = @password;";
+                cmd.Parameters.AddWithValue("name", username);
+                cmd.Parameters.AddWithValue("password", password);
+                var res = cmd.ExecuteScalar();
+                if (res == null)
+                    return false;
+                return true;
             }
-            reader.Close();
-            if (count != 0)
-                return true;   //success
-            else
-                return false;
-
         }
 
         public int GetID(string username, NpgsqlConnection conn)
         {
-            var cmd = new NpgsqlCommand(string.Format("select id from player where name = '{0}';", username), conn);
-            int id = Convert.ToInt32(cmd.ExecuteScalar());
-            return id;
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "select id from player where name = @name;";
+                cmd.Parameters.AddWithValue("name", username);
+                int id = Convert.ToInt32(cmd.ExecuteScalar());
+                return id;
+            }
         }
 
         public int GetSilverCoins(int id, NpgsqlConnection conn)
         {
-            var cmd = new NpgsqlCommand(string.Format("select silver_coin from player where id = '{0:D}';", id), conn);
-            int coins = Convert.ToInt32(cmd.ExecuteScalar());
-            return coins;
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "select silver_coin from player where id = @id;";
+                cmd.Parameters.AddWithValue("id", id);
+                int coins = Convert.ToInt32(cmd.ExecuteScalar());
+                return coins;
+            }
         }
 
         public int GetGoldCoins(int id, NpgsqlConnection conn)
         {
-            using (NpgsqlTransaction trans = conn.BeginTransaction())
+            using (var cmd = conn.CreateCommand())
             {
-                try
-                {
-                    var cmd = new NpgsqlCommand(string.Format("select gold_coin from player where id = '{0:D}';", id), conn);
-                    int coins = Convert.ToInt32(cmd.ExecuteScalar());
-                    return coins;
-                }
-                catch
-                {
-                    throw;
-                }
+                cmd.CommandText = "select gold_coin from player where id = @id;";
+                cmd.Parameters.AddWithValue("id", id);
+                int coins = Convert.ToInt32(cmd.ExecuteScalar());
+                return coins;
             }
         }
 
-        public bool BuyItems(List<Treasure> items, int id, int mark, NpgsqlConnection conn)
+        public bool BuyItems(List<Treasure> items, int gold, int silver, int id, int mark, NpgsqlConnection conn)
         {
-            int sum = 0;
-            int gold = 0;
-            int silver = 0;
-            if(mark == 1) //一旦有别的东西加入进来，就需要transaction了，知道了嘛
+            if(gold != 0)
             {
-                NpgsqlTransaction tr = (NpgsqlTransaction)conn.BeginTransaction();
+                using (var trans = conn.BeginTransaction())
+                {
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "select silver_coin from player where id = @id;";
+                        cmd.Parameters.AddWithValue("id", id);
+                        int coins = Convert.ToInt32(cmd.ExecuteScalar());
+                        if (coins < silver)
+                        {
+                            trans.Rollback();
+                            return false;
+                        }
+                    }                    
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "select gold_coin from player where id = @id;";
+                        cmd.Parameters.AddWithValue("id", id);
+                        int coins = Convert.ToInt32(cmd.ExecuteScalar());
+                        if (coins < gold)
+                        {
+                            trans.Rollback();
+                            return false;
+                        }
+                    }
+                    foreach (var item in items)                   
+                    {
+                        using (var cmd = conn.CreateCommand())
+                        {
+                            cmd.CommandText = "insert into treasure(name, type, effect, value, price, status, owner_id) values(@name, @type, @effect, @value, @price, @status, @owner_id);";
+                            cmd.Parameters.AddWithValue("name", item.name);
+                            cmd.Parameters.AddWithValue("type", item.type);
+                            cmd.Parameters.AddWithValue("effect", item.effect);
+                            cmd.Parameters.AddWithValue("value", item.value);
+                            cmd.Parameters.AddWithValue("price", item.price);
+                            cmd.Parameters.AddWithValue("status", '1');
+                            cmd.Parameters.AddWithValue("owner_id", id);
+                            cmd.ExecuteScalar();
+                        }
+                    }
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "update player set silver_coin = silver_coin - @coin where id = @id;";
+                        cmd.Parameters.AddWithValue("coin", silver);
+                        cmd.Parameters.AddWithValue("id", id);
+                        cmd.ExecuteScalar();
+                    }
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "update player set gold_coin = gold_coin - @coin where id = @id;";
+                        cmd.Parameters.AddWithValue("coin", gold);
+                        cmd.Parameters.AddWithValue("id", id);
+                        cmd.ExecuteScalar();
+                    }
+                    trans.Commit();
+                }
+            }
+            else
+            {
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = "select silver_coin from player where id = @id;";
+                    cmd.Parameters.AddWithValue("id", id);
+                    int coins = Convert.ToInt32(cmd.ExecuteScalar());
+                    if (coins < silver)
+                    {
+                        return false;
+                    }
+                }
                 foreach (var item in items)
                 {
-                    //status: 1 occupied; 2 dressing; 3 sale
-                    var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});",
-                                                                item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
-                    Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
-                                                        item.name, item.value, item.price, '1', id));
-                    cmd.Transaction = tr;
-                    cmd.ExecuteScalar();
-                    if (item.type == 'e') silver += item.price;
-                    else gold += item.price;
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "insert into treasure(name, type, effect, value, price, status, owner_id) values(@name, @type, @effect, @value, @price, @status, @owner_id);";
+                        cmd.Parameters.AddWithValue("name", item.name);
+                        cmd.Parameters.AddWithValue("type", item.type);
+                        cmd.Parameters.AddWithValue("effect", item.effect);
+                        cmd.Parameters.AddWithValue("value", item.value);
+                        cmd.Parameters.AddWithValue("price", item.price);
+                        cmd.Parameters.AddWithValue("status", '1');
+                        cmd.Parameters.AddWithValue("owner_id", id);
+                        cmd.ExecuteScalar();
+                    }
+                    
                 }
-                var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", silver, id), conn);
-                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", silver, id));
-                cmd2.Transaction = tr;
-                cmd2.ExecuteScalar();
-                var cmd3 = new NpgsqlCommand(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id={1};", gold, id), conn);
-                Console.WriteLine(string.Format("update \"player\" set gold_coin=gold_coin-{0} where id = {1};", silver, id));
-                cmd3.Transaction = tr;
-                cmd3.ExecuteScalar();
-                tr.Commit();
-            }
-            else //只买药水的情况，是不需要transaction的
-            {
-                foreach (var item in items)
+                using (var cmd = conn.CreateCommand())
                 {
-                    //status: 1 occupied; 2 dressing; 3 sale
-                    var cmd = new NpgsqlCommand(string.Format("insert into \"treasure\"(name, type, effect, value, price, status, owner_id) values('{0}','{1}','{2}',{3},{4},'{5}',{6});",
-                                                                item.name, item.type, item.effect, item.value, item.price, '1', id), conn);
-                    Console.WriteLine(string.Format("insert into \"treasure\"(name, value, price, status, owner_id) values('{0}',{1},{2},'{3}',{4});",
-                                                        item.name, item.value, item.price, '1', id));
+                    cmd.CommandText = "update player set silver_coin = silver_coin - @coin where id = @id;";
+                    cmd.Parameters.AddWithValue("coin", silver);
+                    cmd.Parameters.AddWithValue("id", id);
                     cmd.ExecuteScalar();
-                    sum += item.price;
                 }
-                var cmd2 = new NpgsqlCommand(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id={1};", sum, id), conn);
-                Console.WriteLine(string.Format("update \"player\" set silver_coin=silver_coin-{0} where id = {1};", sum, id));
-                cmd2.ExecuteScalar();
             }
-            
             return true;
         }
 
         public List<Treasure> GetInventory(int id, NpgsqlConnection conn)
         {
             List<Treasure> inventory = new List<Treasure>();
-            var cmd = new NpgsqlCommand(string.Format("select * from treasure where owner_id = {0};", id), conn);
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (var cmd = conn.CreateCommand())
             {
+                cmd.CommandText = "select * from treasure where owner_id = @id order by id asc;";
+                cmd.Parameters.AddWithValue("id", id);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    Treasure result = new Treasure();
+                    result.id = Convert.ToInt32(reader["id"]);
+                    result.name = Convert.ToString(reader["name"]);
+                    result.value = Convert.ToInt32(reader["value"]);
+                    result.type = Convert.ToChar(reader["type"]);
+                    result.effect = Convert.ToChar(reader["effect"]);
+                    result.status = Convert.ToChar(reader["status"]);
+                    inventory.Add(result);
+                }
+                reader.Close();
+            }
+            return inventory;
+        }
+
+        public Treasure GetTreasure(int dbid, string treasureName, NpgsqlConnection conn)
+        {
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "select * from treasure where owner_id = @id and name = @name;";
+                cmd.Parameters.AddWithValue("id", dbid);
+                cmd.Parameters.AddWithValue("name", treasureName);
+                var reader = cmd.ExecuteReader();
+                reader.Read();
                 Treasure result = new Treasure();
                 Console.WriteLine(string.Format("{0}, {1}, {2}, {3}, {4}", reader["id"], reader["name"], reader["value"], reader["type"], reader["effect"]));
                 result.id = Convert.ToInt32(reader["id"]);
@@ -157,78 +238,80 @@ namespace Backend
                 result.type = Convert.ToChar(reader["type"]);
                 result.effect = Convert.ToChar(reader["effect"]);
                 result.status = Convert.ToChar(reader["status"]);
-                inventory.Add(result);
-            }
-            reader.Close();
-            return inventory;
-        }
-
-        public Treasure GetTreasure(int dbid, string treasureName, NpgsqlConnection conn)
-        {
-            Console.WriteLine(string.Format("{0}, {1}", dbid, treasureName));
-            var cmd = new NpgsqlCommand(string.Format("select * from treasure where owner_id = {0} and name = '{1}';", dbid, treasureName), conn);
-            var reader = cmd.ExecuteReader();
-            reader.Read();
-            Treasure result = new Treasure();
-            Console.WriteLine(string.Format("{0}, {1}, {2}, {3}, {4}", reader["id"], reader["name"], reader["value"], reader["type"], reader["effect"]));
-            result.id = Convert.ToInt32(reader["id"]);
-            result.name = Convert.ToString(reader["name"]);
-            result.value = Convert.ToInt32(reader["value"]);
-            result.type = Convert.ToChar(reader["type"]);
-            result.effect = Convert.ToChar(reader["effect"]);
-            result.status = Convert.ToChar(reader["status"]);
-            reader.Close();
-            return result;
+                reader.Close();
+                return result;
+            }            
         }
 
         public void ChangeStatusOn(int dbid, int treasureId, NpgsqlConnection conn)
         {
-            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '2' where owner_id = {0} and id = '{1}';", dbid, treasureId), conn);
-            cmd.ExecuteScalar();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "update treasure set status = '2' where owner_id = @dbid and id = @treasure_id;";
+                cmd.Parameters.AddWithValue("dbid", dbid);
+                cmd.Parameters.AddWithValue("treasure_id", treasureId);
+                cmd.ExecuteScalar();
+            }
         }
 
         public void ChangeStatusOff(int dbid, int treasureId, NpgsqlConnection conn)
         {
-            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0} and id = '{1}';", dbid, treasureId), conn);
-            cmd.ExecuteScalar();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "update treasure set status = '1' where owner_id = @dbid and id = @treasure_id;";
+                cmd.Parameters.AddWithValue("dbid", dbid);
+                cmd.Parameters.AddWithValue("treasure_id", treasureId);
+                cmd.ExecuteScalar();
+            }
         }
 
         public void playerExit(int dbid, NpgsqlConnection conn)
         {
-            var cmd = new NpgsqlCommand(string.Format("update treasure set status = '1' where owner_id = {0};", dbid), conn);
-            cmd.ExecuteScalar();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "update treasure set status = '1' where owner_id = @dbid;";
+                cmd.Parameters.AddWithValue("dbid", dbid);
+                cmd.ExecuteScalar();
+            }
         }
 
         public void DeleteTreasure(int treasureId, NpgsqlConnection conn)
         {
-            var cmd = new NpgsqlCommand(string.Format("delete from treasure where id = {0};", treasureId), conn);
-            cmd.ExecuteScalar();
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = "delete from treasure where id = @id;";
+                cmd.Parameters.AddWithValue("id", treasureId);
+                cmd.ExecuteScalar();
+            }
         }
         
         public List<MarketTreasure> GetMarket(NpgsqlConnection conn)
         {
             Console.WriteLine("GetMarket()");
-            var cmd = new NpgsqlCommand("select * from market;", conn);
             List<MarketTreasure> market = new List<MarketTreasure>();
-            var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            using (var cmd = conn.CreateCommand())
             {
-                MarketTreasure result = new MarketTreasure
+                cmd.CommandText = "select * from market;";
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
                 {
-                    id = Convert.ToInt32(reader["id"]),
-                    name = Convert.ToString(reader["name"]),
-                    value = Convert.ToInt32(reader["value"]),
-                    type = Convert.ToChar(reader["type"]),
-                    effect = Convert.ToChar(reader["effect"]),
-                    status = Convert.ToChar(reader["status"]),
-                    price = Convert.ToInt32(reader["price"]),
-                    owner_id = Convert.ToInt32(reader["owner_id"]),
-                    coinType = Convert.ToBoolean(reader["coinType"])
-                };
-                Console.WriteLine(result.id);
-                market.Add(result);
-            }
-            reader.Close();
+                    MarketTreasure result = new MarketTreasure
+                    {
+                        id = Convert.ToInt32(reader["id"]),
+                        name = Convert.ToString(reader["name"]),
+                        value = Convert.ToInt32(reader["value"]),
+                        type = Convert.ToChar(reader["type"]),
+                        effect = Convert.ToChar(reader["effect"]),
+                        status = Convert.ToChar(reader["status"]),
+                        price = Convert.ToInt32(reader["price"]),
+                        owner_id = Convert.ToInt32(reader["owner_id"]),
+                        coinType = Convert.ToBoolean(reader["coinType"])
+                    };
+                    Console.WriteLine(result.id);
+                    market.Add(result);
+                }
+                reader.Close();
+            }         
             return market;
         }
 

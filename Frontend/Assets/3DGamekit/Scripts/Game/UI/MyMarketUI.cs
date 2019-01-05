@@ -30,6 +30,7 @@ public class MyMarketUI : MonoBehaviour
         }
         int capacity = World.Instance.marketCapacity;
         int count = World.Instance.marketCount;
+        
         foreach (var kv in World.Instance.mymarket)
         {
             GameObject cloned = GameObject.Instantiate(InventoryCell);
