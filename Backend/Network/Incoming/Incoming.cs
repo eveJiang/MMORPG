@@ -37,6 +37,9 @@ namespace Backend.Network
             register.Register(Command.C_ADDFRIEND, OnRecvAddFriend);
 			register.Register(Command.C_FIND_PATH, OnRecvFindPath);
             register.Register(Command.C_GETMESSAGE, OnRecvGetMessage);
+            register.Register(Command.C_GETMESSAGE, OnRecvGetMessage);
+            register.Register(Command.C_MINESGOLDS, OnRecvMinesGolds);
+
         }
 
 
