@@ -227,6 +227,7 @@
     <Compile Include="Assets\3DGamekit\Scripts\Effects\SimulateParticleSystem.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Effects\SunSkybox.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Effects\WaterRipple.cs" />
+    <Compile Include="Assets\3DGamekit\Scripts\Game\_ControlHP.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\_ControlName.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\_PlayerDeath.cs" />
     <Compile Include="Assets\3DGamekit\Scripts\Game\_SendPlace.cs" />
