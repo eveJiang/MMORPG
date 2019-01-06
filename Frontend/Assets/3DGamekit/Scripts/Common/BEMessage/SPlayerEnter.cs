@@ -17,6 +17,7 @@ namespace Common
         public int dbid;
         public int silver;
         public int gold;
+        public int teammate_id;
         public List<Treasure> inventory;
         public List<MarketTreasure> market;
     }

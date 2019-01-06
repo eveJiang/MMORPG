@@ -42,7 +42,7 @@ public class AddFriendListUI : MonoBehaviour
             {
                 GameObject.Find("AddFriendImage").GetComponent<Image>().sprite = init;
                 GameObject.Find("AddFriendText").GetComponent<Text>().text = kv.name;
-                GameObject.Find("AddFriendInfo").GetComponent<Text>().text = kv.info;
+                GameObject.Find("AddFriendInfo").GetComponent<Text>().text = kv.info + (kv.asTeam ? "(Teammate)" : "");
                 World.Instance.friendview.dbID = kv.dbID;
                 World.Instance.friendview.info = kv.info;
                 World.Instance.friendview.name = kv.name;

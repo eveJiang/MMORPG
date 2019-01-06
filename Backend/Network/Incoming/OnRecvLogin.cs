@@ -49,6 +49,7 @@ namespace Backend.Network
             response.market = db.Instance.GetMyMarket(player.dbid, conn);
             response.silver = db.Instance.GetSilverCoins(player.dbid, conn);
             response.gold = db.Instance.GetGoldCoins(player.dbid, conn);
+            response.teammate_id = db.Instance.getTeammate(player.dbid, conn);
             channel.Send(response);
             Scene scenes = World.Instance.GetScene(player.scene);
             List<int> myFriend = db.Instance.getMyFriend(player.dbid, conn);

@@ -504,11 +504,22 @@ namespace Backend
             return friendList;
         }
 
-        public void AccFriend(int request, int response, NpgsqlConnection conn)
+        public bool AccFriend(int request, int response, NpgsqlConnection conn)
         {
             Console.WriteLine("AccFriend()");
             var cmd = new NpgsqlCommand(string.Format("update friend set status = 1 where (response = {0} and request = {1}) or (response = {1} and request = {0});", request, response, response, request), conn);
             cmd.ExecuteScalar();
+            var cancelteam = new NpgsqlCommand(string.Format("update friend set asTeam = false where ((response = {0} and request = {1}) or (response = {1} and request = {0})) and asTeam=true;", request, response, response, request), conn);
+            cancelteam.ExecuteScalar();
+            var cmd1 = new NpgsqlCommand(string.Format("select * from friend where (response = {0} and request = {1}) or (response = {1} and request = {0});", request, response, response, request), conn);
+            var reader = cmd.ExecuteReader();
+            bool ret = false;
+            while (reader.Read())
+            {
+                ret = Convert.ToBoolean(reader["asTeam"]);
+            }
+            reader.Close();
+            return ret;
         }
 
         public void RejFriend(int request, int response, NpgsqlConnection conn)
@@ -578,6 +589,22 @@ namespace Backend
             }
             reader.Close();
             return friendList;
+        }
+
+        public int getTeammate(int dbid, NpgsqlConnection conn)
+        {
+            var cmd = new NpgsqlCommand(string.Format("select * from friend where (friend.request={0} or friend.response={0}) and asTeam = true;", dbid), conn);
+            var reader = cmd.ExecuteReader();
+            int ret = -1;
+            while (reader.Read())
+            {
+                if (Convert.ToInt32(reader["request"]) != dbid)
+                    ret = Convert.ToInt32(reader["request"]);
+                else
+                    ret = Convert.ToInt32(reader["response"]);
+            }
+            reader.Close();
+            return ret;
         }
     }
 }

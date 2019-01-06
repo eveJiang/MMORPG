@@ -23,7 +23,7 @@ namespace Backend.Network
                 case "feedback":
                     if (request.acc == true)
                     {
-                        db.Instance.AccFriend(request.request, request.response, conn);
+                        bool isteammate = db.Instance.AccFriend(request.request, request.response, conn);
                         foreach (var kvp in scenes.Players)
                         {
                             if (kvp.Value.dbid == request.request)
@@ -32,11 +32,15 @@ namespace Backend.Network
                                 am.name = kvp.Value.user;
                                 am.id = kvp.Value.entityId;
                                 am.enter = true;
+                                am.isTeammate = isteammate;
+                                am.dbid = kvp.Value.dbid;
                                 channel.Send(am);
                                 SCommunity bm = new SCommunity();
                                 bm.name = request.selfname;
                                 bm.id = request.selfentityid;
                                 bm.enter = true;
+                                bm.isTeammate = isteammate;
+                                bm.dbid = request.selfdbid;
                                 kvp.Value.connection.Send(bm);
                                 break;
                             }

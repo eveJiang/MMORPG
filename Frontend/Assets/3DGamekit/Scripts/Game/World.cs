@@ -49,6 +49,7 @@ namespace Assets._3DGamekit.Scripts.Game
         public int gold;
         public int silver;
 		public int _deathId;//
+        public int teammate_dbid = -1;
         public void setDeathId(int id)
         {
             _deathId = id;
@@ -62,13 +63,14 @@ namespace Assets._3DGamekit.Scripts.Game
         {
             this.players.Add(name, id);
         }
-        public void init(string name, int id, int db, List<Treasure> items, int gcoin, int scoin)
+        public void init(string name, int id, int db, List<Treasure> items, int gcoin, int scoin, int tm_id)
         {
             this.selfName = name;
             this.selfId = id;
             this.selfDbid = db;
             this.gold = gcoin;
             this.silver = scoin;
+            this.teammate_dbid = tm_id;
             foreach (var item in items)
             {
                 myinventory.Add(item);
