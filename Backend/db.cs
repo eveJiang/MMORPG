@@ -606,5 +606,13 @@ namespace Backend
             reader.Close();
             return ret;
         }
+
+        public void DuelLog(int attacker_id, int coins, int death_id, NpgsqlConnection conn)
+        {
+            Console.WriteLine(string.Format("Start duel log"));
+            var cmd = new NpgsqlCommand(string.Format("insert into dual(attacker_id, coins, death_id) values({0}, {1},{2});",
+                                                              attacker_id, coins, death_id), conn);
+            cmd.ExecuteScalar();
+        }
     }
 }

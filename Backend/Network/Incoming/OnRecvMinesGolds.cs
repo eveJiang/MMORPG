@@ -35,25 +35,30 @@ namespace Backend.Network
 			{
 				db.Instance.MinesGolds(msg.gold_nums, msg.Sdbid, conn);
 				Console.WriteLine(string.Format("Player {0} Mines nums = {1}", msg.Sdbid, msg.gold_nums));
-				if(Adbid != -1)
-					db.Instance.AddGolds(msg.gold_nums, Adbid, conn);
-				else
-				{
-					Console.WriteLine(string.Format("Error to find Attacker!!!!"));
-				}
+                if (Adbid != -1)
+                {
+                    db.Instance.AddGolds(msg.gold_nums, Adbid, conn);
+                    db.Instance.DuelLog(Adbid,msg.gold_nums,msg.Sdbid, conn);
+                }
+                else
+                {
+                    Console.WriteLine(string.Format("Error to find Attacker!!!!"));
+                }
 			}
 			else
 			{
 				db.Instance.MinesGolds(nums, msg.Sdbid, conn);
 				Console.WriteLine(string.Format("Player {0} Mines nums = {1}", msg.Sdbid, nums));
-				if (Adbid != -1)
-					db.Instance.AddGolds(nums, Adbid, conn);
-				else
-				{
-					Console.WriteLine(string.Format("Error to find Attacker!!!!"));
-				}
+                if (Adbid != -1)
+                {
+                    db.Instance.AddGolds(nums, Adbid, conn);
+                    db.Instance.DuelLog(Adbid, nums, msg.Sdbid, conn);
+                }
+                else
+                {
+                    Console.WriteLine(string.Format("Error to find Attacker!!!!"));
+                }
 			}
-			
 		}
 	}
 }
