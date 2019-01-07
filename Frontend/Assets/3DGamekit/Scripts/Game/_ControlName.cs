@@ -12,12 +12,12 @@ public class _ControlName : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		//this.gameObject.GetComponent<Text>().text = World.Instance.selfName;
-		CName msg = new CName();
+		this.gameObject.GetComponent<Text>().text = World.Instance.selfName;
+		//CName msg = new CName();
 		//msg.entityid = World.Instance.selfId;
 		//msg.self = self;
-		Client.Instance.Send(msg);
-		/*************/
+		//Client.Instance.Send(msg);
+		/*************///
 	}
 
 	// Update is called once per frame
