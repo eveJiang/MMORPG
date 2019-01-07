@@ -11,7 +11,7 @@ namespace Common
 	{
 		public STemp() : base(Command.S_TEMP) { }
 		public string name;
-		public int entityid;
+		public int entityid;////
 		//public GameObject self;
 		///////////////////////////
 	}
