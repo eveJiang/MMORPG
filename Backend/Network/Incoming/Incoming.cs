@@ -38,9 +38,10 @@ namespace Backend.Network
 			register.Register(Command.C_FIND_PATH, OnRecvFindPath);
             register.Register(Command.C_GETMESSAGE, OnRecvGetMessage);
             register.Register(Command.C_GETMESSAGE, OnRecvGetMessage);
-            register.Register(Command.C_MINESGOLDS, OnRecvMinesGolds);
+            register.Register(Command.C_MINESGOLDS, OnRecvMinesGolds); 
+			register.Register(Command.C_NAME, OnRecvName);
 
-        }
+		}
 
 
         static void ClientTipInfo(IChannel channel, string info)

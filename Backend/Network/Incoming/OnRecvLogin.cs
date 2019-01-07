@@ -64,6 +64,13 @@ namespace Backend.Network
                 channel.Send(am);
                 kvp.Value.connection.Send(bm);
             }
-        }
+
+			STemp snameresponse = new STemp();
+			snameresponse.name = request.user;
+			snameresponse.entityid = player.entityId;
+			World.Instance.Broundcast(snameresponse);
+			Console.WriteLine(string.Format("send to backend sucess"));
+			
+		}
     }
 }

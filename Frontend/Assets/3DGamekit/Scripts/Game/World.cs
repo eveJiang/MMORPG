@@ -23,6 +23,8 @@ namespace Assets._3DGamekit.Scripts.Game
         public int selfId;
         public int selfDbid;
         public int partner;
+		public string tempname;//
+		public int tempID;//
         public Dictionary<string, int> players = new Dictionary<string, int>();
         public Dictionary<int, List<content>> chatHistory = new Dictionary<int, List<content>>();
         public List<Treasure> myinventory = new List<Treasure>();

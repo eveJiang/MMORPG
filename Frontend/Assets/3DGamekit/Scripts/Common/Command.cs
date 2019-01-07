@@ -35,6 +35,8 @@ namespace Common
         S_COINMESSAGE,
 		S_PLAYER_FLASH,
 		S_FLASH,//
+		S_NAME,
+		S_TEMP,
         S_ADDFRIEND,
         S_GETMESSAGE,
 		SEND,
@@ -64,6 +66,7 @@ namespace Common
         C_MINESGOLDS,
         C_ADDFRIEND,
         C_GETMESSAGE,
+		C_NAME,
 		CEND,
 
         DEBUGGING, // THE FOLLOWING MESSEGES ARE FOR DEBUGGING
